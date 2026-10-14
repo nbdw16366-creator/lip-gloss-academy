@@ -124,7 +124,7 @@
             margin-bottom: 5px;
         }
         
-        /* مربع الإضافة (+) داخل الشبكة */
+        /* مربع الإضافة (+) داخل شبكة المدير فقط */
         .add-cat-card {
             background: #e8f5e9;
             border: 2px dashed #558b2f;
@@ -360,13 +360,13 @@
                 <button class="btn" style="background: var(--accent);" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #212529; font-size: 16px;">أقسام المنصة الاحترافية (اضغط على + لإضافة قسم جديد)</h3>
+                <h3 style="color: #212529; font-size: 16px;">إدارة الأقسام (تعديل، حذف، أو إضافة قسم جديد)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
         </div>
 
-        <!-- محتوى الطلاب والمكتبة -->
+        <!-- محتوى الطلاب والمكتبة (بدون أي أزرار تعديل أو حذف أو إضافة) -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>موسوعة فارمسي علم ونتيجة الاحترافية</h2>
@@ -536,6 +536,7 @@
             </div>`;
         }
 
+        // شبكة المدير (تحتوي على أزرار التعديل، الحذف، ومربع الإضافة +)
         function renderAdminCategoriesGrid() {
             const gridDiv = document.getElementById('adminCategoriesGrid');
             if(!gridDiv) return;
@@ -558,7 +559,7 @@
                 </div>`;
             });
 
-            // إضافة مربع (+) داخل شبكة الأقسام للإدارة فقط
+            // زر الإضافة (+) يظهر حصرياً للمدير داخل لوحة التحكم
             gridDiv.innerHTML += `<div class="add-cat-card" onclick="addNewCategoryPrompt()">
                 <span>+</span>
                 <p>إضافة قسم</p>
@@ -602,6 +603,7 @@
             });
         }
 
+        // شبكة الطلاب (خالية تماماً من أزرار التعديل والحذف ومربع الإضافة، للعرض والتصفح فقط)
         function renderStudentCategoriesGrid() {
             const gridDiv = document.getElementById('studentCategoriesGrid');
             if(!gridDiv) return;
@@ -742,7 +744,6 @@
             let percents = document.querySelectorAll('.ing-percent');
             let ingredients = [];
 
-            for(let i = 0; i < names.Link; i++) {} // compatibility fix
             for(let i = 0; i < names.length; i++) {
                 let n = names[i].value.trim();
                 let p = parseFloat(percents[i].value);
