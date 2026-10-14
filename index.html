@@ -178,6 +178,22 @@
             margin-bottom: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
+        /* تصميم جدول المكونات والنسب */
+        .ingredients-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        .ingredients-table th, .ingredients-table td {
+            border: 1px solid #f8bbd0;
+            padding: 6px 10px;
+            text-align: right;
+        }
+        .ingredients-table th {
+            background-color: #fff0f3;
+            color: #c2185b;
+        }
     </style>
 </head>
 <body>
@@ -255,13 +271,13 @@
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (شبكة المربعات والأعداد)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (اختر القسم للاستعراض)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
         </div>
 
-        <!-- محتوى الطلاب والمكتبة -->
+        <!-- محتوى الطلاب والمكتبة (نفس الهيكل تماماً) -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
@@ -290,6 +306,7 @@
     </footer>
 
     <script>
+        // قاعدة بيانات التركيبات الحقيقية الموثقة والمختبرة
         let formulas = [
             {
                 id: 1,
@@ -505,12 +522,19 @@
                 return;
             }
             filtered.forEach((f, index) => {
+                let tableHtml = `<table class="ingredients-table"><thead><tr><th>المكون / المادة</th><th>النسبة المئوية</th></tr></thead><tbody>`;
+                f.ingredients.forEach(ing => {
+                    tableHtml += `<tr><td>${ing.name}</td><td><strong>${ing.percent}%</strong></td></tr>`;
+                });
+                tableHtml += `</tbody></table>`;
+
                 adminListDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
                     <h3 style="margin: 3px 0; color: #e91e63; font-size: 15px;">${f.title}</h3>
-                    <p style="color: #555; font-size: 13px; margin: 4px 0;">${f.desc}</p>
-                    <p style="color: #2e7d32; font-size: 12px; margin: 2px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
-                    <p style="color: #1565c0; font-size: 12px; margin: 2px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
+                    <p style="color: #555; font-size: 13px; margin: 4px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
+                    ${tableHtml}
+                    <p style="color: #2e7d32; font-size: 12px; margin: 4px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
+                    <p style="color: #1565c0; font-size: 12px; margin: 4px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
                 </div>`;
             });
         }
@@ -546,18 +570,20 @@
                 return;
             }
             filtered.forEach(f => {
-                let html = `<div class="formula-card">
+                let tableHtml = `<table class="ingredients-table"><thead><tr><th>المكون / المادة</th><th>النسبة المئوية</th></tr></thead><tbody>`;
+                f.ingredients.forEach(ing => {
+                    tableHtml += `<tr><td>${ing.name}</td><td><strong>${ing.percent}%</strong></td></tr>`;
+                });
+                tableHtml += `</tbody></table>`;
+
+                listDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
                     <h3 style="margin: 5px 0; color: #e91e63; font-size: 16px;">${f.title}</h3>
-                    <p style="color: #555; font-size: 13px; margin: 6px 0;">${f.desc}</p>
-                    <p style="color: #2e7d32; font-size: 12px; margin: 4px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
-                    <p style="color: #1565c0; font-size: 12px; margin: 4px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
-                    <strong style="font-size: 13px; display: block; margin-top: 8px;">المكونات والنسب الدقيقة:</strong><ul style="font-size: 13px; margin: 5px 0; padding-right: 15px;">`;
-                f.ingredients.forEach(ing => {
-                    html += `<li>${ing.name}: <strong>${ing.percent}%</strong></li>`;
-                });
-                html += `</ul></div>`;
-                listDiv.innerHTML += html;
+                    <p style="color: #555; font-size: 13px; margin: 6px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
+                    ${tableHtml}
+                    <p style="color: #2e7d32; font-size: 12px; margin: 6px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
+                    <p style="color: #1565c0; font-size: 12px; margin: 6px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
+                </div>`;
             });
         }
 
@@ -615,8 +641,20 @@
             let title = document.getElementById('newTitle').value;
             let category = document.getElementById('newCategory').value;
             let desc = document.getElementById('newDesc').value;
-            if(!title || !desc) { alert('أكمل الحقول'); return; }
-            formulas.push({ id: formulas.length + 1, title, category, desc, prep: "تخلط المكونات بعناية مع القاعدة.", usage: "يوضع حسب الحاجة.", ingredients: [{ name: "قاعدة أساسية", percent: 100 }] });
+            if(!title || !desc) { alert('أكمل الحقول الأساسية'); return; }
+            formulas.push({
+                id: formulas.length + 1,
+                title: title,
+                category: category,
+                desc: desc,
+                prep: "تعقم الأدوات جيداً، تدمج المكونات بحرارة مناسبة مع التقليب حتى تمام التجانس.",
+                usage: "توضع طبقة مناسبة على الشفاه حسب الحاجة.",
+                ingredients: [
+                    { name: "قاعدة جل اللمعان", percent: 60 },
+                    { name: "الزيت المغذي المختار", percent: 35 },
+                    { name: "فيتامين E", percent: 5 }
+                ]
+            });
             alert('تمت إضافة التركيبة بنجاح!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
