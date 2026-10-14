@@ -138,7 +138,7 @@
             <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
-        <!-- بوابة الدفع والاشتراك الإلزامي (تظهر للزوار الجدد) -->
+        <!-- بوابة الدفع والاشتراك الإلزامي -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">عذراً، مكتبة التركيبات (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
@@ -163,19 +163,23 @@
             </div>
         </div>
 
-        <!-- زر الوصول السريع للوحة المدير -->
+        <!-- زر الوصول السريع لوحة المدير -->
         <div class="card" style="text-align: center; background: #fafafa; border-top-color: #78909c;">
             <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
-        <!-- لوحة التحكم الإدارية الخاصة بك (محمية بكلمة سر) -->
+        <!-- لوحة التحكم الإدارية الخاصة بك (سرية تماماً) -->
         <div id="admin-section" class="card admin-section hidden">
             <h2>لوحة تحكم المدير (إدارة الطلاب والتركيبات)</h2>
+            
+            <!-- نموذج تسجيل الدخول -->
             <div id="loginBox">
-                <p>أدخل كلمة المرور الخاصة بالمدير:</p>
+                <p id="loginPromptText">أدخل كلمة المرور الخاصة بالمدير:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور">
-                <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول</button>
+                <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول لوحة التحكم</button>
             </div>
+
+            <!-- لوحة الإدارة بعد الدخول الناجح -->
             <div id="adminPanel" class="hidden">
                 <h3 style="color: #e65100;">تفعيل حساب طالب يدويأً</h3>
                 <p>أدخل رقم هاتف الطالب أو رقم التحويل لتفعيل حسابه فوراً:</p>
@@ -195,12 +199,17 @@
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
+
+                <hr style="margin: 20px 0;">
+                <h3 style="color: #e65100;">إعدادات الأمان</h3>
+                <p>تغيير كلمة المرور الخاصة بك إلى كلمة جديدة:</p>
+                <input type="password" id="newAdminPass" placeholder="كلمة المرور الجديدة">
+                <button class="btn" style="background: #d32f2f;" onclick="changeAdminPassword()">حفظ كلمة المرور الجديدة</button>
             </div>
         </div>
 
-        <!-- محتوى التركيبات والحاسبة (يظهر فقط للمشتركين المفعلين) -->
+        <!-- محتوى التركيبات والحاسبة (مغلق للمشتركين فقط) -->
         <div id="protected-content" class="hidden">
-            <!-- قسم مكتبة التركيبات -->
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (500 تركيبة مضمونة ومجربة)</h2>
                 <label for="categorySelect">اختر القسم:</label>
@@ -214,7 +223,6 @@
                 <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
 
-            <!-- قسم الحاسبة التفاعلية -->
             <div id="calculator-section" class="card hidden">
                 <h2>حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
                 <p>أدخل الوزن الإجمالي المطلوب تحضيره للغلوس (بالجرام):</p>
@@ -252,11 +260,16 @@
             }
         ];
 
-        // فحص ما إذا كان المستخدم مفعل مسبقاً في جهازه
         window.onload = function() {
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
+            
+            // تحقق إذا كانت دي أول مرة يتم فيها تعيين كلمة مرور للمدير
+            if(!localStorage.getItem('admin_secret_pass')) {
+                document.getElementById('loginPromptText').innerText = "هذه أول مرة! أدخل كلمة مرور جديدة تريد اعتمادها للوحة التحكم:";
+            }
+            
             renderFormulas();
         };
 
@@ -326,13 +339,40 @@
 
         function adminLogin() {
             let pass = document.getElementById('adminPassword').value;
-            if(pass === '12345') {
+            let savedPass = localStorage.getItem('admin_secret_pass');
+
+            // إذا دي أول مرة، بنحفظ الكلمة البكتبها المدير فوراً
+            if(!savedPass) {
+                if(!pass) {
+                    alert('الرجاء كتابة كلمة مرور صحيحة');
+                    return;
+                }
+                localStorage.setItem('admin_secret_pass', pass);
+                alert('تم اعتماد وحفظ كلمة المرور الخاصة بك بنجاح وسريّة تامة!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                alert('أهلاً بك يا باشمهندس هاشم في لوحة التحكم الإدارية!');
+                return;
+            }
+
+            // التحقق العادي لو كلمة المرور مخزنة مسبقاً
+            if(pass === savedPass) {
+                document.getElementById('loginBox').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                alert('مرحباً بك يا باشمهندس هاشم في لوحة التحكم الخاصة بك!');
             } else {
                 alert('كلمة المرور غير صحيحة!');
             }
+        }
+
+        function changeAdminPassword() {
+            let newPass = document.getElementById('newAdminPass').value;
+            if(!newPass) {
+                alert('الرجاء كتابة كلمة المرور الجديدة');
+                return;
+            }
+            localStorage.setItem('admin_secret_pass', newPass);
+            alert('تم تغيير كلمة المرور بنجاح ولن يعلم بها غيرك!');
+            document.getElementById('newAdminPass').value = '';
         }
 
         function activateStudent() {
@@ -341,9 +381,8 @@
                 alert('الرجاء إدخال رقم الهاتف للتفعيل');
                 return;
             }
-            // تفعيل محلي للتجربة، أو حفظه
             localStorage.setItem('academy_activated', 'true');
-            alert('تم تفعيل حساب الطالب بنجاح! سيتم فتح المحتوى الآن.');
+            alert('تم تفعيل حساب الطالب بنجاح!');
             unlockApp();
             toggleAdminBox();
         }
@@ -370,7 +409,7 @@
                 ]
             });
 
-            alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة المحمية!');
+            alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderFormulas();
@@ -382,7 +421,7 @@
             let txId = document.getElementById('subTxId').value;
 
             if(!name || !phone || !txId) {
-                alert('الرجاء إدخال الاسم، رقم الهاتف، ورقم عملية التحويل من بنكك');
+                alert('الرجاء إكمال كافة البيانات');
                 return;
             }
             document.getElementById('pendingMsg').classList.remove('hidden');
