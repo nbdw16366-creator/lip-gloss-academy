@@ -73,12 +73,12 @@
             background-color: #c2185b;
         }
         
+        /* شبكة مربعات الأقسام مرتبة ومنسقة بدقة تامة من اليمين لليسار */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
             margin: 15px 0;
-            direction: rtl;
         }
         @media (max-width: 600px) {
             .categories-grid {
@@ -236,7 +236,7 @@
             <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
-        <!-- لوحة التحكم الإدارية -->
+        <!-- لوحة التحكم الإدارية (نفس هيكل الطلاب تماماً) -->
         <div id="admin-section" class="card admin-section hidden">
             <h2>لوحة تحكم المدير</h2>
             
@@ -258,19 +258,19 @@
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 <label>القسم:</label>
                 <select id="newCategory">
-                    <option value="moisturizing">1. المرطبة العميق</option>
-                    <option value="therapeutic">2. العلاجية</option>
-                    <option value="fruit">3. الفواكه والنكهات</option>
-                    <option value="matte">4. المات والمطفي</option>
-                    <option value="waterproof">5. المقاومة للماء</option>
-                    <option value="shimmer">6. اللامعة البراقة</option>
+                    <option value="moisturizing">1. تركيبات الترطيب العميق</option>
+                    <option value="therapeutic">2. التركيبات العلاجية المرممة</option>
+                    <option value="fruit">3. تركيبات الفواكه والنكهات الطبيعية</option>
+                    <option value="matte">4. تركيبات المات المخملية</option>
+                    <option value="waterproof">5. التركيبات المقاومة للماء والثابتة</option>
+                    <option value="shimmer">6. تركيبات اللمعان البراق والمايكا</option>
                 </select>
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (اختر القسم للاستعراض)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
@@ -279,7 +279,7 @@
         <!-- محتوى الطلاب والمكتبة -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
-                <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
+                <h2>موسوعة ملمع الشفاء الاحترافية</h2>
                 <p style="font-size: 13px; color: #666; margin-bottom: 10px;">اختر القسم لعرض التركيبات الخاصة به:</p>
                 <div id="studentCategoriesGrid" class="categories-grid"></div>
                 <div id="formulasList" style="margin-top: 20px;"></div>
@@ -305,19 +305,20 @@
     </footer>
 
     <script>
-        // مصفوفة التركيبات فارغة تماماً بناءً على طلبك
         let formulas = [];
 
-        let currentAdminFilter = null;
-        let currentStudentFilter = null;
+        let currentAdminFilter = 'all';
+        let currentStudentFilter = 'all';
 
+        // أسماء الأقسام المحسنة والمنسقة بدقة (مرتبة من 1 إلى 6 + جميع الأقسام)
         const categoriesData = [
-            { id: 'moisturizing', name: '1. المرطبة العميق' },
-            { id: 'therapeutic', name: '2. العلاجية' },
-            { id: 'fruit', name: '3. الفواكه والنكهات' },
-            { id: 'matte', name: '4. المات والمطفي' },
-            { id: 'waterproof', name: '5. المقاومة للماء' },
-            { id: 'shimmer', name: '6. اللامعة البراقة' }
+            { id: 'all', name: 'جميع الأقسام الشاملة' },
+            { id: 'moisturizing', name: '1. تركيبات الترطيب العميق' },
+            { id: 'therapeutic', name: '2. التركيبات العلاجية المرممة' },
+            { id: 'fruit', name: '3. تركيبات الفواكه والنكهات' },
+            { id: 'matte', name: '4. تركيبات المات المخملية' },
+            { id: 'waterproof', name: '5. التركيبات المقاومة للماء' },
+            { id: 'shimmer', name: '6. تركيبات اللمعان البراق' }
         ];
 
         window.onload = function() {
@@ -350,9 +351,8 @@
             const gridDiv = document.getElementById('adminCategoriesGrid');
             if(!gridDiv) return;
             gridDiv.innerHTML = '';
-            let reversedCats = [...categoriesData].reverse();
-            reversedCats.forEach(cat => {
-                let count = formulas.filter(f => f.category === cat.id).length;
+            categoriesData.forEach(cat => {
+                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentAdminFilter === cat.id ? 'active' : '';
                 gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
@@ -371,9 +371,9 @@
             const adminListDiv = document.getElementById('adminFormulasList');
             if(!adminListDiv) return;
             adminListDiv.innerHTML = '';
-            let filtered = formulas.filter(f => f.category === filter);
+            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات مضافة في هذا القسم حالياً.</p>`;
                 return;
             }
             filtered.forEach((f, index) => {
@@ -398,9 +398,8 @@
             const gridDiv = document.getElementById('studentCategoriesGrid');
             if(!gridDiv) return;
             gridDiv.innerHTML = '';
-            let reversedCats = [...categoriesData].reverse();
-            reversedCats.forEach(cat => {
-                let count = formulas.filter(f => f.category === cat.id).length;
+            categoriesData.forEach(cat => {
+                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentStudentFilter === cat.id ? 'active' : '';
                 gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectStudentCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
@@ -419,12 +418,12 @@
             const listDiv = document.getElementById('formulasList');
             if(!listDiv) return;
             listDiv.innerHTML = '';
-            let filtered = formulas.filter(f => f.category === filter);
+            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حالياً.</p>`;
                 return;
             }
-            filtered.forEach(f => {
+            filtered.forEach((f, index) => {
                 let tableHtml = `<table class="ingredients-table"><thead><tr><th>المكون / المادة</th><th>النسبة المئوية</th></tr></thead><tbody>`;
                 f.ingredients.forEach(ing => {
                     tableHtml += `<tr><td>${ing.name}</td><td><strong>${ing.percent}%</strong></td></tr>`;
@@ -433,7 +432,7 @@
 
                 listDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
-                    <h3 style="margin: 5px 0; color: #e91e63; font-size: 16px;">${f.title}</h3>
+                    <h3 style="margin: 5px 0; color: #e91e63; font-size: 16px;">${index + 1}. ${f.title}</h3>
                     <p style="color: #555; font-size: 13px; margin: 6px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
                     ${tableHtml}
                     <p style="color: #2e7d32; font-size: 12px; margin: 6px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
@@ -515,9 +514,9 @@
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderAdminCategoriesGrid();
-            if(currentAdminFilter) renderAdminFormulas(currentAdminFilter);
+            renderAdminFormulas(currentAdminFilter);
             renderStudentCategoriesGrid();
-            if(currentStudentFilter) renderFormulas(currentStudentFilter);
+            renderFormulas(currentStudentFilter);
         }
 
         function submitSubscription() {
