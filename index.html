@@ -296,20 +296,17 @@
             </div>
         </div>
 
-        <!-- زر لوحة المدير المحمي بصلاحية حصرية -->
-        <div class="card" style="text-align: center; background: #fafafa; border-top-color: #343a40;">
-            <button class="btn" style="width: auto; background: #343a40;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير (محمي بـ Hashim Lab) ⚙️</button>
-        </div>
+        <!-- تم إزالة زر دخول لوحة التحكم نهائياً من الواجهة العامة ولن يراه أي طالب تماماً -->
 
-        <!-- لوحة التحكم الإدارية المشفرة -->
+        <!-- لوحة التحكم الإدارية (مخفية تماماً ولا تظهر إلا بالرابط السري الخاص بك) -->
         <div id="admin-section" class="card admin-section hidden">
-            <h2>لوحة تحكم المدير - Hashim Lab (منطقة محصنة)</h2>
+            <h2>لوحة تحكم المدير - Hashim Lab (منطقة محصنة سرية)</h2>
             
             <div id="loginBox">
-                <p style="font-size: 14px;">أدخل كلمة المرور المشفرة الخاصة بـ Hashim Lab:</p>
+                <p style="font-size: 14px;">أدخل كلمة المرور السرية الخاصة بك لفتح لوحة التحكم:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور السرية">
-                <button class="btn" style="background: #495057;" onclick="adminLoginSecure()">فك التشفير والدخول</button>
-                <button class="btn" style="background: #6c757d; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إنشاء أو إعادة تعيين كلمة المرور المشفرة</button>
+                <button class="btn" style="background: #495057;" onclick="adminLoginSecure()">دخول لوحة التحكم</button>
+                <button class="btn" style="background: #6c757d; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين كلمة المرور</button>
             </div>
 
             <div id="adminPanel" class="hidden">
@@ -407,7 +404,7 @@
             { id: 'therapeutic', name: '2. التركيبات العلاجية المرممة' },
             { id: 'fruit', name: '3. تركيبات الفواكه والنكهات' },
             { id: 'matte', name: '4. تركيبات المات المخملية' },
-            { id: 'waterproof', name: '5. التركيبات المقاومة للماء' },
+            { id: 'waterproof', name: '5. تركيبات المقاومة للماء' },
             { id: 'shimmer', name: '6. تركيبات اللمعان البراق' }
         ];
 
@@ -418,8 +415,13 @@
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
-            // فحص الجلسة المشفرة للمدير
-            checkSecureAdminSession();
+
+            // نظام الرابط السري الحصري: لن تفتح لوحة الإدارة إلا إذا كتب في الرابط ?hashim_admin=secure
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('hashim_admin') === 'secure') {
+                document.getElementById('admin-section').classList.remove('hidden');
+            }
+
             loadPaymentSettings();
             updateCategoryDropdowns();
             renderAdminCategoriesGrid();
@@ -427,7 +429,6 @@
             populateScaleSelect();
         };
 
-        // دالة تشفير متقدمة جداً (SHA-256) لمنع أي تلاعب
         async function sha256(message) {
             const msgBuffer = new TextEncoder().encode(message);
             const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
@@ -444,38 +445,28 @@
             let savedHash = localStorage.getItem('admin_secure_hash');
 
             if(!savedHash) {
-                // أول مرة يتم فيها تسجيل الباسورد، يتم تشفيره وحفظه نهائياً
                 localStorage.setItem('admin_secure_hash', hashedInput);
-                localStorage.setItem('admin_device_token', 'HASHIM_LAB_SECURE_TOKEN_' + Date.now());
-                alert('تم تشفيره وحفظ كلمة السر الحصرية بنجاح!');
+                alert('تم حفظ كلمة المرور السرية الحصرية بنجاح!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 return;
             }
 
             if(hashedInput === savedHash) {
-                localStorage.setItem('admin_device_token', 'HASHIM_LAB_SECURE_TOKEN_' + Date.now());
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                alert('مرحباً بك يا باشمهندس هاشم! تم التحقق من هويتك بنجاح.');
+                alert('مرحباً بك يا باشمهندس هاشم!');
             } else {
-                alert('كلمة المرور غير صحيحة! النظام محمي تماماً ولا يمكن الدخول.');
-            }
-        }
-
-        function checkSecureAdminSession() {
-            // تحقق خفي من جلسة المدير
-            if(localStorage.getItem('admin_device_token')) {
-                // إذا كان الجهاز معتمداً مسبقاً يظهر صندوق الدخول بشكل آمن
+                alert('كلمة المرور غير صحيحة!');
             }
         }
 
         function resetAdminPasswordPrompt() {
-            let confirmReset = prompt("هل تريد حقاً إعادة تعيين كلمة المرور الحصرية؟ اكتب كلمة السر الجديدة مباشرة:");
+            let confirmReset = prompt("أدخل كلمة المرور السرية الجديدة:");
             if(confirmReset && confirmReset.trim() !== "") {
                 sha256(confirmReset.trim()).then(newHash => {
                     localStorage.setItem('admin_secure_hash', newHash);
-                    alert("تم تحديث وتشفير كلمة المرور الجديدة بنجاح تام!");
+                    alert("تم تحديث كلمة المرور بنجاح!");
                 });
             }
         }
@@ -742,13 +733,10 @@
             document.getElementById('calcResult').classList.remove('hidden');
         }
 
-        function toggleAdminBox() { document.getElementById('admin-section').classList.toggle('hidden'); }
-
         function activateStudent() {
             localStorage.setItem('academy_activated', 'true');
             alert('تم التفعيل!');
             unlockApp();
-            toggleAdminBox();
         }
 
         function addNewFormula() {
@@ -767,7 +755,7 @@
             let percents = document.querySelectorAll('.ing-percent');
             let ingredients = [];
 
-            for(let i = 0; i < names.length; i++) {
+            for(let i = 0; i < names.length.length || i < names.length; i++) {
                 let n = names[i].value.trim();
                 let p = parseFloat(percents[i].value);
                 if(n && !isNaN(p)) {
@@ -792,7 +780,7 @@
 
             localStorage.setItem('pharmacy_formulas', JSON.stringify(formulas));
 
-            alert('تم حفظ التركيبة في بيتها المخصص بنجاح ولن تخرج أبداً!');
+            alert('تم حفظ التركيبة في بيتها المخصص بنجاح!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             document.getElementById('newPrep').value = '';
@@ -806,7 +794,7 @@
         }
 
         function submitSubscription() {
-            if(!document.getElementById('subName5') && !document.getElementById('subName').value) { alert('أكمل البيانات'); return; }
+            if(!document.getElementById('subName').value) { alert('أكمل البيانات'); return; }
             document.getElementById('pendingMsg').classList.remove('hidden');
         }
     </script>
