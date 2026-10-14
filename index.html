@@ -73,6 +73,14 @@
             background-color: #c2185b;
         }
         
+        .add-category-box {
+            background: #e0f2f1;
+            border: 2px dashed #00897b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -288,12 +296,15 @@
                 <button class="btn" style="background: #ff9800;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">إدارة الأقسام (إضافة بلا حدود، تعديل أو حذف)</h3>
-                <label>اسم القسم الجديد:</label>
-                <input type="text" id="newCategoryName" placeholder="مثلاً: قسم جديد إضافي">
-                <button class="btn" style="background: #00897b;" onclick="addNewCategory()">+ إضافة قسم جديد للقائمة</button>
+                
+                <!-- صندوق إضافة قسم جديد بشكل بارز وواضح -->
+                <div class="add-category-box">
+                    <h3 style="color: #00796b; font-size: 16px; margin-top: 0;">➕ إضافة قسم جديد بلا حدود</h3>
+                    <label style="color: #004d40; font-weight: bold;">اسم القسم الجديد:</label>
+                    <input type="text" id="newCategoryName" placeholder="مثلاً: قسم التفتيح السريع أو أي قسم إضافي...">
+                    <button class="btn" style="background: #00897b;" onclick="addNewCategory()">حفظ وإضافة القسم إلى الشبكة</button>
+                </div>
 
-                <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100; font-size: 16px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
@@ -303,7 +314,7 @@
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 
-                <label>القسم:</label>
+                <label>اختر القسم:</label>
                 <select id="newCategorySelect"></select>
 
                 <label>وصف ومعلومات التركيبة:</label>
