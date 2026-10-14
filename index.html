@@ -105,7 +105,7 @@
             transform: translateY(-2px);
         }
         .cat-box h4 {
-            margin: 0 0 8px 0;
+            margin: 0 0 6px 0;
             color: var(--primary);
             font-size: 13px;
             font-weight: bold;
@@ -118,16 +118,31 @@
             padding: 3px 8px;
             border-radius: 6px;
             display: inline-block;
+            margin-bottom: 5px;
+        }
+        .cat-actions {
+            display: flex;
+            gap: 4px;
+            width: 100%;
+            justify-content: center;
         }
         .edit-cat-btn {
             background: #ff9800;
             color: white;
             border: none;
-            font-size: 10px;
-            padding: 2px 6px;
+            font-size: 9px;
+            padding: 2px 5px;
             border-radius: 4px;
             cursor: pointer;
-            margin-top: 5px;
+        }
+        .del-cat-btn {
+            background: #d32f2f;
+            color: white;
+            border: none;
+            font-size: 9px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         input, select, textarea {
@@ -273,9 +288,9 @@
                 <button class="btn" style="background: #ff9800;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">إدارة الأقسام (إضافة وتسمية يدوية وتعديل)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">إدارة الأقسام (إضافة بلا حدود، تعديل أو حذف)</h3>
                 <label>اسم القسم الجديد:</label>
-                <input type="text" id="newCategoryName" placeholder="مثلاً: تركيبات الترطيب العميق">
+                <input type="text" id="newCategoryName" placeholder="مثلاً: قسم جديد إضافي">
                 <button class="btn" style="background: #00897b;" onclick="addNewCategory()">+ إضافة قسم جديد للقائمة</button>
 
                 <hr style="margin: 20px 0;">
@@ -316,7 +331,7 @@
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية (مع زر التعديل اليدوي)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية (إدارة كاملة)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
@@ -454,6 +469,25 @@
             }
         }
 
+        function deleteCategory(catId) {
+            if(catId === 'all') { alert('لا يمكن حذف قسم جميع الأقسام الشاملة'); return; }
+            if(confirm('هل أنت متأكد من حذف هذا القسم؟ سيتم حذف جميع التركيبات التابعة له!')) {
+                categoriesData = categoriesData.filter(c => c.id !== catId);
+                formulas = formulas.filter(f => f.category !== catId);
+                localStorage.setItem('pharmacy_categories', JSON.stringify(categoriesData));
+                localStorage.setItem('pharmacy_formulas', JSON.stringify(formulas));
+                updateCategoryDropdowns();
+                renderAdminCategoriesGrid();
+                renderStudentCategoriesGrid();
+                currentAdminFilter = null;
+                currentStudentFilter = null;
+                document.getElementById('adminFormulasList').innerHTML = '';
+                document.getElementById('formulasList').innerHTML = '';
+                populateScaleSelect();
+                alert('تم حذف القسم بنجاح!');
+            }
+        }
+
         function updateCategoryDropdowns() {
             const select = document.getElementById('newCategorySelect');
             if(!select) return;
@@ -480,12 +514,17 @@
             categoriesData.forEach(cat => {
                 let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentAdminFilter === cat.id ? 'active' : '';
-                let editBtnHtml = cat.id !== 'all' ? `<button class="edit-cat-btn" onclick="event.stopPropagation(); editCategoryName('${cat.id}')">✏️ تعديل التسمية</button>` : '';
+                let actionsHtml = cat.id !== 'all' ? `
+                    <div class="cat-actions">
+                        <button class="edit-cat-btn" onclick="event.stopPropagation(); editCategoryName('${cat.id}')">✏️ تعديل</button>
+                        <button class="del-cat-btn" onclick="event.stopPropagation(); deleteCategory('${cat.id}')">🗑️ حذف</button>
+                    </div>
+                ` : '';
                 
                 gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
                     <span class="cat-counter-badge">${count} تركيبة</span>
-                    ${editBtnHtml}
+                    ${actionsHtml}
                 </div>`;
             });
         }
