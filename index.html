@@ -290,7 +290,6 @@
     </footer>
 
     <script>
-        // قاعدة البيانات الموثقة والمختبرة (القسم المرطب العميق - الدفعة الأولى والثانية)
         let formulas = [
             {
                 id: 1,
@@ -568,7 +567,6 @@
             let f = formulas[0];
             let resList = document.getElementById('resultList');
             resList.innerHTML = '';
-            f.ingredients.forEach(ing =>.
             f.ingredients.forEach(ing => {
                 let amount = (total * ing.percent) / 100;
                 resList.innerHTML += `<li>${ing.name} (${ing.percent}%): <strong>${amount.toFixed(2)} جرام</strong></li>`;
