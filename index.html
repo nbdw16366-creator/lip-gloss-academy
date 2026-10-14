@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أكاديمية ملمع الشفاء - Lip Gloss Academy</title>
+    <style>
+        :root {
+            --primary: #d63384;
+            --secondary: #ff69b4;
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --text-light: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        h1 { margin: 0; font-size: 24px; }
+        p { color: #ddd; font-size: 14px; }
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: auto;
+        }
+        .section-title {
+            font-size: 18px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 5px;
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #333;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .card h3 {
+            margin: 10px 0 5px;
+            font-size: 16px;
+            color: var(--secondary);
+        }
+        .card p {
+            font-size: 12px;
+            color: #aaa;
+        }
+        .footer-nav {
+            margin-top: 30px;
+            display: flex;
+            justify-content: space-around;
+            background: #181818;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .nav-item {
+            font-size: 13px;
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>أكاديمية ملمع الشفاء 💄🧪</h1>
+        <p>التطبيق الاحترافي المتخصص لتصنيع غلوسات الشفايف بأعلى معايير الجودة</p>
+    </header>
+
+    <div class="container">
+        <div class="section-title">1. مكتبة التركيبات الأساسية</div>
+        <div class="grid">
+            <div class="card">
+                <h3>💧 غلوس شفاف</h3>
+                <p>تركيبة أساسية بنقاء عالي ولمعان فائق.</p>
+            </div>
+            <div class="card">
+                <h3>🎨 غلوس ملون</h3>
+                <p>أصباغ متجانسة وثبات لوني ممتاز.</p>
+            </div>
+            <div class="card">
+                <h3>✨ غلوس لامع</h3>
+                <p>جزيئات ميكا براقة ومظهر جذاب.</p>
+            </div>
+            <div class="card">
+                <h3>🧪 غلوس كثيف</h3>
+                <p>قوام سميك ومريح يدوم طويلاً.</p>
+            </div>
+        </div>
+
+        <div class="section-title">2. الأقسام المتقدمة</div>
+        <div class="grid">
+            <div class="card">
+                <h3>🛡️ الجودة والسلامة</h3>
+                <p>اختبارات الثبات والتوافق الميكروبي.</p>
+            </div>
+            <div class="card">
+                <h3>📚 قاموس المواد</h3>
+                <p>الوظيفة، الذوبانية والبدائل الآمنة.</p>
+            </div>
+            <div class="card">
+                <h3>🧮 حاسبة التركيبات</h3>
+                <p>تغيير أوزان الدفعات تلقائياً.</p>
+            </div>
+            <div class="card">
+                <h3>⚙️ لوحة المدير</h3>
+                <p>إدارة التركيبات والمشتريات.</p>
+            </div>
+        </div>
+
+        <div class="footer-nav">
+            <a href="#" class="nav-item">الرئيسية</a>
+            <a href="#" class="nav-item">الدروس</a>
+            <a href="#" class="nav-item">حل المشاكل</a>
+            <a href="#" class="nav-item">حسابي</a>
+        </div>
+    </div>
+
+</body>
+</html>
