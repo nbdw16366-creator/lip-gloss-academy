@@ -49,41 +49,42 @@
             color: var(--accent-color);
             border-bottom: 2px solid var(--secondary-color);
             padding-bottom: 0.5rem;
+            margin-top: 2.5rem;
         }
-        .recipes-grid {
+        .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
-        .recipe-card {
+        .card {
             background: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             transition: transform 0.3s ease;
         }
-        .recipe-card:hover {
+        .card:hover {
             transform: translateY(-5px);
         }
-        .recipe-header {
+        .card-header {
             background-color: var(--secondary-color);
             color: var(--dark-color);
             padding: 1.2rem;
             font-size: 1.3rem;
             font-weight: bold;
         }
-        .recipe-body {
+        .card-body {
             padding: 1.5rem;
         }
-        .recipe-body h4 {
+        .card-body h4 {
             margin-top: 1rem;
             margin-bottom: 0.5rem;
             color: var(--primary-color);
         }
-        .recipe-body ul {
+        .card-body ul {
             padding-right: 1.2rem;
         }
-        .recipe-body li {
+        .card-body li {
             margin-bottom: 0.3rem;
         }
         footer {
@@ -103,13 +104,12 @@
     </header>
 
     <div class="container">
+        <!-- قسم مكتبة التركيبات -->
         <h2 class="section-title">مكتبة التركيبات الاحترافية</h2>
-        
-        <div class="recipes-grid">
-            <!-- تركيبة رقم 1 -->
-            <div class="recipe-card">
-                <div class="recipe-header">الغلوس الكلاسيكي المرطب (Classic Gloss)</div>
-                <div class="recipe-body">
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-header">الغلوس الكلاسيكي المرطب (Classic Gloss)</div>
+                <div class="card-body">
                     <p>تركيبة أساسية مثالية، تمنح لمعاناً عالياً وترطيباً عميقاً للشفاه طوال اليوم.</p>
                     
                     <h4>المكونات والنسب:</h4>
@@ -131,8 +131,48 @@
                     </ul>
                 </div>
             </div>
-            
-            <!-- يمكننا إضافة تركيبات أخرى لاحقاً -->
+        </div>
+
+        <!-- قسم قاموس المواد الخام -->
+        <h2 class="section-title">قاموس المواد الخام (Raw Material Dictionary)</h2>
+        <div class="grid-container">
+            <div class="card">
+                <div class="card-header">زيت الجوجوبا (Jojoba Oil)</div>
+                <div class="card-body">
+                    <p>زيت ذهبي نقي شبيه بالزيوت الطبيعية للبشرة، سيعتبر أساساً ممتازاً للترطيب غير الدهني.</p>
+                    <h4>الخصائص والفوائد:</h4>
+                    <ul>
+                        <li>يمتصه الجلد بسرعة فائقة دون ترك أثر لزج مزعج.</li>
+                        <li>يعمل كمرطب طبيعي يحبس الرطوبة داخل خلايا الشفاه.</li>
+                        <li>غني بفيتامين E و B المركبة المفيدة لتجديد الخلايا.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">قاعدة جل اللمعان (Versagel)</div>
+                <div class="card-body">
+                    <p>المكون الأساسي المسؤول عن القوام الثقيل واللمعان الزجاجي الجذاب والثابت للغلوس.</p>
+                    <h4>الخصائص والفوائد:</h4>
+                    <ul>
+                        <li>يمنح الغلوس مظهر "الجلوس" اللامع والاحترافي.</li>
+                        <li>يحافظ على تماسك المكونات وعدم انفصال الزيوت عن بعضها.</li>
+                        <li>آمن تماماً للاستخدام التجميلي ومصمم خصيصاً للشفاه.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">فيتامين E (Vitamin E)</div>
+                <div class="card-body">
+                    <p>مضاد أكسدة قوي ومادة حافظة طبيعية تحمي الزيوت من التخنز وتغذي الشفاه.</p>
+                    <h4>الخصائص والفوائد:</h4>
+                    <ul>
+                        <li>يطيل العمر الافتراضي لتركيبات الغلوس بشكل طبيعي.</li>
+                        <li>يمنع تشقق الشفاه ويعالج الجفاف بفعالية عالية.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
