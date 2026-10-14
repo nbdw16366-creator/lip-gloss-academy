@@ -267,7 +267,7 @@
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
                 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة (محفوظة دائماً)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة (محفوظة دائماً في بيتها)</h3>
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 
@@ -303,7 +303,7 @@
                 <label>طريقة الاستخدام:</label>
                 <textarea id="newUsage" placeholder="اكتب طريقة الاستخدام..."></textarea>
 
-                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى المكتبة</button>
+                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
 
                 <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية</h3>
@@ -346,11 +346,11 @@
     </footer>
 
     <script>
-        // تحميل التركيبات مباشرة من الذاكرة الدائمة (Local Storage) لضمان عدم ضياعها نهائياً
         let formulas = JSON.parse(localStorage.getItem('academy_formulas')) || [];
 
-        let currentAdminFilter = 'all';
-        let currentStudentFilter = 'all';
+        // اجعل العرض المبدئي فارغاً لا يعرض شيئاً إلا عند اختيار القسم
+        let currentAdminFilter = null;
+        let currentStudentFilter = null;
 
         const categoriesData = [
             { id: 'all', name: 'جميع الأقسام الشاملة' },
@@ -368,9 +368,7 @@
             }
             loadPaymentSettings();
             renderAdminCategoriesGrid();
-            renderAdminFormulas('all');
             renderStudentCategoriesGrid();
-            renderFormulas('all');
             populateScaleSelect();
         };
 
@@ -450,9 +448,13 @@
             const adminListDiv = document.getElementById('adminFormulasList');
             if(!adminListDiv) return;
             adminListDiv.innerHTML = '';
+            if(!filter) {
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">اختر القسم بالأعلى لعرض تركيباته هنا.</p>`;
+                return;
+            }
             let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات مضافة في هذا القسم حالياً.</p>`;
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
                 return;
             }
             filtered.forEach((f, index) => {
@@ -497,9 +499,13 @@
             const listDiv = document.getElementById('formulasList');
             if(!listDiv) return;
             listDiv.innerHTML = '';
+            if(!filter) {
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">اختر أحد الأقسام بالأعلى لعرض تركيباته هنا داخل بيته الخاص.</p>`;
+                return;
+            }
             let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حالياً.</p>`;
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
                 return;
             }
             filtered.forEach((f, index) => {
@@ -624,7 +630,6 @@
                 return;
             }
 
-            // إضافة التركيبة للمصفوفة
             formulas.push({
                 id: formulas.length + 1,
                 title: title,
@@ -635,19 +640,18 @@
                 ingredients: ingredients
             });
 
-            // حفظ التركيبات مباشرة في الذاكرة الدائمة (Local Storage) لضمان بقائها وعدم خروجها أبداً
             localStorage.setItem('academy_formulas', JSON.stringify(formulas));
 
-            alert('تم حفظ التركيبة بنجاح ولن تضيع أبدًا!');
+            alert('تم حفظ التركيبة في بيتها المخصص بنجاح ولن تخرج أبداً!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             document.getElementById('newPrep').value = '';
             document.getElementById('newUsage').value = '';
             
             renderAdminCategoriesGrid();
-            renderAdminFormulas(currentAdminFilter);
+            if(currentAdminFilter) renderAdminFormulas(currentAdminFilter);
             renderStudentCategoriesGrid();
-            renderFormulas(currentStudentFilter);
+            if(currentStudentFilter) renderFormulas(currentStudentFilter);
             populateScaleSelect();
         }
 
