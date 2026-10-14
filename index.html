@@ -3,135 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية ملمع الشفاء - Lip Gloss Academy</title>
+    <title>أكاديمية ملمع الشفاء | Lip Gloss Academy</title>
     <style>
         :root {
-            --primary: #d63384;
-            --secondary: #ff69b4;
-            --bg-dark: #121212;
-            --card-bg: #1e1e1e;
-            --text-light: #f8f9fa;
+            --primary-color: #ff6584;
+            --secondary-color: #ffb6c1;
+            --dark-color: #2d3748;
+            --light-color: #fff5f7;
+            --accent-color: #e23e57;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-light);
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
         }
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2.5rem 1rem;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
-        h1 { margin: 0; font-size: 24px; }
-        p { color: #ddd; font-size: 14px; }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
         .container {
-            padding: 15px;
-            max-width: 600px;
-            margin: auto;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
         }
         .section-title {
-            font-size: 18px;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 5px;
-            margin-top: 20px;
-            margin-bottom: 15px;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
         }
-        .grid {
+        .recipes-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid #333;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        .recipe-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
         }
-        .card h3 {
-            margin: 10px 0 5px;
-            font-size: 16px;
-            color: var(--secondary);
+        .recipe-card:hover {
+            transform: translateY(-5px);
         }
-        .card p {
-            font-size: 12px;
-            color: #aaa;
-        }
-        .footer-nav {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-around;
-            background: #181818;
-            padding: 10px;
-            border-radius: 8px;
-        }
-        .nav-item {
-            font-size: 13px;
-            color: var(--secondary);
-            text-decoration: none;
+        .recipe-header {
+            background-color: var(--secondary-color);
+            color: var(--dark-color);
+            padding: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
+        }
+        .recipe-body {
+            padding: 1.5rem;
+        }
+        .recipe-body h4 {
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        .recipe-body ul {
+            padding-right: 1.2rem;
+        }
+        .recipe-body li {
+            margin-bottom: 0.3rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--dark-color);
+            color: white;
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>أكاديمية ملمع الشفاء 💄🧪</h1>
-        <p>التطبيق الاحترافي المتخصص لتصنيع غلوسات الشفايف بأعلى معايير الجودة</p>
+        <h1>أكاديمية ملمع الشفاء</h1>
+        <p>المنصة الاحترافية لصناعة وتطوير ملمع الشفاه، التركيبات، والجودة</p>
     </header>
 
     <div class="container">
-        <div class="section-title">1. مكتبة التركيبات الأساسية</div>
-        <div class="grid">
-            <div class="card">
-                <h3>💧 غلوس شفاف</h3>
-                <p>تركيبة أساسية بنقاء عالي ولمعان فائق.</p>
-            </div>
-            <div class="card">
-                <h3>🎨 غلوس ملون</h3>
-                <p>أصباغ متجانسة وثبات لوني ممتاز.</p>
-            </div>
-            <div class="card">
-                <h3>✨ غلوس لامع</h3>
-                <p>جزيئات ميكا براقة ومظهر جذاب.</p>
-            </div>
-            <div class="card">
-                <h3>🧪 غلوس كثيف</h3>
-                <p>قوام سميك ومريح يدوم طويلاً.</p>
-            </div>
-        </div>
+        <h2 class="section-title">مكتبة التركيبات الاحترافية</h2>
+        
+        <div class="recipes-grid">
+            <!-- تركيبة رقم 1 -->
+            <div class="recipe-card">
+                <div class="recipe-header">الغلوس الكلاسيكي المرطب (Classic Gloss)</div>
+                <div class="recipe-body">
+                    <p>تركيبة أساسية مثالية، تمنح لمعاناً عالياً وترطيباً عميقاً للشفاه طوال اليوم.</p>
+                    
+                    <h4>المكونات والنسب:</h4>
+                    <ul>
+                        <li>زيت الجوجوبا المرطب: 45%</li>
+                        <li>قاعدة جل اللمعان (Versagel): 40%</li>
+                        <li>زيت الخروع النقي (للّمعان الثابت): 12%</li>
+                        <li>فيتامين E (مادة حافظة ومغذية): 2%</li>
+                        <li>نكهة الفانيليا العضوية: 1%</li>
+                    </ul>
 
-        <div class="section-title">2. الأقسام المتقدمة</div>
-        <div class="grid">
-            <div class="card">
-                <h3>🛡️ الجودة والسلامة</h3>
-                <p>اختبارات الثبات والتوافق الميكروبي.</p>
+                    <h4>خطوات التحضير:</h4>
+                    <ul>
+                        <li>تعقيم جميع الأدوات وأواني المزج جيداً بالكحول الطبي.</li>
+                        <li>خلط قاعدة الجل مع زيت الجوجوبا وزيت الخروع في وعاء نظيف.</li>
+                        <li>تقليب المزيج ببطء حتى يتجانس تماماً ويصبح خالية من التكتلات.</li>
+                        <li>إضافة فيتامين E والنكهة مع الاستمرار في التقليب الخفيف.</li>
+                        <li>تعبئة الخليط في عبوات الغلوس المعقمة جاهزة للاستخدام.</li>
+                    </ul>
+                </div>
             </div>
-            <div class="card">
-                <h3>📚 قاموس المواد</h3>
-                <p>الوظيفة، الذوبانية والبدائل الآمنة.</p>
-            </div>
-            <div class="card">
-                <h3>🧮 حاسبة التركيبات</h3>
-                <p>تغيير أوزان الدفعات تلقائياً.</p>
-            </div>
-            <div class="card">
-                <h3>⚙️ لوحة المدير</h3>
-                <p>إدارة التركيبات والمشتريات.</p>
-            </div>
-        </div>
-
-        <div class="footer-nav">
-            <a href="#" class="nav-item">الرئيسية</a>
-            <a href="#" class="nav-item">الدروس</a>
-            <a href="#" class="nav-item">حل المشاكل</a>
-            <a href="#" class="nav-item">حسابي</a>
+            
+            <!-- يمكننا إضافة تركيبات أخرى لاحقاً -->
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2026 أكاديمية ملمع الشفاء. جميع الحقوق محفوظة.</p>
+    </footer>
 
 </body>
 </html>
