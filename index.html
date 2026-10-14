@@ -72,6 +72,41 @@
         .btn:hover {
             background-color: #c2185b;
         }
+        /* تصميم شبكة الأقسام الجديدة بأزرار العدد */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .cat-btn {
+            background: #ffffff;
+            border: 2px solid var(--primary-light);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        .cat-btn h4 {
+            margin: 0 0 5px 0;
+            color: var(--primary);
+            font-size: 16px;
+        }
+        .cat-btn span {
+            font-size: 13px;
+            color: #666;
+            background: #fff;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+        }
         input, select, textarea {
             width: 100%;
             padding: 10px;
@@ -142,7 +177,7 @@
         <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">عذراً، مكتبة التركيبات الاحترافية (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <div class="lock-notice">عذراً، مكتبة التركيبات الاحترافية والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
             <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
             <p><strong>رقم الحساب (بنكك):</strong> 3465405</p>
             <p><strong>رسوم الاشتراك:</strong> 10,000 جنيه سوداني</p>
@@ -219,16 +254,12 @@
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
-                <label for="categorySelect">اختر القسم للتصفح:</label>
-                <select id="categorySelect" onchange="filterFormulas()">
-                    <option value="all">جميع الأقسام (عرض الكل)</option>
-                    <option value="moisturizing">1. المرطبة العميق</option>
-                    <option value="therapeutic">2. العلاجية</option>
-                    <option value="fruit">3. الفواكه والنكهات</option>
-                    <option value="matte">4. المات والمطفي</option>
-                    <option value="waterproof">5. المقاومة للماء والثبات الطويل</option>
-                    <option value="shimmer">6. اللامعة البراقة</option>
-                </select>
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">اختر القسم لعرض التركيبات الخاصة به:</p>
+                
+                <!-- شبكة أزرار الأقسام التفاعلية مع عداد التركيبات -->
+                <div id="categoriesGrid" class="categories-grid">
+                    <!-- يتم توليدها ديناميكياً بواسطة البرمجة -->
+                </div>
 
                 <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
@@ -254,7 +285,6 @@
     </footer>
 
     <script>
-        // قاعدة البيانات الأولية الموزعة على الأقسام الـ 6
         let formulas = [
             {
                 id: 1,
@@ -333,11 +363,24 @@
             }
         ];
 
+        let currentFilter = 'all';
+
+        const categoriesData = [
+            { id: 'all', name: 'جميع الأقسام (عرض الكل)' },
+            { id: 'moisturizing', name: '1. المرطبة العميق' },
+            { id: 'therapeutic', name: '2. العلاجية' },
+            { id: 'fruit', name: '3. الفواكه والنكهات' },
+            { id: 'matte', name: '4. المات والمطفي' },
+            { id: 'waterproof', name: '5. المقاومة للماء والثبات' },
+            { id: 'shimmer', name: '6. اللامعة البراقة' }
+        ];
+
         window.onload = function() {
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
-            renderFormulas();
+            renderCategoriesGrid();
+            renderFormulas('all');
             renderAdminFormulas();
         };
 
@@ -356,24 +399,42 @@
         }
 
         function getCategoryName(cat) {
-            switch(cat) {
-                case 'moisturizing': return '1. المرطبة العميق';
-                case 'therapeutic': return '2. العلاجية';
-                case 'fruit': return '3. الفواكه والنكهات';
-                case 'matte': return '4. المات والمطفي';
-                case 'waterproof': return '5. المقاومة للماء والثبات الطويل';
-                case 'shimmer': return '6. اللامعة البراقة';
-                default: return 'عام';
-            }
+            let found = categoriesData.find(c => c.id === cat);
+            return found ? found.name : 'عام';
         }
 
-        function renderFormulas(filter = 'all') {
+        // توليد شبكة الأزرار للأقسام مع حساب عدد التركيبات ديناميكياً
+        function renderCategoriesGrid() {
+            const gridDiv = document.getElementById('categoriesGrid');
+            gridDiv.innerHTML = '';
+
+            categoriesData.forEach(cat => {
+                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
+                let activeClass = currentFilter === cat.id ? 'active' : '';
+
+                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectCategory('${cat.id}')">
+                    <h4>${cat.name}</h4>
+                    <span>عدد التركيبات: <strong>${count}</strong></span>
+                </div>`;
+                gridDiv.innerHTML += btnHtml;
+            });
+        }
+
+        function selectCategory(catId) {
+            currentFilter = catId;
+            renderCategoriesGrid();
+            renderFormulas(catId);
+        }
+
+        function renderFormulas(filter) {
             const listDiv = document.getElementById('formulasList');
             listDiv.innerHTML = '';
             
-            let filtered = formulas;
-            if(filter !== 'all') {
-                filtered = formulas.filter(f => f.category === filter);
+            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
+
+            if(filtered.length === 0) {
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حتى الآن. يمكنك إضافتها من لوحة المدير!</p>`;
+                return;
             }
 
             filtered.forEach(f => {
@@ -403,11 +464,6 @@
                 </div>`;
                 adminListDiv.innerHTML += html;
             });
-        }
-
-        function filterFormulas() {
-            let cat = document.getElementById('categorySelect').value;
-            renderFormulas(cat);
         }
 
         function calculateBatch() {
@@ -503,7 +559,8 @@
             alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
-            renderFormulas();
+            renderCategoriesGrid();
+            renderFormulas(currentFilter);
             renderAdminFormulas();
         }
 
