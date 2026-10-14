@@ -271,15 +271,15 @@
 
         <!-- شريط التنقل العلوي للمشتركين المفعلين فقط -->
         <div id="navBar" class="card hidden" style="text-align: center;">
-            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! تم اعتماد اشتراكك وموسوعة التركيبات متاحة لك.</p>
+            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! تم اعتماد اشتراكك وموسوعة التركيبات متاحة لك[span_3](start_span)[span_3](end_span).</p>
             <button class="btn" style="width: auto; margin: 5px; background: #2e7d32;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
             <button class="btn" style="width: auto; margin: 5px; background: var(--accent);" onclick="showMainTab('calculator')">ميزان التركيبات (Batch Scale)</button>
         </div>
 
-        <!-- بوابة التسجيل والدفع للطلاب (لا يمر منها أحد إلا بموافقة المدير) -->
+        <!-- بوابة التسجيل والدفع للطلاب -->
         <div id="subscription-card" class="card" style="background: #f1f8e9; border-top-color: #558b2f;">
-            <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط بعد إرسال بيانات التحويل وموافقة الإدارة يدوياً.</div>
+            <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)[span_4](start_span)[span_4](end_span)</h2>
+            <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط بعد إرسال بيانات التحويل وموافقة الإدارة يدوياً[span_5](start_span)[span_5](end_span).</div>
             <p style="font-size: 14px;"><strong>المستفيد:</strong> <span id="displayOwnerName">هاشم شرف الدين عبدالله إبراهيم</span> | <strong>بنكك:</strong> <span id="displayBankAcc">3465405</span> | <strong>الرسوم:</strong> <span id="displayFee">10,000</span> ج.س</p>
             <hr style="border: 0; border-top: 1px solid #dcedc8; margin: 15px 0;">
             
@@ -290,24 +290,17 @@
             <label>رقم عملية التحويل:</label>
             <input type="text" id="subTxId" placeholder="رقم العملية من إشعار بنكك">
             
-            <button class="btn" style="background: #558b2f;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
+            <button class="btn" style="background: #558b2f;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة[span_6](start_span)[span_6](end_span)</button>
             <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #33691e; font-weight: bold; text-align: center; font-size: 13px;">
                 تم إرسال طلبك بنجاح! بانتظار موافقة وتفعيل المدير لرقم هاتفك.
             </div>
         </div>
 
-        <!-- لوحة التحكم الإدارية السرية (لا تظهر أبداً إلا بالرابط السري الخاص بك) -->
+        <!-- لوحة التحكم الإدارية (تفتح فقط بالكلمة السرية في الرابط) -->
         <div id="admin-section" class="card admin-section hidden">
             <h2>لوحة تحكم المدير - Hashim Lab (منطقة محصنة سرية)</h2>
             
-            <div id="loginBox">
-                <p style="font-size: 14px;">أدخل كلمة المرور السرية الخاصة بك لفتح لوحة التحكم:</p>
-                <input type="password" id="adminPassword" placeholder="كلمة المرور السرية">
-                <button class="btn" style="background: #495057;" onclick="adminLoginSecure()">دخول لوحة التحكم</button>
-                <button class="btn" style="background: #6c757d; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين كلمة المرور</button>
-            </div>
-
-            <div id="adminPanel" class="hidden">
+            <div id="adminPanel">
                 <h3 style="color: #212529; font-size: 16px;">تعديل تفاصيل الدفع (يدوياً)</h3>
                 <label>اسم المستفيد:</label>
                 <input type="text" id="editOwnerName" value="هاشم شرف الدين عبدالله إبراهيم">
@@ -364,15 +357,15 @@
         <!-- محتوى الطلاب والمكتبة (لا يظهر نهائياً إلا إذا وافق المدير على الطالب) -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
-                <h2>موسوعة فارمسي علم ونتيجة الاحترافية</h2>
+                <h2>موسوعة فارمسي علم ونتيجة الاحترافية[span_7](start_span)[span_7](end_span)</h2>
                 <p style="font-size: 13px; color: #666; margin-bottom: 10px;">اختر القسم لعرض التركيبات الخاصة به:</p>
                 <div id="studentCategoriesGrid" class="categories-grid"></div>
                 <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
 
             <div id="calculator-section" class="card hidden">
-                <h2>ميزان التركيبات التفاعلي (Batch Scale & Calculator)</h2>
-                <p style="font-size: 13px; color: #666;">اختر التركيبة وأدخل الوزن الكلي للدفعة ليزن لك كمية كل مادة بالجرام بدقة:</p>
+                <h2>ميزان التركيبات التفاعلي (Batch Scale & Calculator)[span_8](start_span)[span_8](end_span)</h2>
+                <p style="font-size: 13px; color: #666;">اختر التركيبة وأدخل الوزن الكلي للدفعة ليزن لك كمية كل مادة بالجرام بدقة[span_9](start_span)[span_9](end_span):</p>
                 
                 <label>اختر التركيبة:</label>
                 <select id="scaleFormulaSelect" onchange="updateScaleIngredients()"></select>
@@ -391,7 +384,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 فارمسي علم ونتيجة - Hashim Lab. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2026 فارمسي علم ونتيجة - Hashim Lab. جميع الحقوق محفوظة[span_10](start_span)[span_10](end_span).</p>
     </footer>
 
     <script>
@@ -411,15 +404,17 @@
         let currentStudentFilter = null;
 
         window.onload = function() {
-            // فحص حالة اعتماد الطالب في هذا الجهاز
-            if(localStorage.getItem('student_is_approved') === 'true') {
-                unlockApp();
-            }
-
-            // فحص الرابط السري الخاص بك كمدير
+            // فحص الرابط السري الحصري للمدير (كلمة السر في الرابط: hashim_admin=secret_hashim_2026)
             const urlParams = new URLSearchParams(window.location.search);
-            if(urlParams.get('hashim_admin') === 'secure') {
+            if(urlParams.get('hashim_admin') === 'secret_hashim_2026') {
+                // إخفاء شاشة الطلاب وإظهار الإدارة فوراً بدون الحاجة لكتابة كلمة مرور إضافية
+                document.getElementById('subscription-card').classList.add('hidden');
                 document.getElementById('admin-section').classList.remove('hidden');
+            } else {
+                // لأي شخص آخر، فحص حالة اعتماد الطالب في هذا الجهاز
+                if(localStorage.getItem('student_is_approved') === 'true') {
+                    unlockApp();
+                }
             }
 
             loadPaymentSettings();
@@ -428,48 +423,6 @@
             renderStudentCategoriesGrid();
             populateScaleSelect();
         };
-
-        async function sha256(message) {
-            const msgBuffer = new TextEncoder().encode(message);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-            return hashHex;
-        }
-
-        async function adminLoginSecure() {
-            let pass = document.getElementById('adminPassword').value;
-            if(!pass) { alert('أدخل كلمة المرور'); return; }
-            
-            let hashedInput = await sha256(pass);
-            let savedHash = localStorage.getItem('admin_secure_hash');
-
-            if(!savedHash) {
-                localStorage.setItem('admin_secure_hash', hashedInput);
-                alert('تم حفظ كلمة المرور السرية الحصرية بنجاح!');
-                document.getElementById('loginBox').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                return;
-            }
-
-            if(hashedInput === savedHash) {
-                document.getElementById('loginBox').classList.add('hidden');
-                document.getElementById('adminPanel').classList.remove('hidden');
-                alert('مرحباً بك يا باشمهندس هاشم!');
-            } else {
-                alert('كلمة المرور غير صحيحة!');
-            }
-        }
-
-        function resetAdminPasswordPrompt() {
-            let confirmReset = prompt("أدخل كلمة المرور السرية الجديدة:");
-            if(confirmReset && confirmReset.trim() !== "") {
-                sha256(confirmReset.trim()).then(newHash => {
-                    localStorage.setItem('admin_secure_hash', newHash);
-                    alert("تم تحديث كلمة المرور بنجاح!");
-                });
-            }
-        }
 
         function unlockApp() {
             document.getElementById('subscription-card').classList.add('hidden');
@@ -733,7 +686,6 @@
             document.getElementById('calcResult').classList.remove('hidden');
         }
 
-        // تفعيل الطالب يدوياً بواسطة المدير من لوحة التحكم السرية
         function activateStudentByAdmin() {
             let phone = document.getElementById('activatePhone').value.trim();
             if(!phone) { alert('أدخل رقم هاتف الطالب أولاً'); return; }
@@ -809,11 +761,9 @@
             let phone = document.getElementById('subPhone').value;
             if(!name || !phone) { alert('الرجاء إكمال بيانات الاسم ورقم الهاتف'); return; }
             
-            // تخزين حالة الطالب المؤقتة في جهازه لفحص الموافقة لاحقاً
             localStorage.setItem('student_phone', phone.trim());
             document.getElementById('pendingMsg').classList.remove('hidden');
 
-            // محاكاة الفحص التلقائي لاعتماد المدير (إذا وافق المدير سيفتح التطبيق تلقائياً عند إعادة الفتح)
             setInterval(() => {
                 if(localStorage.getItem('approved_student_' + phone.trim()) === 'true') {
                     localStorage.setItem('student_is_approved', 'true');
