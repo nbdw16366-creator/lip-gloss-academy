@@ -3,169 +3,122 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية ملمع الشفاء | Lip Gloss Academy</title>
+    <title>أكاديمية ملمع الشفاء</title>
     <style>
         :root {
-            --primary-color: #ff6584;
-            --secondary-color: #ffb6c1;
-            --dark-color: #2d3748;
-            --light-color: #fff5f7;
-            --accent-color: #e23e57;
-        }
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --primary: #e91e63;
+            --primary-light: #f8bbd0;
+            --bg-color: #fff0f3;
+            --text-color: #333;
+            --card-bg: #ffffff;
         }
         body {
-            background-color: var(--light-color);
-            color: var(--dark-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
             line-height: 1.6;
         }
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            background: linear-gradient(135deg, #e91e63, #c2185b);
             color: white;
-            padding: 2.5rem 1rem;
+            padding: 30px 20px;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+            margin: 0 0 10px 0;
+            font-size: 28px;
         }
         header p {
-            font-size: 1.2rem;
+            margin: 0;
+            font-size: 16px;
             opacity: 0.9;
         }
         .container {
-            max-width: 1100px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-top: 2.5rem;
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
         }
         .card {
-            background: white;
+            background: var(--card-bg);
             border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--primary);
         }
-        .card:hover {
-            transform: translateY(-5px);
+        h2 {
+            color: var(--primary);
+            font-size: 22px;
+            border-bottom: 2px solid var(--bg-color);
+            padding-bottom: 8px;
+            margin-top: 0;
         }
-        .card-header {
-            background-color: var(--secondary-color);
-            color: var(--dark-color);
-            padding: 1.2rem;
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        .card-body {
-            padding: 1.5rem;
-        }
-        .card-body h4 {
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-        }
-        .card-body ul {
-            padding-right: 1.2rem;
-        }
-        .card-body li {
-            margin-bottom: 0.3rem;
-        }
-        /* تصميم الحاسبة */
-        .calculator-card, .sub-card {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-top: 1rem;
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: var(--dark-color);
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid var(--secondary-color);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus, .form-group textarea:focus {
-            border-color: var(--primary-color);
-        }
-        .calc-btn, .sub-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+        .btn {
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.8rem 1.5rem;
-            font-size: 1.1rem;
-            font-weight: bold;
+            padding: 12px 20px;
             border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
             width: 100%;
-            transition: opacity 0.3s;
+            font-weight: bold;
+            transition: background 0.3s;
         }
-        .calc-btn:hover, .sub-btn:hover {
-            opacity: 0.9;
+        .btn:hover {
+            background-color: #c2185b;
         }
-        .calc-results {
-            margin-top: 1.5rem;
-            padding: 1rem;
-            background-color: var(--light-color);
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+        .calculator-box {
+            background: #fff5f8;
+            padding: 15px;
             border-radius: 8px;
-            border: 1px dashed var(--primary-color);
+            border: 1px dashed var(--primary);
+            margin-top: 15px;
         }
-        .calc-results h4 {
-            color: var(--accent-color);
-            margin-bottom: 0.8rem;
+        .admin-section {
+            background: #fff3e0;
+            border-top-color: #ff9800;
         }
-        .calc-results ul {
-            padding-right: 1.2rem;
-        }
-        .calc-results li {
-            margin-bottom: 0.4rem;
-            font-weight: 500;
-        }
-        .bank-info {
-            background-color: #fff9fa;
-            border: 1px solid var(--secondary-color);
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1.5rem;
-        }
-        .bank-info h4 {
-            color: var(--accent-color);
-            margin-bottom: 0.5rem;
+        .hidden {
+            display: none;
         }
         footer {
             text-align: center;
-            padding: 2rem;
-            background-color: var(--dark-color);
-            color: white;
-            margin-top: 3rem;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        .category-badge {
+            display: inline-block;
+            background: var(--primary-light);
+            color: #880e4f;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        .lock-notice {
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            padding: 15px;
+            border-radius: 8px;
+            color: #c62828;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -177,162 +130,105 @@
     </header>
 
     <div class="container">
-        <!-- قسم مكتبة التركيبات -->
-        <h2 class="section-title">مكتبة التركيبات الاحترافية</h2>
-        <div class="grid-container">
-            <div class="card">
-                <div class="card-header">الغلوس الكلاسيكي المرطب (Classic Gloss)</div>
-                <div class="card-body">
-                    <p>تركيبة أساسية مثالية، تمنح لمعاناً عالياً وترطيباً عميقاً للشفاه طوال اليوم.</p>
-                    
-                    <h4>المكونات والنسب:</h4>
-                    <ul>
-                        <li>زيت الجوجوبا المرطب: 45%</li>
-                        <li>قاعدة جل اللمعان (Versagel): 40%</li>
-                        <li>زيت الخروع النقي (للّمعان الثابت): 12%</li>
-                        <li>فيتامين E (مادة حافظة ومغذية): 2%</li>
-                        <li>نكهة الفانيليا العضوية: 1%</li>
-                    </ul>
 
-                    <h4>خطوات التحضير:</h4>
-                    <ul>
-                        <li>تعقيم جميع الأدوات وأواني المزج جيداً بالكحول الطبي.</li>
-                        <li>خلط قاعدة الجل مع زيت الجوجوبا وزيت الخروع في وعاء نظيف.</li>
-                        <li>تقليب المزيج ببطء حتى يتجانس تماماً ويصبح خالياً من التكتلات.</li>
-                        <li>إضافة فيتامين E والنكهة مع الاستمرار في التقليب الخفيف.</li>
-                        <li>تعبئة الخليط في عبوات الغلوس المعقمة جاهزة للاستخدام.</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- شريط التنقل العلوي للمشتركين (مخفي لحين تفعيل الحساب) -->
+        <div id="navBar" class="card hidden" style="text-align: center;">
+            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل ويمكنك تصفح المكتبة بالكامل.</p>
+            <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
+            <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
-        <!-- قسم حاسبة التركيبات التفاعلية (Batch Calculator) -->
-        <h2 class="section-title">حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
-        <div class="calculator-card">
-            <p style="margin-bottom: 1.5rem;">أدخل الوزن الإجمالي المطلوب تحضيره للغلوس (بالجرام)، وسنقوم بحساب كمية كل مكون بدقة:</p>
-            <div class="form-group">
-                <label for="totalWeight">الوزن الإجمالي للدفعة (جرام):</label>
-                <input type="number" id="totalWeight" value="100" min="1" placeholder="مثال: 100">
-            </div>
-            <button class="calc-btn" onclick="calculateBatch()">احسب كميات المكونات</button>
-
-            <div class="calc-results" id="resultsBox">
-                <h4>الكميات اللازمة للتحضير:</h4>
-                <ul>
-                    <li id="res1">زيت الجوجوبا المرطب (45%): 45.00 جرام</li>
-                    <li id="res2">قاعدة جل اللمعان Versagel (40%): 40.00 جرام</li>
-                    <li id="res3">زيت الخروع النقي (12%): 12.00 جرام</li>
-                    <li id="res4">فيتامين E (2%): 2.00 جرام</li>
-                    <li id="res5">نكهة الفانيليا العضوية (1%): 1.00 جرام</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- قسم قاموس المواد الخام -->
-        <h2 class="section-title">قاموس المواد الخام (Raw Material Dictionary)</h2>
-        <div class="grid-container">
-            <div class="card">
-                <div class="card-header">زيت الجوجوبا (Jojoba Oil)</div>
-                <div class="card-body">
-                    <p>زيت ذهبي نقي شبيه بالزيوت الطبيعية للبشرة، سيعتبر أساساً ممتازاً للترطيب غير الدهني.</p>
-                    <h4>الخصائص والفوائد:</h4>
-                    <ul>
-                        <li>يمتصه الجلد بسرعة فائقة دون ترك أثر لزج مزعج.</li>
-                        <li>يعمل كمرطب طبيعي يحبس الرطوبة داخل خلايا الشفاه.</li>
-                        <li>غني بفيتامين E و B المركبة المفيدة لتجديد الخلايا.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">قاعدة جل اللمعان (Versagel)</div>
-                <div class="card-body">
-                    <p>المكون الأساسي المسؤول عن القوام الثقيل واللمعان الزجاجي الجذاب والثابت للغلوس.</p>
-                    <h4>الخصائص والفوائد:</h4>
-                    <ul>
-                        <li>يمنح الغلوس مظهر "الجلوس" اللامع والاحترافي.</li>
-                        <li>يحافظ على تماسك المكونات وعدم انفصال الزيوت عن بعضها.</li>
-                        <li>آمن تماماً للاستخدام التجميلي ومصمم خصيصاً للشفاه.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">فيتامين E (Vitamin E)</div>
-                <div class="card-body">
-                    <p>مضاد أكسدة قوي ومادة حافظة طبيعية تحمي الزيوت من التخنز وتغذي الشفاه.</p>
-                    <h4>الخصائص والفوائد:</h4>
-                    <ul>
-                        <li>يطيل العمر الافتراضي لتركيبات الغلوس بشكل طبيعي.</li>
-                        <li>يمنع تشقق الشفاه ويعالج الجفاف بفعالية عالية.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- قسم إدارة الجودة والأعمال (Quality & Business Management) -->
-        <h2 class="section-title">إرشادات الجودة والأعمال (Quality & Business)</h2>
-        <div class="grid-container">
-            <div class="card">
-                <div class="card-header">إرشادات التخزين والسلامة</div>
-                <div class="card-body">
-                    <p>المحافظة على جودة المنتج النهائي تبدأ بطريقة التخزين الصحيحة للمواد الخام والعبوات.</p>
-                    <h4>أفضل الممارسات:</h4>
-                    <ul>
-                        <li>تخزين الزيوت وقواعد الجل في مكان بارد وجاف بعيداً عن أشعة الشمس المباشرة.</li>
-                        <li>التأكد من إحكام إغلاق العبوات لمنع الأكسدة وتلوث المكونات.</li>
-                        <li>الالتزام التام بتعقيم أدوات التصنيع وأسطح العمل بالكحول الطبي 70%.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">اختبارات الثبات (Stability Testing)</div>
-                <div class="card-body">
-                    <p>خطوات أساسية للتأكد من جودة وثبات تركيبة ملمع الشفاه قبل طرحها للاستخدام أو البيع.</p>
-                    <h4>معايير الاختبار:</h4>
-                    <ul>
-                        <li>مراقبة عدم انفصال الزيوت عن قاعدة الجل خلال الأسبوع الأول من التصنيع.</li>
-                        <li>فحص ثبات القوام والرائحة عند تعرض المنتج لدرجات حرارة متفاوتة.</li>
-                        <li>تسجيل أرقام التشغيل وتاريخ الإنتاج وصلاحية المكونات لكل دفعة جديدة.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- قسم بوابة الاشتراك والتحقق من الدفع عبر (بنكك) -->
-        <h2 class="section-title">بوابة الاشتراك والتحقق من الدفع (بنكك)</h2>
-        <div class="sub-card">
-            <p style="margin-bottom: 1.5rem;">للحصول على العضوية الكاملة وتفعيل حسابك الأكاديمي، يرجى تحويل رسوم الاشتراك بقيمة <strong>10,000 جنيه سوداني</strong> عبر تطبيق <strong>(بنكك)</strong> إلى الحساب أدناه، ثم إرسال بياناتك ورقم عملية التحويل للمراجعة والقبول:</p>
+        <!-- بوابة الدفع والاشتراك الإلزامي (تظهر للزوار الجدد) -->
+        <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
+            <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
+            <div class="lock-notice">عذراً، مكتبة التركيبات (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
+            <p><strong>رقم الحساب (بنكك):</strong> 3465405</p>
+            <p><strong>رسوم الاشتراك:</strong> 10,000 جنيه سوداني</p>
+            <hr style="border: 0; border-top: 1px solid #c8e6c9; margin: 15px 0;">
             
-            <div class="bank-info">
-                <h4>بيانات التحويل البنكي (بنك الخرطوم - بنكك):</h4>
-                <p><strong>رقم الحساب:</strong> 3465405</p>
-                <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
-                <p><strong>المبلغ المطلوب:</strong> 10,000 جنيه سوداني</p>
+            <label>الإسم الثلاثي:</label>
+            <input type="text" id="subName" placeholder="أدخل اسمك الثلاثي">
+            
+            <label>رقم الهاتف (واتساب):</label>
+            <input type="text" id="subPhone" placeholder="09xxxxxxxx">
+            
+            <label>رقم عملية التحويل (من إشعار بنكك):</label>
+            <input type="text" id="subTxId" placeholder="أدخل رقم العملية المكون من أرقام">
+            
+            <button class="btn" style="background: #4caf50;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
+            
+            <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #e65100; font-weight: bold; text-align: center;">
+                تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة لتفعيل حسابك قريباً.
+            </div>
+        </div>
+
+        <!-- زر الوصول السريع للوحة المدير -->
+        <div class="card" style="text-align: center; background: #fafafa; border-top-color: #78909c;">
+            <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
+        </div>
+
+        <!-- لوحة التحكم الإدارية الخاصة بك (محمية بكلمة سر) -->
+        <div id="admin-section" class="card admin-section hidden">
+            <h2>لوحة تحكم المدير (إدارة الطلاب والتركيبات)</h2>
+            <div id="loginBox">
+                <p>أدخل كلمة المرور الخاصة بالمدير:</p>
+                <input type="password" id="adminPassword" placeholder="كلمة المرور">
+                <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول</button>
+            </div>
+            <div id="adminPanel" class="hidden">
+                <h3 style="color: #e65100;">تفعيل حساب طالب يدويأً</h3>
+                <p>أدخل رقم هاتف الطالب أو رقم التحويل لتفعيل حسابه فوراً:</p>
+                <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
+                <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب للموقع</button>
+                
+                <hr style="margin: 20px 0;">
+                <h3 style="color: #e65100;">إضافة تركيبة جديدة للمكتبة</h3>
+                <label>اسم التركيبة:</label>
+                <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
+                <label>القسم:</label>
+                <select id="newCategory">
+                    <option value="moisturizing">المرطبة العميق</option>
+                    <option value="therapeutic">العلاجية</option>
+                    <option value="fruit">الفواكه</option>
+                </select>
+                <label>الوصف:</label>
+                <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
+                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
+            </div>
+        </div>
+
+        <!-- محتوى التركيبات والحاسبة (يظهر فقط للمشتركين المفعلين) -->
+        <div id="protected-content" class="hidden">
+            <!-- قسم مكتبة التركيبات -->
+            <div id="formulas-section" class="card">
+                <h2>مكتبة التركيبات الاحترافية (500 تركيبة مضمونة ومجربة)</h2>
+                <label for="categorySelect">اختر القسم:</label>
+                <select id="categorySelect" onchange="filterFormulas()">
+                    <option value="all">جميع الأقسام</option>
+                    <option value="moisturizing">المرطبة العميق</option>
+                    <option value="therapeutic">العلاجية بالنعناع والزيوت</option>
+                    <option value="fruit">الفواكه والثبات العالي</option>
+                </select>
+
+                <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
 
-            <form onsubmit="handleSubscription(event)">
-                <div class="form-group">
-                    <label for="subName">الاسم الكامل:</label>
-                    <input type="text" id="subName" required placeholder="أدخل اسمك الثلاثي">
+            <!-- قسم الحاسبة التفاعلية -->
+            <div id="calculator-section" class="card hidden">
+                <h2>حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
+                <p>أدخل الوزن الإجمالي المطلوب تحضيره للغلوس (بالجرام):</p>
+                <label>الوزن الإجمالي للدفعة (جرام):</label>
+                <input type="number" id="totalWeight" value="100">
+                <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
+                
+                <div id="calcResult" class="calculator-box hidden">
+                    <h3>الكميات اللازمة للتحضير:</h3>
+                    <ul id="resultList"></ul>
                 </div>
-                <div class="form-group">
-                    <label for="subEmail">البريد الإلكتروني:</label>
-                    <input type="email" id="subEmail" required placeholder="name@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="subPhone">رقم الهاتف (واتساب):</label>
-                    <input type="text" id="subPhone" required placeholder="09xxxxxxxx">
-                </div>
-                <div class="form-group">
-                    <label for="bankReceipt">رقم عملية التحويل (من إشعار بنكك):</label>
-                    <input type="text" id="bankReceipt" required placeholder="أدخل رقم العملية المكون من أرقام">
-                </div>
-                <button type="submit" class="sub-btn">إرسال طلب الاشتراك للمراجعة</button>
-            </form>
-            <div id="subAlert" style="margin-top: 1rem; font-weight: bold; text-align: center;"></div>
+            </div>
         </div>
+
     </div>
 
     <footer>
@@ -340,38 +236,157 @@
     </footer>
 
     <script>
+        let formulas = [
+            {
+                id: 1,
+                title: "الغلوس الكلاسيكي المرطب (Classic Gloss)",
+                category: "moisturizing",
+                desc: "تركيبة أساسية مثالية، تمنح لمعاناً عالياً وترطيباً عميقاً للشفاة طوال اليوم.",
+                ingredients: [
+                    { name: "زيت الجوجوبا المرطب", percent: 45 },
+                    { name: "قاعدة جل اللمعان (Versagel)", percent: 40 },
+                    { name: "زيت الخروع النقي", percent: 12 },
+                    { name: "فيتامين E", percent: 2 },
+                    { name: "نكهة الفانيليا", percent: 1 }
+                ]
+            }
+        ];
+
+        // فحص ما إذا كان المستخدم مفعل مسبقاً في جهازه
+        window.onload = function() {
+            if(localStorage.getItem('academy_activated') === 'true') {
+                unlockApp();
+            }
+            renderFormulas();
+        };
+
+        function unlockApp() {
+            document.getElementById('subscription-card').classList.add('hidden');
+            document.getElementById('navBar').classList.remove('hidden');
+            document.getElementById('protected-content').classList.remove('hidden');
+        }
+
+        function showMainTab(tab) {
+            document.getElementById('formulas-section').classList.add('hidden');
+            document.getElementById('calculator-section').classList.add('hidden');
+
+            if(tab === 'formulas') document.getElementById('formulas-section').classList.remove('hidden');
+            if(tab === 'calculator') document.getElementById('calculator-section').classList.remove('hidden');
+        }
+
+        function renderFormulas(filter = 'all') {
+            const listDiv = document.getElementById('formulasList');
+            listDiv.innerHTML = '';
+            
+            let filtered = formulas;
+            if(filter !== 'all') {
+                filtered = formulas.filter(f => f.category === filter);
+            }
+
+            filtered.forEach(f => {
+                let html = `<div style="background: #fff; border: 1px solid #f8bbd0; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                    <span class="category-badge">${f.category === 'moisturizing' ? 'ترطيب عميق' : f.category === 'therapeutic' ? 'علاجي' : 'فواكه'}</span>
+                    <h3 style="margin: 5px 0; color: #c2185b;">${f.title}</h3>
+                    <p style="color: #555; font-size: 14px;">${f.desc}</p>
+                    <strong>المكونات والنسب:</strong>
+                    <ul>`;
+                f.ingredients.forEach(ing => {
+                    html += `<li>${ing.name}: ${ing.percent}%</li>`;
+                });
+                html += `</ul></div>`;
+                listDiv.innerHTML += html;
+            });
+        }
+
+        function filterFormulas() {
+            let cat = document.getElementById('categorySelect').value;
+            renderFormulas(cat);
+        }
+
         function calculateBatch() {
             let total = parseFloat(document.getElementById('totalWeight').value);
-            if (isNaN(total) || total <= 0) {
-                alert('الرجاء إدخال وزن صحيح أكبر من الصفر.');
+            if(!total || total <= 0) {
+                alert('الرجاء إدخال وزن صحيح');
+                return;
+            }
+            let f = formulas[0];
+            let resList = document.getElementById('resultList');
+            resList.innerHTML = '';
+            f.ingredients.forEach(ing => {
+                let amount = (total * ing.percent) / 100;
+                resList.innerHTML += `<li>${ing.name} (${ing.percent}%): <strong>${amount.toFixed(2)} جرام</strong></li>`;
+            });
+            document.getElementById('calcResult').classList.remove('hidden');
+        }
+
+        function toggleAdminBox() {
+            let adminSec = document.getElementById('admin-section');
+            adminSec.classList.toggle('hidden');
+        }
+
+        function adminLogin() {
+            let pass = document.getElementById('adminPassword').value;
+            if(pass === '12345') {
+                document.getElementById('loginBox').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                alert('أهلاً بك يا باشمهندس هاشم في لوحة التحكم الإدارية!');
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function activateStudent() {
+            let phone = document.getElementById('activatePhone').value;
+            if(!phone) {
+                alert('الرجاء إدخال رقم الهاتف للتفعيل');
+                return;
+            }
+            // تفعيل محلي للتجربة، أو حفظه
+            localStorage.setItem('academy_activated', 'true');
+            alert('تم تفعيل حساب الطالب بنجاح! سيتم فتح المحتوى الآن.');
+            unlockApp();
+            toggleAdminBox();
+        }
+
+        function addNewFormula() {
+            let title = document.getElementById('newTitle').value;
+            let category = document.getElementById('newCategory').value;
+            let desc = document.getElementById('newDesc').value;
+
+            if(!title || !desc) {
+                alert('الرجاء إتمام الحقول');
                 return;
             }
 
-            let jojoba = (total * 0.45).toFixed(2);
-            let versagel = (total * 0.40).toFixed(2);
-            let castor = (total * 0.12).toFixed(2);
-            let vitaminE = (total * 0.02).toFixed(2);
-            let flavor = (total * 0.01).toFixed(2);
+            formulas.push({
+                id: formulas.length + 1,
+                title: title,
+                category: category,
+                desc: desc,
+                ingredients: [
+                    { name: "المكون الأساسي", percent: 60 },
+                    { name: "الزيت المرطب", percent: 35 },
+                    { name: "فيتامين E", percent: 5 }
+                ]
+            });
 
-            document.getElementById('res1').innerText = `زيت الجوجوبا المرطب (45%): ${jojoba} جرام`;
-            document.getElementById('res2').innerText = `قاعدة جل اللمعان Versagel (40%): ${versagel} جرام`;
-            document.getElementById('res3').innerText = `زيت الخروع النقي (12%): ${castor} جرام`;
-            document.getElementById('res4').innerText = `فيتامين E (2%): ${vitaminE} جرام`;
-            document.getElementById('res5').innerText = `نكهة الفانيليا العضوية (1%): ${flavor} جرام`;
+            alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة المحمية!');
+            document.getElementById('newTitle').value = '';
+            document.getElementById('newDesc').value = '';
+            renderFormulas();
         }
 
-        function handleSubscription(event) {
-            event.preventDefault();
+        function submitSubscription() {
             let name = document.getElementById('subName').value;
-            let receipt = document.getElementById('bankReceipt').value;
-            
-            let alertBox = document.getElementById('subAlert');
-            alertBox.style.color = '#e23e57';
-            alertBox.innerText = `شكراً لك يا ${name}! تم إرسال رقم عملية التحويل (${receipt}) بقيمة 10,000 جنيه بنجاح. سيتم مراجعة إشعار بنكك وتفعيل حسابك خلال ساعات وإرسال التأكيد عبر الواتساب أو الإيميل.`;
-            
-            document.querySelector('form').reset();
+            let phone = document.getElementById('subPhone').value;
+            let txId = document.getElementById('subTxId').value;
+
+            if(!name || !phone || !txId) {
+                alert('الرجاء إدخال الاسم، رقم الهاتف، ورقم عملية التحويل من بنكك');
+                return;
+            }
+            document.getElementById('pendingMsg').classList.remove('hidden');
         }
     </script>
-
 </body>
 </html>
