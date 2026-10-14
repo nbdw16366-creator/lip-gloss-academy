@@ -67,6 +67,7 @@
             width: 100%;
             font-weight: bold;
             transition: background 0.3s;
+            margin-top: 5px;
         }
         .btn:hover {
             background-color: #c2185b;
@@ -131,7 +132,7 @@
 
     <div class="container">
 
-        <!-- شريط التنقل العلوي للمشتركين (مخفي لحين تفعيل الحساب) -->
+        <!-- شريط التنقل العلوي للمشتركين -->
         <div id="navBar" class="card hidden" style="text-align: center;">
             <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل ويمكنك تصفح المكتبة بالكامل.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
@@ -168,21 +169,22 @@
             <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
-        <!-- لوحة التحكم الإدارية الخاصة بك (سرية تماماً) -->
+        <!-- لوحة التحكم الإدارية الخاصة بك -->
         <div id="admin-section" class="card admin-section hidden">
             <h2>لوحة تحكم المدير (إدارة الطلاب والتركيبات)</h2>
             
             <!-- نموذج تسجيل الدخول -->
             <div id="loginBox">
-                <p id="loginPromptText">أدخل كلمة المرور الخاصة بالمدير:</p>
+                <p>أدخل كلمة المرور الخاصة بك أو اضغط زر إعادة التعيين لضبط كلمة سر جديدة:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور">
                 <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول لوحة التحكم</button>
+                <button class="btn" style="background: #d32f2f; font-size: 14px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين / اختيار كلمة سر جديدة</button>
             </div>
 
-            <!-- لوحة الإدارة بعد الدخول الناجح -->
+            <!-- لوحة الإدارة بعد الدخول -->
             <div id="adminPanel" class="hidden">
                 <h3 style="color: #e65100;">تفعيل حساب طالب يدويأً</h3>
-                <p>أدخل رقم هاتف الطالب أو رقم التحويل لتفعيل حسابه فوراً:</p>
+                <p>أدخل رقم هاتف الطالب لتفعيل حسابه فوراً:</p>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب للموقع</button>
                 
@@ -199,12 +201,6 @@
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
-
-                <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100;">إعدادات الأمان</h3>
-                <p>تغيير كلمة المرور الخاصة بك إلى كلمة جديدة:</p>
-                <input type="password" id="newAdminPass" placeholder="كلمة المرور الجديدة">
-                <button class="btn" style="background: #d32f2f;" onclick="changeAdminPassword()">حفظ كلمة المرور الجديدة</button>
             </div>
         </div>
 
@@ -264,12 +260,6 @@
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
-            
-            // تحقق إذا كانت دي أول مرة يتم فيها تعيين كلمة مرور للمدير
-            if(!localStorage.getItem('admin_secret_pass')) {
-                document.getElementById('loginPromptText').innerText = "هذه أول مرة! أدخل كلمة مرور جديدة تريد اعتمادها للوحة التحكم:";
-            }
-            
             renderFormulas();
         };
 
@@ -337,42 +327,38 @@
             adminSec.classList.toggle('hidden');
         }
 
+        function resetAdminPasswordPrompt() {
+            let newP = prompt("أدخل كلمة المرور الجديدة الخاصة بك:");
+            if(newP && newP.trim() !== "") {
+                localStorage.setItem('admin_secret_pass', newP.trim());
+                alert("تم حفظ كلمة المرور الجديدة بنجاح! يمكنك الآن إدخالها والدخول فوراً.");
+            }
+        }
+
         function adminLogin() {
             let pass = document.getElementById('adminPassword').value;
             let savedPass = localStorage.getItem('admin_secret_pass');
 
-            // إذا دي أول مرة، بنحفظ الكلمة البكتبها المدير فوراً
+            // إذا مافي كلمة سر محفوظة نهائياً، أو زول ضغط الدخول بكلمة جديدة كتبها
             if(!savedPass) {
                 if(!pass) {
-                    alert('الرجاء كتابة كلمة مرور صحيحة');
+                    alert('الرجاء كتابة كلمة المرور في خانة النص أولاً');
                     return;
                 }
                 localStorage.setItem('admin_secret_pass', pass);
-                alert('تم اعتماد وحفظ كلمة المرور الخاصة بك بنجاح وسريّة تامة!');
+                alert('تم اعتماد وحفظ كلمة المرور السرية الخاصة بك بنجاح!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 return;
             }
 
-            // التحقق العادي لو كلمة المرور مخزنة مسبقاً
             if(pass === savedPass) {
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
                 alert('مرحباً بك يا باشمهندس هاشم في لوحة التحكم الخاصة بك!');
             } else {
-                alert('كلمة المرور غير صحيحة!');
+                alert('كلمة المرور غير صحيحة! (إذا نسيتها، اضغط زر "إعادة تعيين كلمة سر جديدة" بالأسفل)');
             }
-        }
-
-        function changeAdminPassword() {
-            let newPass = document.getElementById('newAdminPass').value;
-            if(!newPass) {
-                alert('الرجاء كتابة كلمة المرور الجديدة');
-                return;
-            }
-            localStorage.setItem('admin_secret_pass', newPass);
-            alert('تم تغيير كلمة المرور بنجاح ولن يعلم بها غيرك!');
-            document.getElementById('newAdminPass').value = '';
         }
 
         function activateStudent() {
