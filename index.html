@@ -142,7 +142,7 @@
         <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">عذراً، مكتبة التركيبات (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <div class="lock-notice">عذراً، مكتبة التركيبات الاحترافية (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
             <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
             <p><strong>رقم الحساب (بنكك):</strong> 3465405</p>
             <p><strong>رسوم الاشتراك:</strong> 10,000 جنيه سوداني</p>
@@ -194,9 +194,12 @@
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 <label>القسم:</label>
                 <select id="newCategory">
-                    <option value="moisturizing">المرطبة العميق</option>
-                    <option value="therapeutic">العلاجية</option>
-                    <option value="fruit">الفواكه</option>
+                    <option value="moisturizing">1. المرطبة العميق</option>
+                    <option value="therapeutic">2. العلاجية</option>
+                    <option value="fruit">3. الفواكه والنكهات</option>
+                    <option value="matte">4. المات والمطفي</option>
+                    <option value="waterproof">5. المقاومة للماء والثبات الطويل</option>
+                    <option value="shimmer">6. اللامعة البراقة</option>
                 </select>
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
@@ -206,7 +209,7 @@
                 <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100;">قائمة جميع التركيبات المحفوظة (استعراض المدير)</h3>
                 <p style="font-size: 14px; color: #555;">يمكنك هنا استعراض جميع التركيبات المضافة في النظام:</p>
-                <div id="adminFormulasList" style="max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <div id="adminFormulasList" style="max-height: 350px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
                     <!-- يتم عرض التركيبات هنا للمدير تلقائياً -->
                 </div>
             </div>
@@ -215,13 +218,16 @@
         <!-- محتوى التركيبات والحاسبة للطلاب -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
-                <h2>مكتبة التركيبات الاحترافية (500 تركيبة مضمونة ومجربة)</h2>
-                <label for="categorySelect">اختر القسم:</label>
+                <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
+                <label for="categorySelect">اختر القسم للتصفح:</label>
                 <select id="categorySelect" onchange="filterFormulas()">
-                    <option value="all">جميع الأقسام</option>
-                    <option value="moisturizing">المرطبة العميق</option>
-                    <option value="therapeutic">العلاجية بالنعناع والزيوت</option>
-                    <option value="fruit">الفواكه والثبات العالي</option>
+                    <option value="all">جميع الأقسام (عرض الكل)</option>
+                    <option value="moisturizing">1. المرطبة العميق</option>
+                    <option value="therapeutic">2. العلاجية</option>
+                    <option value="fruit">3. الفواكه والنكهات</option>
+                    <option value="matte">4. المات والمطفي</option>
+                    <option value="waterproof">5. المقاومة للماء والثبات الطويل</option>
+                    <option value="shimmer">6. اللامعة البراقة</option>
                 </select>
 
                 <div id="formulasList" style="margin-top: 20px;"></div>
@@ -235,7 +241,7 @@
                 <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
                 
                 <div id="calcResult" class="calculator-box hidden">
-                    <h3>الكميات اللازمة للتحضير:</h3>
+                    <h3>الكميات اللازمة للتحضير (بناءً على التركيبة المختارة):</h3>
                     <ul id="resultList"></ul>
                 </div>
             </div>
@@ -248,18 +254,81 @@
     </footer>
 
     <script>
+        // قاعدة البيانات الأولية الموزعة على الأقسام الـ 6
         let formulas = [
             {
                 id: 1,
-                title: "الغلوس الكلاسيكي المرطب (Classic Gloss)",
+                title: "الغلوس الكلاسيكي المرطب الفاخر",
                 category: "moisturizing",
-                desc: "تركيبة أساسية مثالية، تمنح لمعاناً عالياً وترطيباً عميقاً للشفاة طوال اليوم.",
+                desc: "تركيبة أساسية مثالية تمنح لمعاناً عالياً وترطيباً عميقاً للشفاة طوال اليوم.",
                 ingredients: [
-                    { name: "زيت الجوجوبا المرطب", percent: 45 },
-                    { name: "قاعدة جل اللمعان (Versagel)", percent: 40 },
-                    { name: "زيت الخروع النقي", percent: 12 },
-                    { name: "فيتامين E", percent: 2 },
-                    { name: "نكهة الفانيليا", percent: 1 }
+                    { name: "قاعدة جل اللمعان (Versagel)", percent: 45 },
+                    { name: "زيت الجوجوبا العضوي", percent: 30 },
+                    { name: "زيت الخروع النقي", percent: 20 },
+                    { name: "فيتامين E", percent: 3 },
+                    { name: "نكهة الفانيليا", percent: 2 }
+                ]
+            },
+            {
+                id: 2,
+                title: "غلوس النعناع العلاجي المنعش",
+                category: "therapeutic",
+                desc: "يعالج التشققات، يحفز الدورة الدموية في الشفاه ويمنحها امتلاء طبيعي.",
+                ingredients: [
+                    { name: "قاعدة جل اللمعان (Versagel)", percent: 50 },
+                    { name: "زيت اللوز الحلو", percent: 30 },
+                    { name: "زيت النعناع النقي", percent: 12 },
+                    { name: "زيت شجرة الشاي", percent: 5 },
+                    { name: "فيتامين E", percent: 3 }
+                ]
+            },
+            {
+                id: 3,
+                title: "غلوس التوت البري والثبات العالي",
+                category: "fruit",
+                desc: "يتميز برائحة التوت المنعشة وثبات لوني يدوم لساعات طويلة.",
+                ingredients: [
+                    { name: "قاعدة جل اللمعان (Versagel)", percent: 45 },
+                    { name: "زيت بذور المشمش", percent: 32 },
+                    { name: "زيت الخروع", percent: 15 },
+                    { name: "صباغ أحمر عضوي", percent: 5 },
+                    { name: "نكهة التوت البري", percent: 3 }
+                ]
+            },
+            {
+                id: 4,
+                title: "غلوس المخمل المات الثابت",
+                category: "matte",
+                desc: "يمنح مظهراً مطفياً أنيقاً (Matte) بدون لمعان وبدون تجفيف للشفاه.",
+                ingredients: [
+                    { name: "قاعدة مطفية (Matte Base)", percent: 60 },
+                    { name: "زيت الأركان الخفيف", percent: 25 },
+                    { name: "شمع العسل النقي", percent: 10 },
+                    { name: "فيتامين E", percent: 5 }
+                ]
+            },
+            {
+                id: 5,
+                title: "غلوس الدرع المقاوم للماء",
+                category: "waterproof",
+                desc: "تركيبة خاصة مقاومة للماء وتثبت بقوة طوال اليوم في المناسبات.",
+                ingredients: [
+                    { name: "قاعدة جل ثقيلة مقاومة للماء", percent: 55 },
+                    { name: "زيت الجوجوبا", percent: 30 },
+                    { name: "شمع السيليكون الآمن", percent: 10 },
+                    { name: "فيتامين E", percent: 5 }
+                ]
+            },
+            {
+                id: 6,
+                title: "غلوس النجوم البراق (Shimmer)",
+                category: "shimmer",
+                desc: "مُعزز بجزيئات الميكا البراقة لمنح الشفاه بريقاً ساحراً تحت الضوء.",
+                ingredients: [
+                    { name: "قاعدة جل اللمعان الشفاف", percent: 50 },
+                    { name: "زيت اللوز الحلو", percent: 32 },
+                    { name: "بودرة الميكا البراقة العضوية", percent: 15 },
+                    { name: "فيتامين E", percent: 3 }
                 ]
             }
         ];
@@ -286,6 +355,18 @@
             if(tab === 'calculator') document.getElementById('calculator-section').classList.remove('hidden');
         }
 
+        function getCategoryName(cat) {
+            switch(cat) {
+                case 'moisturizing': return '1. المرطبة العميق';
+                case 'therapeutic': return '2. العلاجية';
+                case 'fruit': return '3. الفواكه والنكهات';
+                case 'matte': return '4. المات والمطفي';
+                case 'waterproof': return '5. المقاومة للماء والثبات الطويل';
+                case 'shimmer': return '6. اللامعة البراقة';
+                default: return 'عام';
+            }
+        }
+
         function renderFormulas(filter = 'all') {
             const listDiv = document.getElementById('formulasList');
             listDiv.innerHTML = '';
@@ -297,20 +378,19 @@
 
             filtered.forEach(f => {
                 let html = `<div style="background: #fff; border: 1px solid #f8bbd0; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-                    <span class="category-badge">${f.category === 'moisturizing' ? 'ترطيب عميق' : f.category === 'therapeutic' ? 'علاجي' : 'فواكه'}</span>
+                    <span class="category-badge">${getCategoryName(f.category)}</span>
                     <h3 style="margin: 5px 0; color: #c2185b;">${f.title}</h3>
                     <p style="color: #555; font-size: 14px;">${f.desc}</p>
-                    <strong>المكونات والنسب:</strong>
+                    <strong>المكونات والنسب الدقيقة:</strong>
                     <ul>`;
                 f.ingredients.forEach(ing => {
-                    html += `<li>${ing.name}: ${ing.percent}%</li>`;
+                    html += `<li>${ing.name}: <strong>${ing.percent}%</strong></li>`;
                 });
                 html += `</ul></div>`;
                 listDiv.innerHTML += html;
             });
         }
 
-        // عرض التركيبات داخل لوحة المدير ليتمكن من استعراضها بالكامل
         function renderAdminFormulas() {
             const adminListDiv = document.getElementById('adminFormulasList');
             if(!adminListDiv) return;
@@ -318,7 +398,7 @@
 
             formulas.forEach((f, index) => {
                 let html = `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
-                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${f.category})</span>
+                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${getCategoryName(f.category)})</span>
                     <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
                 </div>`;
                 adminListDiv.innerHTML += html;
@@ -414,9 +494,9 @@
                 category: category,
                 desc: desc,
                 ingredients: [
-                    { name: "المكون الأساسي", percent: 60 },
-                    { name: "الزيت المرطب", percent: 35 },
-                    { name: "فيتامين E", percent: 5 }
+                    { name: "قاعدة جل الأساس", percent: 55 },
+                    { name: "الزيت المرطب المختار", percent: 35 },
+                    { name: "فيتامين E", percent: 10 }
                 ]
             });
 
