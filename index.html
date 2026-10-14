@@ -72,39 +72,54 @@
         .btn:hover {
             background-color: #c2185b;
         }
-        /* تصميم شبكة الأقسام */
+        
+        /* تصميم شبكة المربعات والأقسام */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
             margin: 15px 0;
         }
-        .cat-btn {
+        @media (min-width: 600px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .cat-box {
             background: #ffffff;
             border: 2px solid var(--primary-light);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: right;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
-        .cat-btn:hover, .cat-btn.active {
+        .cat-box:hover, .cat-box.active {
             background: var(--primary-light);
             border-color: var(--primary);
+            transform: translateY(-2px);
         }
-        .cat-btn h4 {
-            margin: 0 0 5px 0;
+        .cat-box h4 {
+            margin: 0 0 10px 0;
             color: var(--primary);
             font-size: 15px;
+            font-weight: bold;
         }
-        .cat-btn span {
-            font-size: 12px;
-            color: #666;
-            background: #fff;
-            padding: 2px 6px;
-            border-radius: 10px;
-            border: 1px solid #ddd;
+        .cat-counter-badge {
+            background: var(--primary);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 8px;
+            display: inline-block;
         }
+
         input, select, textarea {
             width: 100%;
             padding: 10px;
@@ -165,14 +180,12 @@
 
     <div class="container">
 
-        <!-- شريط التنقل العلوي للمشتركين -->
         <div id="navBar" class="card hidden" style="text-align: center;">
             <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل ويمكنك تصفح المكتبة بالكامل.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
             <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
-        <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">عذراً، مكتبة التركيبات والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
@@ -183,30 +196,24 @@
             
             <label>الإسم الثلاثي:</label>
             <input type="text" id="subName" placeholder="أدخل اسمك الثلاثي">
-            
             <label>رقم الهاتف (واتساب):</label>
             <input type="text" id="subPhone" placeholder="09xxxxxxxx">
-            
             <label>رقم عملية التحويل (من إشعار بنكك):</label>
             <input type="text" id="subTxId" placeholder="أدخل رقم العملية المكون من أرقام">
             
             <button class="btn" style="background: #4caf50;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
-            
             <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #e65100; font-weight: bold; text-align: center;">
                 تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة لتفعيل حسابك قريباً.
             </div>
         </div>
 
-        <!-- زر الوصول السريع لوحة المدير -->
         <div class="card" style="text-align: center; background: #fafafa; border-top-color: #78909c;">
             <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
-        <!-- لوحة التحكم الإدارية الخاصة بك -->
         <div id="admin-section" class="card admin-section hidden">
-            <h2>لوحة تحكم المدير (إدارة الطلاب والتركيبات)</h2>
+            <h2>لوحة تحكم المدير (إدارة الأقسام والتركيبات)</h2>
             
-            <!-- نموذج تسجيل الدخول -->
             <div id="loginBox">
                 <p>أدخل كلمة المرور الخاصة بك أو اضغط زر إعادة التعيين لضبط كلمة سر جديدة:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور">
@@ -214,10 +221,8 @@
                 <button class="btn" style="background: #d32f2f; font-size: 14px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين / اختيار كلمة سر جديدة</button>
             </div>
 
-            <!-- لوحة الإدارة بعد الدخول -->
             <div id="adminPanel" class="hidden">
                 <h3 style="color: #e65100;">تفعيل حساب طالب يدويأً</h3>
-                <p>أدخل رقم هاتف الطالب لتفعيل حسابه فوراً:</p>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب للموقع</button>
                 
@@ -231,27 +236,21 @@
                     <option value="therapeutic">2. العلاجية</option>
                     <option value="fruit">3. الفواكه والنكهات</option>
                     <option value="matte">4. المات والمطفي</option>
-                    <option value="waterproof">5. المقاومة للماء والثبات</option>
+                    <option value="waterproof">5. المقاومة للماء</option>
                     <option value="shimmer">6. اللامعة البراقة</option>
                 </select>
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
-                <!-- شبكة أزرار الأقسام وإدارة التركيبات للمدير مباشرة -->
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100;">أقسام المنصة وعدد التركيبات (إدارة المدير)</h3>
-                <p style="font-size: 14px; color: #555;">اختر القسم لعرض وتصفح تركيباته مباشرة من لوحة التحكم:</p>
-                
+                <h3 style="color: #e65100;">أقسام المنصة (شبكة مربعات الأقسام والعدد)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
 
-                <div id="adminFormulasList" style="margin-top: 15px; max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
-                    <!-- يتم عرض التركيبات هنا للمدير تلقائياً -->
-                </div>
+                <div id="adminFormulasList" style="margin-top: 15px; max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;"></div>
             </div>
         </div>
 
-        <!-- محتوى التركيبات والحاسبة للطلاب -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
@@ -261,7 +260,6 @@
 
             <div id="calculator-section" class="card hidden">
                 <h2>حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
-                <p>أدخل الوزن الإجمالي المطلوب تحضيره للغلوس (بالجرام):</p>
                 <label>الوزن الإجمالي للدفعة (جرام):</label>
                 <input type="number" id="totalWeight" value="100">
                 <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
@@ -281,88 +279,19 @@
 
     <script>
         let formulas = [
-            {
-                id: 1,
-                title: "الغلوس الكلاسيكي المرطب الفاخر",
-                category: "moisturizing",
-                desc: "تركيبة أساسية مثالية تمنح لمعاناً عالياً وترطيباً عميقاً للشفاة طوال اليوم.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان (Versagel)", percent: 45 },
-                    { name: "زيت الجوجوبا العضوي", percent: 30 },
-                    { name: "زيت الخروع النقي", percent: 20 },
-                    { name: "فيتامين E", percent: 3 },
-                    { name: "نكهة الفانيليا", percent: 2 }
-                ]
-            },
-            {
-                id: 2,
-                title: "غلوس النعناع العلاجي المنعش",
-                category: "therapeutic",
-                desc: "يعالج التشققات، يحفز الدورة الدموية في الشفاه ويمنحها امتلاء طبيعي.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان (Versagel)", percent: 50 },
-                    { name: "زيت اللوز الحلو", percent: 30 },
-                    { name: "زيت النعناع النقي", percent: 12 },
-                    { name: "زيت شجرة الشاي", percent: 5 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 3,
-                title: "غلوس التوت البري والثبات العالي",
-                category: "fruit",
-                desc: "يتميز برائحة التوت المنعشة وثبات لوني يدوم لساعات طويلة.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان (Versagel)", percent: 45 },
-                    { name: "زيت بذور المشمش", percent: 32 },
-                    { name: "زيت الخروع", percent: 15 },
-                    { name: "صباغ أحمر عضوي", percent: 5 },
-                    { name: "نكهة التوت البري", percent: 3 }
-                ]
-            },
-            {
-                id: 4,
-                title: "غلوس المخمل المات الثابت",
-                category: "matte",
-                desc: "يمنح مظهراً مطفياً أنيقاً (Matte) بدون لمعان وبدون تجفيف للشفاه.",
-                ingredients: [
-                    { name: "قاعدة مطفية (Matte Base)", percent: 60 },
-                    { name: "زيت الأركان الخفيف", percent: 25 },
-                    { name: "شمع العسل النقي", percent: 10 },
-                    { name: "فيتامين E", percent: 5 }
-                ]
-            },
-            {
-                id: 5,
-                title: "غلوس الدرع المقاوم للماء",
-                category: "waterproof",
-                desc: "تركيبة خاصة مقاومة للماء وتثبت بقوة طوال اليوم في المناسبات.",
-                ingredients: [
-                    { name: "قاعدة جل ثقيلة مقاومة للماء", percent: 55 },
-                    { name: "زيت الجوجوبا", percent: 30 },
-                    { name: "شمع السيليكون الآمن", percent: 10 },
-                    { name: "فيتامين E", percent: 5 }
-                ]
-            },
-            {
-                id: 6,
-                title: "غلوس النجوم البراق (Shimmer)",
-                category: "shimmer",
-                desc: "مُعزز بجزيئات الميكا البراقة لمنح الشفاه بريقاً ساحراً تحت الضوء.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان الشفاف", percent: 50 },
-                    { name: "زيت اللوز الحلو", percent: 32 },
-                    { name: "بودرة الميكا البراقة العضوية", percent: 15 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            }
+            { id: 1, title: "الغلوس الكلاسيكي المرطب الفاخر", category: "moisturizing", desc: "تركيبة أساسية تمنح ترطيباً عميقاً طوال اليوم.", ingredients: [{ name: "قاعدة جل اللمعان", percent: 60 }, { name: "زيت الجوجوبا", percent: 40 }] },
+            { id: 2, title: "غلوس النعناع العلاجي المنعش", category: "therapeutic", desc: "يعالج التشققات ويمنح انتعاشاً للشفاه.", ingredients: [{ name: "قاعدة جل اللمعان", percent: 55 }, { name: "زيت النعناع", percent: 45 }] },
+            { id: 3, title: "غلوس التوت البري والثبات العالي", category: "fruit", desc: "رائحة توت منعشة وثبات لوني قوي.", ingredients: [{ name: "قاعدة جل اللمعان", percent: 50 }, { name: "نكهة التوت", percent: 50 }] },
+            { id: 4, title: "غلوس المخمل المات الثابت", category: "matte", desc: "مظهر مطفي أنيق بدون لمعان.", ingredients: [{ name: "قاعدة مطفية", percent: 70 }, { name: "زيت خفيف", percent: 30 }] },
+            { id: 5, title: "غلوس الدرع المقاوم للماء", category: "waterproof", desc: "مقاوم للماء في المناسبات الطويلة.", ingredients: [{ name: "قاعدة ثقيلة", percent: 65 }, { name: "شمع سيليكون", percent: 35 }] },
+            { id: 6, title: "غلوس النجوم البراق (Shimmer)", category: "shimmer", desc: "بريق ساحر وميكا براقة.", ingredients: [{ name: "قاعدة جل شفاف", percent: 60 }, { name: "ميكا براقة", percent: 40 }] }
         ];
 
         let currentAdminFilter = 'all';
         let currentStudentFilter = 'all';
 
         const categoriesData = [
-            { id: 'all', name: 'جميع الأقسام (الكل)' },
+            { id: 'all', name: 'جميع الأقسام' },
             { id: 'moisturizing', name: '1. المرطبة العميق' },
             { id: 'therapeutic', name: '2. العلاجية' },
             { id: 'fruit', name: '3. الفواكه والنكهات' },
@@ -390,7 +319,6 @@
         function showMainTab(tab) {
             document.getElementById('formulas-section').classList.add('hidden');
             document.getElementById('calculator-section').classList.add('hidden');
-
             if(tab === 'formulas') document.getElementById('formulas-section').classList.remove('hidden');
             if(tab === 'calculator') document.getElementById('calculator-section').classList.remove('hidden');
         }
@@ -400,21 +328,17 @@
             return found ? found.name : 'عام';
         }
 
-        // شبكة أزرار المدير
         function renderAdminCategoriesGrid() {
             const gridDiv = document.getElementById('adminCategoriesGrid');
             if(!gridDiv) return;
             gridDiv.innerHTML = '';
-
             categoriesData.forEach(cat => {
                 let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentAdminFilter === cat.id ? 'active' : '';
-
-                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
+                gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
-                    <span>عدد التركيبات: <strong>${count}</strong></span>
+                    <span class="cat-counter-badge">${count} تركيبة</span>
                 </div>`;
-                gridDiv.innerHTML += btnHtml;
             });
         }
 
@@ -428,38 +352,30 @@
             const adminListDiv = document.getElementById('adminFormulasList');
             if(!adminListDiv) return;
             adminListDiv.innerHTML = '';
-
             let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
-
             if(filtered.length === 0) {
-                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات في هذا القسم.</p>`;
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات في هذا القسم حالياً.</p>`;
                 return;
             }
-
             filtered.forEach((f, index) => {
-                let html = `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
+                adminListDiv.innerHTML += `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
                     <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${getCategoryName(f.category)})</span>
                     <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
                 </div>`;
-                adminListDiv.innerHTML += html;
             });
         }
 
-        // شبكة أزرار الطالب
         function renderStudentCategoriesGrid() {
             const gridDiv = document.getElementById('studentCategoriesGrid');
             if(!gridDiv) return;
             gridDiv.innerHTML = '';
-
             categoriesData.forEach(cat => {
                 let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentStudentFilter === cat.id ? 'active' : '';
-
-                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectStudentCategory('${cat.id}')">
+                gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectStudentCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
-                    <span>عدد التركيبات: <strong>${count}</strong></span>
+                    <span class="cat-counter-badge">${count} تركيبة</span>
                 </div>`;
-                gridDiv.innerHTML += btnHtml;
             });
         }
 
@@ -473,21 +389,17 @@
             const listDiv = document.getElementById('formulasList');
             if(!listDiv) return;
             listDiv.innerHTML = '';
-            
             let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
-
             if(filtered.length === 0) {
-                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حتى الآن.</p>`;
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات في هذا القسم.</p>`;
                 return;
             }
-
             filtered.forEach(f => {
                 let html = `<div style="background: #fff; border: 1px solid #f8bbd0; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
                     <h3 style="margin: 5px 0; color: #c2185b;">${f.title}</h3>
                     <p style="color: #555; font-size: 14px;">${f.desc}</p>
-                    <strong>المكونات والنسب الدقيقة:</strong>
-                    <ul>`;
+                    <strong>المكونات:</strong><ul>`;
                 f.ingredients.forEach(ing => {
                     html += `<li>${ing.name}: <strong>${ing.percent}%</strong></li>`;
                 });
@@ -498,10 +410,7 @@
 
         function calculateBatch() {
             let total = parseFloat(document.getElementById('totalWeight').value);
-            if(!total || total <= 0) {
-                alert('الرجاء إدخال وزن صحيح');
-                return;
-            }
+            if(!total || total <= 0) { alert('أدخل وزن صحيح'); return; }
             let f = formulas[0];
             let resList = document.getElementById('resultList');
             resList.innerHTML = '';
@@ -512,56 +421,39 @@
             document.getElementById('calcResult').classList.remove('hidden');
         }
 
-        function toggleAdminBox() {
-            let adminSec = document.getElementById('admin-section');
-            adminSec.classList.toggle('hidden');
-        }
+        function toggleAdminBox() { document.getElementById('admin-section').classList.toggle('hidden'); }
 
         function resetAdminPasswordPrompt() {
-            let newP = prompt("أدخل كلمة المرور الجديدة الخاصة بك:");
+            let newP = prompt("أدخل كلمة المرور الجديدة:");
             if(newP && newP.trim() !== "") {
                 localStorage.setItem('admin_secret_pass', newP.trim());
-                alert("تم حفظ كلمة المرور الجديدة بنجاح! يمكنك الآن إدخالها والدخول فوراً.");
+                alert("تم حفظ كلمة المرور الجديدة بنجاح!");
             }
         }
 
         function adminLogin() {
             let pass = document.getElementById('adminPassword').value;
             let savedPass = localStorage.getItem('admin_secret_pass');
-
             if(!savedPass) {
-                if(!pass) {
-                    alert('الرجاء كتابة كلمة المرور في خانة النص أولاً');
-                    return;
-                }
+                if(!pass) { alert('أدخل كلمة المرور أولاً'); return; }
                 localStorage.setItem('admin_secret_pass', pass);
-                alert('تم اعتماد وحفظ كلمة المرور السرية الخاصة بك بنجاح!');
+                alert('تم حفظ كلمة المرور!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                renderAdminCategoriesGrid();
-                renderAdminFormulas('all');
                 return;
             }
-
             if(pass === savedPass) {
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                renderAdminCategoriesGrid();
-                renderAdminFormulas('all');
-                alert('مرحباً بك يا باشمهندس هاشم في لوحة التحكم الخاصة بك!');
+                alert('مرحباً بك في لوحة التحكم!');
             } else {
-                alert('كلمة المرور غير صحيحة! (إذا نسيتها، اضغط زر "إعادة تعيين كلمة سر جديدة" بالأسفل)');
+                alert('كلمة المرور غير صحيحة!');
             }
         }
 
         function activateStudent() {
-            let phone = document.getElementById('activatePhone').value;
-            if(!phone) {
-                alert('الرجاء إدخال رقم الهاتف للتفعيل');
-                return;
-            }
             localStorage.setItem('academy_activated', 'true');
-            alert('تم تفعيل حساب الطالب بنجاح!');
+            alert('تم التفعيل!');
             unlockApp();
             toggleAdminBox();
         }
@@ -570,25 +462,9 @@
             let title = document.getElementById('newTitle').value;
             let category = document.getElementById('newCategory').value;
             let desc = document.getElementById('newDesc').value;
-
-            if(!title || !desc) {
-                alert('الرجاء إتمام الحقول');
-                return;
-            }
-
-            formulas.push({
-                id: formulas.length + 1,
-                title: title,
-                category: category,
-                desc: desc,
-                ingredients: [
-                    { name: "قاعدة جل الأساس", percent: 55 },
-                    { name: "الزيت المرطب المختار", percent: 35 },
-                    { name: "فيتامين E", percent: 10 }
-                ]
-            });
-
-            alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة!');
+            if(!title || !desc) { alert('أكمل الحقول'); return; }
+            formulas.push({ id: formulas.length + 1, title, category, desc, ingredients: [{ name: "قاعدة أساسية", percent: 100 }] });
+            alert('تمت إضافة التركيبة!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderAdminCategoriesGrid();
@@ -598,14 +474,7 @@
         }
 
         function submitSubscription() {
-            let name = document.getElementById('subName').value;
-            let phone = document.getElementById('subPhone').value;
-            let txId = document.getElementById('subTxId').value;
-
-            if(!name || !phone || !txId) {
-                alert('الرجاء إكمال كافة البيانات');
-                return;
-            }
+            if(!document.getElementById('subName').value) { alert('أكمل البيانات'); return; }
             document.getElementById('pendingMsg').classList.remove('hidden');
         }
     </script>
