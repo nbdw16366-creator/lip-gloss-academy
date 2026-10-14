@@ -23,23 +23,23 @@
         header {
             background: linear-gradient(135deg, #e91e63, #c2185b);
             color: white;
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
         header h1 {
-            margin: 0 0 10px 0;
-            font-size: 28px;
+            margin: 0 0 5px 0;
+            font-size: 26px;
         }
         header p {
             margin: 0;
-            font-size: 16px;
+            font-size: 14px;
             opacity: 0.9;
         }
         .container {
             max-width: 800px;
             margin: 20px auto;
-            padding: 0 15px;
+            padding: 0 10px;
         }
         .card {
             background: var(--card-bg);
@@ -51,7 +51,7 @@
         }
         h2 {
             color: var(--primary);
-            font-size: 22px;
+            font-size: 20px;
             border-bottom: 2px solid var(--bg-color);
             padding-bottom: 8px;
             margin-top: 0;
@@ -62,7 +62,7 @@
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 15px;
             cursor: pointer;
             width: 100%;
             font-weight: bold;
@@ -73,22 +73,31 @@
             background-color: #c2185b;
         }
         
-        /* ضبط شبكة مربعات الأقسام لتقع جنب بعضها تماماً */
+        /* شبكة مربعات الأقسام المتجاورة والموحدة بأعلى جمال */
         .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 15px 0;
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 12px !important;
+            margin: 15px 0 !important;
+        }
+        @media (min-width: 550px) {
+            .categories-grid {
+                grid-template-columns: repeat(3, 1fr) !important;
+            }
         }
         .cat-box {
             background: #ffffff;
             border: 2px solid var(--primary-light);
             border-radius: 10px;
-            padding: 12px;
+            padding: 15px 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
         .cat-box:hover, .cat-box.active {
             background: var(--primary-light);
@@ -96,7 +105,7 @@
             transform: translateY(-2px);
         }
         .cat-box h4 {
-            margin: 0 0 8px 0;
+            margin: 0 0 10px 0;
             color: var(--primary);
             font-size: 14px;
             font-weight: bold;
@@ -106,7 +115,7 @@
             color: white;
             font-size: 12px;
             font-weight: bold;
-            padding: 3px 10px;
+            padding: 4px 10px;
             border-radius: 6px;
             display: inline-block;
         }
@@ -118,7 +127,7 @@
             border: 1px solid #ddd;
             border-radius: 6px;
             box-sizing: border-box;
-            font-size: 15px;
+            font-size: 14px;
         }
         .calculator-box {
             background: #fff5f8;
@@ -138,7 +147,7 @@
             text-align: center;
             padding: 20px;
             color: #666;
-            font-size: 14px;
+            font-size: 13px;
         }
         .category-badge {
             display: inline-block;
@@ -146,8 +155,8 @@
             color: #880e4f;
             padding: 4px 10px;
             border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 10px;
+            font-size: 11px;
+            margin-bottom: 8px;
             font-weight: bold;
         }
         .lock-notice {
@@ -159,6 +168,7 @@
             text-align: center;
             margin-bottom: 15px;
             font-weight: bold;
+            font-size: 13px;
         }
     </style>
 </head>
@@ -166,59 +176,61 @@
 
     <header>
         <h1>أكاديمية ملمع الشفاء</h1>
-        <p>المنصة الاحترافية لصناعة وتطوير ملمع الشفاه، التركيبات، والجودة</p>
+        <p>المنصة الاحترافية لصناعة وتطوير ملمع الشفاه</p>
     </header>
 
     <div class="container">
 
+        <!-- شريط التنقل العلوي للمشتركين -->
         <div id="navBar" class="card hidden" style="text-align: center;">
             <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل ويمكنك تصفح المكتبة بالكامل.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
             <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
+        <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">عذراً، مكتبة التركيبات والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
-            <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
-            <p><strong>رقم الحساب (بنكك):</strong> 3465405</p>
-            <p><strong>رسوم الاشتراك:</strong> 10,000 جنيه سوداني</p>
+            <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <p style="font-size: 14px;"><strong>المستفيد:</strong> هاشم شرف الدين | <strong>بنكك:</strong> 3465405 | <strong>الرسوم:</strong> 10,000 ج.س</p>
             <hr style="border: 0; border-top: 1px solid #c8e6c9; margin: 15px 0;">
             
             <label>الإسم الثلاثي:</label>
             <input type="text" id="subName" placeholder="أدخل اسمك الثلاثي">
             <label>رقم الهاتف (واتساب):</label>
             <input type="text" id="subPhone" placeholder="09xxxxxxxx">
-            <label>رقم عملية التحويل (من إشعار بنكك):</label>
-            <input type="text" id="subTxId" placeholder="أدخل رقم العملية المكون من أرقام">
+            <label>رقم عملية التحويل:</label>
+            <input type="text" id="subTxId" placeholder="رقم العملية من إشعار بنكك">
             
             <button class="btn" style="background: #4caf50;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
-            <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #e65100; font-weight: bold; text-align: center;">
-                تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة لتفعيل حسابك قريباً.
+            <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #e65100; font-weight: bold; text-align: center; font-size: 13px;">
+                تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة.
             </div>
         </div>
 
+        <!-- زر لوحة المدير -->
         <div class="card" style="text-align: center; background: #fafafa; border-top-color: #78909c;">
             <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
+        <!-- لوحة التحكم الإدارية -->
         <div id="admin-section" class="card admin-section hidden">
-            <h2>لوحة تحكم المدير (إدارة الأقسام والتركيبات)</h2>
+            <h2>لوحة تحكم المدير</h2>
             
             <div id="loginBox">
-                <p>أدخل كلمة المرور الخاصة بك أو اضغط زر إعادة التعيين لضبط كلمة سر جديدة:</p>
+                <p style="font-size: 14px;">أدخل كلمة المرور الخاصة بك أو اضغط إعادة التعيين:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور">
                 <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول لوحة التحكم</button>
-                <button class="btn" style="background: #d32f2f; font-size: 14px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين / اختيار كلمة سر جديدة</button>
+                <button class="btn" style="background: #d32f2f; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين كلمة المرور</button>
             </div>
 
             <div id="adminPanel" class="hidden">
-                <h3 style="color: #e65100;">تفعيل حساب طالب يدويأً</h3>
+                <h3 style="color: #e65100; font-size: 16px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
-                <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب للموقع</button>
+                <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
                 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100;">إضافة تركيبة جديدة للمكتبة</h3>
+                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة للمكتبة</h3>
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 <label>القسم:</label>
@@ -235,16 +247,18 @@
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100;">أقسام المنصة (شبكة المربعات والأعداد)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (شبكة المربعات والأعداد)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
 
-                <div id="adminFormulasList" style="margin-top: 15px; max-height: 250px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;"></div>
+                <div id="adminFormulasList" style="margin-top: 15px; max-height: 250px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px;"></div>
             </div>
         </div>
 
+        <!-- محتوى الطلاب والمكتبة -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
+                <p style="font-size: 13px; color: #666; margin-bottom: 10px;">اختر القسم لعرض التركيبات الخاصة به:</p>
                 <div id="studentCategoriesGrid" class="categories-grid"></div>
                 <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
@@ -256,8 +270,8 @@
                 <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
                 
                 <div id="calcResult" class="calculator-box hidden">
-                    <h3>الكميات اللازمة للتحضير:</h3>
-                    <ul id="resultList"></ul>
+                    <h3 style="font-size: 15px; color: #e91e63;">الكميات اللازمة للتحضير:</h3>
+                    <ul id="resultList" style="font-size: 14px; padding-right: 15px;"></ul>
                 </div>
             </div>
         </div>
@@ -350,8 +364,8 @@
             }
             filtered.forEach((f, index) => {
                 adminListDiv.innerHTML += `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
-                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${getCategoryName(f.category)})</span>
-                    <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
+                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 11px; color: #880e4f;">(${getCategoryName(f.category)})</span>
+                    <p style="margin: 2px 0; font-size: 12px; color: #666;">${f.desc}</p>
                 </div>`;
             });
         }
@@ -388,9 +402,9 @@
             filtered.forEach(f => {
                 let html = `<div style="background: #fff; border: 1px solid #f8bbd0; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
-                    <h3 style="margin: 5px 0; color: #c2185b;">${f.title}</h3>
-                    <p style="color: #555; font-size: 14px;">${f.desc}</p>
-                    <strong>المكونات:</strong><ul>`;
+                    <h3 style="margin: 5px 0; color: #e91e63; font-size: 16px;">${f.title}</h3>
+                    <p style="color: #555; font-size: 13px; margin: 6px 0;">${f.desc}</p>
+                    <strong style="font-size: 13px;">المكونات والنسب الدقيقة:</strong><ul style="font-size: 13px; margin: 5px 0; padding-right: 15px;">`;
                 f.ingredients.forEach(ing => {
                     html += `<li>${ing.name}: <strong>${ing.percent}%</strong></li>`;
                 });
