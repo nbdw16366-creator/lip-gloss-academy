@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية ملمع الشفاء</title>
+    <title>فارمسي علم ونتيجة - Hashim Lab</title>
     <style>
         :root {
             --primary: #e91e63;
@@ -202,8 +202,8 @@
 <body>
 
     <header>
-        <h1>أكاديمية ملمع الشفاء</h1>
-        <p>المنصة الاحترافية لصناعة وتطوير ملمع الشفاه</p>
+        <h1>فارمسي علم ونتيجة</h1>
+        <p>المنصة الاحترافية بدقة - تطوير: <strong>Hashim Lab</strong></p>
     </header>
 
     <div class="container">
@@ -242,7 +242,7 @@
 
         <!-- لوحة التحكم الإدارية -->
         <div id="admin-section" class="card admin-section hidden">
-            <h2>لوحة تحكم المدير</h2>
+            <h2>لوحة تحكم المدير - Hashim Lab</h2>
             
             <div id="loginBox">
                 <p style="font-size: 14px;">أدخل كلمة المرور الخاصة بك أو اضغط إعادة التعيين:</p>
@@ -262,6 +262,12 @@
                 <button class="btn" style="background: #ff9800;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
                 <hr style="margin: 20px 0;">
+                <h3 style="color: #e65100; font-size: 16px;">إدارة الأقسام (إضافة وتسمية يدوية)</h3>
+                <label>اسم القسم الجديد:</label>
+                <input type="text" id="newCategoryName" placeholder="مثلاً: تركيبات الترطيب العميق">
+                <button class="btn" style="background: #00897b;" onclick="addNewCategory()">+ إضافة قسم جديد للقائمة</button>
+
+                <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100; font-size: 16px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
@@ -272,14 +278,7 @@
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 
                 <label>القسم:</label>
-                <select id="newCategory">
-                    <option value="moisturizing">1. تركيبات الترطيب العميق</option>
-                    <option value="therapeutic">2. التركيبات العلاجية المرممة</option>
-                    <option value="fruit">3. تركيبات الفواكه والنكهات</option>
-                    <option value="matte">4. تركيبات المات المخملية</option>
-                    <option value="waterproof">5. التركيبات المقاومة للماء</option>
-                    <option value="shimmer">6. تركيبات اللمعان البراق</option>
-                </select>
+                <select id="newCategorySelect"></select>
 
                 <label>وصف ومعلومات التركيبة:</label>
                 <textarea id="newDesc" placeholder="اكتب تفاصيل ومعلومات التركيبة وفوائدها..."></textarea>
@@ -315,7 +314,7 @@
         <!-- محتوى الطلاب والمكتبة -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
-                <h2>موسوعة ملمع الشفاء الاحترافية</h2>
+                <h2>موسوعة فارمسي علم ونتيجة الاحترافية</h2>
                 <p style="font-size: 13px; color: #666; margin-bottom: 10px;">اختر القسم لعرض التركيبات الخاصة به:</p>
                 <div id="studentCategoriesGrid" class="categories-grid"></div>
                 <div id="formulasList" style="margin-top: 20px;"></div>
@@ -342,17 +341,13 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 أكاديمية ملمع الشفاء. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2026 فارمسي علم ونتيجة - Hashim Lab. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
-        let formulas = JSON.parse(localStorage.getItem('academy_formulas')) || [];
-
-        // اجعل العرض المبدئي فارغاً لا يعرض شيئاً إلا عند اختيار القسم
-        let currentAdminFilter = null;
-        let currentStudentFilter = null;
-
-        const categoriesData = [
+        let formulas = JSON.parse(localStorage.getItem('pharmacy_formulas')) || [];
+        
+        let categoriesData = JSON.parse(localStorage.getItem('pharmacy_categories')) || [
             { id: 'all', name: 'جميع الأقسام الشاملة' },
             { id: 'moisturizing', name: '1. تركيبات الترطيب العميق' },
             { id: 'therapeutic', name: '2. التركيبات العلاجية المرممة' },
@@ -362,11 +357,15 @@
             { id: 'shimmer', name: '6. تركيبات اللمعان البراق' }
         ];
 
+        let currentAdminFilter = null;
+        let currentStudentFilter = null;
+
         window.onload = function() {
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
             loadPaymentSettings();
+            updateCategoryDropdowns();
             renderAdminCategoriesGrid();
             renderStudentCategoriesGrid();
             populateScaleSelect();
@@ -414,6 +413,30 @@
             document.getElementById('editOwnerName').value = name;
             document.getElementById('editBankAcc').value = acc;
             document.getElementById('editFee').value = fee;
+        }
+
+        function addNewCategory() {
+            let catName = document.getElementById('newCategoryName').value.trim();
+            if(!catName) { alert('أدخل اسم القسم الجديد'); return; }
+            let catId = 'cat_' + Date.now();
+            categoriesData.push({ id: catId, name: catName });
+            localStorage.setItem('pharmacy_categories', JSON.stringify(categoriesData));
+            document.getElementById('newCategoryName').value = '';
+            updateCategoryDropdowns();
+            renderAdminCategoriesGrid();
+            renderStudentCategoriesGrid();
+            alert('تمت إضافة القسم الجديد بنجاح!');
+        }
+
+        function updateCategoryDropdowns() {
+            const select = document.getElementById('newCategorySelect');
+            if(!select) return;
+            select.innerHTML = '';
+            categoriesData.forEach(cat => {
+                if(cat.id !== 'all') {
+                    select.innerHTML += `<option value="${cat.id}">${cat.name}</option>`;
+                }
+            });
         }
 
         function addIngredientRow() {
@@ -601,27 +624,25 @@
 
         function addNewFormula() {
             let title = document.getElementById('newTitle').value;
-            let category = document.getElementById('newCategory').value;
+            let category = document.getElementById('newCategorySelect').value;
             let desc = document.getElementById('newDesc').value;
             let prep = document.getElementById('newPrep').value;
             let usage = document.getElementById('newUsage').value;
 
-            if(!title || !desc || !prep || !usage) { 
-                alert('الرجاء إكمال جميع حقول التركيبة (العنوان، الوصف، التحضير، والاستخدام)'); 
+            if(!title || !desc || !prep || !usage || !category) { 
+                alert('الرجاء إكمال جميع حقول التركيبة'); 
                 return; 
             }
 
             let names = document.querySelectorAll('.ing-name');
             let percents = document.querySelectorAll('.ing-percent');
             let ingredients = [];
-            let totalPercent = 0;
 
             for(let i = 0; i < names.length; i++) {
                 let n = names[i].value.trim();
                 let p = parseFloat(percents[i].value);
                 if(n && !isNaN(p)) {
                     ingredients.push({ name: n, percent: p });
-                    totalPercent += p;
                 }
             }
 
@@ -640,7 +661,7 @@
                 ingredients: ingredients
             });
 
-            localStorage.setItem('academy_formulas', JSON.stringify(formulas));
+            localStorage.setItem('pharmacy_formulas', JSON.stringify(formulas));
 
             alert('تم حفظ التركيبة في بيتها المخصص بنجاح ولن تخرج أبداً!');
             document.getElementById('newTitle').value = '';
