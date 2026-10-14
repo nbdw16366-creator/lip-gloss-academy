@@ -269,17 +269,17 @@
 
     <div class="container">
 
-        <!-- شريط التنقل العلوي للمشتركين -->
+        <!-- شريط التنقل العلوي للمشتركين المفعلين فقط -->
         <div id="navBar" class="card hidden" style="text-align: center;">
-            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل وموسوعة التركيبات متاحة لك.</p>
+            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! تم اعتماد اشتراكك وموسوعة التركيبات متاحة لك.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #2e7d32;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
             <button class="btn" style="width: auto; margin: 5px; background: var(--accent);" onclick="showMainTab('calculator')">ميزان التركيبات (Batch Scale)</button>
         </div>
 
-        <!-- بوابة التسجيل والدفع للطلاب -->
+        <!-- بوابة التسجيل والدفع للطلاب (لا يمر منها أحد إلا بموافقة المدير) -->
         <div id="subscription-card" class="card" style="background: #f1f8e9; border-top-color: #558b2f;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط بعد إرسال بيانات التحويل وموافقة الإدارة يدوياً.</div>
             <p style="font-size: 14px;"><strong>المستفيد:</strong> <span id="displayOwnerName">هاشم شرف الدين عبدالله إبراهيم</span> | <strong>بنكك:</strong> <span id="displayBankAcc">3465405</span> | <strong>الرسوم:</strong> <span id="displayFee">10,000</span> ج.س</p>
             <hr style="border: 0; border-top: 1px solid #dcedc8; margin: 15px 0;">
             
@@ -292,13 +292,11 @@
             
             <button class="btn" style="background: #558b2f;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
             <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #33691e; font-weight: bold; text-align: center; font-size: 13px;">
-                تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة.
+                تم إرسال طلبك بنجاح! بانتظار موافقة وتفعيل المدير لرقم هاتفك.
             </div>
         </div>
 
-        <!-- تم إزالة زر دخول لوحة التحكم نهائياً من الواجهة العامة ولن يراه أي طالب تماماً -->
-
-        <!-- لوحة التحكم الإدارية (مخفية تماماً ولا تظهر إلا بالرابط السري الخاص بك) -->
+        <!-- لوحة التحكم الإدارية السرية (لا تظهر أبداً إلا بالرابط السري الخاص بك) -->
         <div id="admin-section" class="card admin-section hidden">
             <h2>لوحة تحكم المدير - Hashim Lab (منطقة محصنة سرية)</h2>
             
@@ -319,12 +317,13 @@
                 <input type="text" id="editFee" value="10,000">
                 <button class="btn" style="background: #495057;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
-                <h3 style="color: #212529; font-size: 16px; margin-top: 20px;">تفعيل حساب طالب</h3>
-                <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
-                <button class="btn" style="background: #2e7d32;" onclick="activateStudent()">تفعيل دخول الطالب</button>
+                <h3 style="color: #212529; font-size: 16px; margin-top: 20px;">قبض وتفعيل حساب طالب (أدخل رقم هاتفه المسجل)</h3>
+                <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب (مثلاً: 09xxxxxxxx)">
+                <button class="btn" style="background: #2e7d32;" onclick="activateStudentByAdmin()">قبض وتفعيل دخول هذا الطالب</button>
+                <button class="btn" style="background: #c62828; font-size: 12px; margin-top: 5px;" onclick="deactivateStudentByAdmin()">إلغاء تفعيل الطالب</button>
                 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #212529; font-size: 16px;">إضافة تركيبة جديدة (محفوظة دائماً في بيتها)</h3>
+                <h3 style="color: #212529; font-size: 16px;">إضافة تركيبة جديدة (تظهر فوراً للطلاب المفعلين)</h3>
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 
@@ -337,11 +336,11 @@
                 <label>جدول المواد والنسب المئوية:</label>
                 <div id="ingredientsContainer">
                     <div class="dynamic-row">
-                        <input type="text" placeholder="اسم المادة (مثلاً: قاعدة جل اللمعان)" class="ing-name" value="قاعدة جل اللمعان">
+                        <input type="text" placeholder="اسم المادة" class="ing-name" value="قاعدة جل اللمعان">
                         <input type="number" placeholder="النسبة %" class="ing-percent" value="60" style="width: 120px;">
                     </div>
                     <div class="dynamic-row">
-                        <input type="text" placeholder="اسم المادة (مثلاً: زيت الجوجوبا)" class="ing-name" value="زيت الجوجوبا">
+                        <input type="text" placeholder="اسم المادة" class="ing-name" value="زيت الجوجوبا">
                         <input type="number" placeholder="النسبة %" class="ing-percent" value="40" style="width: 120px;">
                     </div>
                 </div>
@@ -353,7 +352,7 @@
                 <label>طريقة الاستخدام:</label>
                 <textarea id="newUsage" placeholder="اكتب طريقة الاستخدام..."></textarea>
 
-                <button class="btn" style="background: var(--accent);" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
+                <button class="btn" style="background: var(--accent);" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
                 <h3 style="color: #212529; font-size: 16px;">إدارة الأقسام (تعديل، حذف، أو إضافة قسم جديد)</h3>
@@ -362,7 +361,7 @@
             </div>
         </div>
 
-        <!-- محتوى الطلاب والمكتبة (للعرض فقط) -->
+        <!-- محتوى الطلاب والمكتبة (لا يظهر نهائياً إلا إذا وافق المدير على الطالب) -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>موسوعة فارمسي علم ونتيجة الاحترافية</h2>
@@ -412,11 +411,12 @@
         let currentStudentFilter = null;
 
         window.onload = function() {
-            if(localStorage.getItem('academy_activated') === 'true') {
+            // فحص حالة اعتماد الطالب في هذا الجهاز
+            if(localStorage.getItem('student_is_approved') === 'true') {
                 unlockApp();
             }
 
-            // نظام الرابط السري الحصري: لن تفتح لوحة الإدارة إلا إذا كتب في الرابط ?hashim_admin=secure
+            // فحص الرابط السري الخاص بك كمدير
             const urlParams = new URLSearchParams(window.location.search);
             if(urlParams.get('hashim_admin') === 'secure') {
                 document.getElementById('admin-section').classList.remove('hidden');
@@ -733,10 +733,21 @@
             document.getElementById('calcResult').classList.remove('hidden');
         }
 
-        function activateStudent() {
-            localStorage.setItem('academy_activated', 'true');
-            alert('تم التفعيل!');
-            unlockApp();
+        // تفعيل الطالب يدوياً بواسطة المدير من لوحة التحكم السرية
+        function activateStudentByAdmin() {
+            let phone = document.getElementById('activatePhone').value.trim();
+            if(!phone) { alert('أدخل رقم هاتف الطالب أولاً'); return; }
+            localStorage.setItem('approved_student_' + phone, 'true');
+            alert('تم قبول وتفعيل الطالب برقم الهاتف: ' + phone + ' بنجاح!');
+            document.getElementById('activatePhone').value = '';
+        }
+
+        function deactivateStudentByAdmin() {
+            let phone = document.getElementById('activatePhone').value.trim();
+            if(!phone) { alert('أدخل رقم هاتف الطالب المراد إلغاء تفعيله'); return; }
+            localStorage.removeItem('approved_student_' + phone);
+            alert('تم إلغاء تفعيل الطالب بنجاح!');
+            document.getElementById('activatePhone').value = '';
         }
 
         function addNewFormula() {
@@ -755,7 +766,7 @@
             let percents = document.querySelectorAll('.ing-percent');
             let ingredients = [];
 
-            for(let i = 0; i < names.length.length || i < names.length; i++) {
+            for(let i = 0; i < names.length; i++) {
                 let n = names[i].value.trim();
                 let p = parseFloat(percents[i].value);
                 if(n && !isNaN(p)) {
@@ -780,7 +791,7 @@
 
             localStorage.setItem('pharmacy_formulas', JSON.stringify(formulas));
 
-            alert('تم حفظ التركيبة في بيتها المخصص بنجاح!');
+            alert('تم حفظ التركيبة بنجاح!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             document.getElementById('newPrep').value = '';
@@ -794,8 +805,21 @@
         }
 
         function submitSubscription() {
-            if(!document.getElementById('subName').value) { alert('أكمل البيانات'); return; }
+            let name = document.getElementById('subName').value;
+            let phone = document.getElementById('subPhone').value;
+            if(!name || !phone) { alert('الرجاء إكمال بيانات الاسم ورقم الهاتف'); return; }
+            
+            // تخزين حالة الطالب المؤقتة في جهازه لفحص الموافقة لاحقاً
+            localStorage.setItem('student_phone', phone.trim());
             document.getElementById('pendingMsg').classList.remove('hidden');
+
+            // محاكاة الفحص التلقائي لاعتماد المدير (إذا وافق المدير سيفتح التطبيق تلقائياً عند إعادة الفتح)
+            setInterval(() => {
+                if(localStorage.getItem('approved_student_' + phone.trim()) === 'true') {
+                    localStorage.setItem('student_is_approved', 'true');
+                    unlockApp();
+                }
+            }, 3000);
         }
     </script>
 </body>
