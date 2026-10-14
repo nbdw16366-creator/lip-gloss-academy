@@ -88,7 +88,7 @@
             margin-bottom: 0.3rem;
         }
         /* تصميم الحاسبة */
-        .calculator-card {
+        .calculator-card, .sub-card {
             background: white;
             border-radius: 12px;
             padding: 2rem;
@@ -104,7 +104,7 @@
             font-weight: bold;
             color: var(--dark-color);
         }
-        .form-group input {
+        .form-group input, .form-group textarea {
             width: 100%;
             padding: 0.8rem;
             border: 2px solid var(--secondary-color);
@@ -113,10 +113,10 @@
             outline: none;
             transition: border-color 0.3s;
         }
-        .form-group input:focus {
+        .form-group input:focus, .form-group textarea:focus {
             border-color: var(--primary-color);
         }
-        .calc-btn {
+        .calc-btn, .sub-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             color: white;
             border: none;
@@ -128,7 +128,7 @@
             width: 100%;
             transition: opacity 0.3s;
         }
-        .calc-btn:hover {
+        .calc-btn:hover, .sub-btn:hover {
             opacity: 0.9;
         }
         .calc-results {
@@ -148,6 +148,17 @@
         .calc-results li {
             margin-bottom: 0.4rem;
             font-weight: 500;
+        }
+        .bank-info {
+            background-color: #fff9fa;
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .bank-info h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
         }
         footer {
             text-align: center;
@@ -187,7 +198,7 @@
                     <ul>
                         <li>تعقيم جميع الأدوات وأواني المزج جيداً بالكحول الطبي.</li>
                         <li>خلط قاعدة الجل مع زيت الجوجوبا وزيت الخروع في وعاء نظيف.</li>
-                        <li>تقليب المزيج ببطء حتى يتجانس تماماً ويصبح خالية من التكتلات.</li>
+                        <li>تقليب المزيج ببطء حتى يتجانس تماماً ويصبح خالياً من التكتلات.</li>
                         <li>إضافة فيتامين E والنكهة مع الاستمرار في التقليب الخفيف.</li>
                         <li>تعبئة الخليط في عبوات الغلوس المعقمة جاهزة للاستخدام.</li>
                     </ul>
@@ -288,6 +299,40 @@
                 </div>
             </div>
         </div>
+
+        <!-- قسم بوابة الاشتراك والتحقق من الدفع عبر (بنكك) -->
+        <h2 class="section-title">بوابة الاشتراك والتحقق من الدفع (بنكك)</h2>
+        <div class="sub-card">
+            <p style="margin-bottom: 1.5rem;">للحصول على العضوية الكاملة وتفعيل حسابك الأكاديمي، يرجى تحويل رسوم الاشتراك عبر تطبيق <strong>(بنكك)</strong> إلى الحساب أدناه، ثم إرسال بياناتك ورقم عملية التحويل للمراجعة والقبول:</p>
+            
+            <div class="bank-info">
+                <h4>بيانات التحويل البنكي (بنك الخرطوم - بنكك):</h4>
+                <p><strong>رقم الحساب:</strong> [أدخل رقم حسابك هنا]</p>
+                <p><strong>اسم المستفيد:</strong> [أدخل اسمك أو اسم المتجر هنا]</p>
+                <p><strong>المبلغ المطلوب:</strong> حسب باقة الاشتراك</p>
+            </div>
+
+            <form onsubmit="handleSubscription(event)">
+                <div class="form-group">
+                    <label for="subName">الاسم الكامل:</label>
+                    <input type="text" id="subName" required placeholder="أدخل اسمك الثلاثي">
+                </div>
+                <div class="form-group">
+                    <label for="subEmail">البريد الإلكتروني:</label>
+                    <input type="email" id="subEmail" required placeholder="name@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="subPhone">رقم الهاتف (واتساب):</label>
+                    <input type="text" id="subPhone" required placeholder="09xxxxxxxx">
+                </div>
+                <div class="form-group">
+                    <label for="bankReceipt">رقم عملية التحويل (من إشعار بنكك):</label>
+                    <input type="text" id="bankReceipt" required placeholder="أدخل رقم العملية المكون من أرقام">
+                </div>
+                <button type="submit" class="sub-btn">إرسال طلب الاشتراك للمراجعة</button>
+            </form>
+            <div id="subAlert" style="margin-top: 1rem; font-weight: bold; text-align: center;"></div>
+        </div>
     </div>
 
     <footer>
@@ -313,6 +358,18 @@
             document.getElementById('res3').innerText = `زيت الخروع النقي (12%): ${castor} جرام`;
             document.getElementById('res4').innerText = `فيتامين E (2%): ${vitaminE} جرام`;
             document.getElementById('res5').innerText = `نكهة الفانيليا العضوية (1%): ${flavor} جرام`;
+        }
+
+        function handleSubscription(event) {
+            event.preventDefault();
+            let name = document.getElementById('subName').value;
+            let receipt = document.getElementById('bankReceipt').value;
+            
+            let alertBox = document.getElementById('subAlert');
+            alertBox.style.color = '#e23e57';
+            alertBox.innerText = `شكراً لك يا ${name}! تم إرسال رقم عملية التحويل (${receipt}) بنجاح. سيتم مراجعة إشعار بنكك وتفعيل حسابك خلال ساعات وإرسال التأكيد عبر الواتساب أو الإيميل.`;
+            
+            document.querySelector('form').reset();
         }
     </script>
 
