@@ -139,7 +139,7 @@
             <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
-        <!-- بوابة الدفع والاشتراك الإلزامي -->
+        <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">عذراً، مكتبة التركيبات (500 تركيبة) والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
@@ -201,10 +201,18 @@
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
+
+                <!-- قسم استعراض وإدارة جميع التركيبات للمدير -->
+                <hr style="margin: 20px 0;">
+                <h3 style="color: #e65100;">قائمة جميع التركيبات المحفوظة (استعراض المدير)</h3>
+                <p style="font-size: 14px; color: #555;">يمكنك هنا استعراض جميع التركيبات المضافة في النظام:</p>
+                <div id="adminFormulasList" style="max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                    <!-- يتم عرض التركيبات هنا للمدير تلقائياً -->
+                </div>
             </div>
         </div>
 
-        <!-- محتوى التركيبات والحاسبة (مغلق للمشتركين فقط) -->
+        <!-- محتوى التركيبات والحاسبة للطلاب -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (500 تركيبة مضمونة ومجربة)</h2>
@@ -261,6 +269,7 @@
                 unlockApp();
             }
             renderFormulas();
+            renderAdminFormulas();
         };
 
         function unlockApp() {
@@ -298,6 +307,21 @@
                 });
                 html += `</ul></div>`;
                 listDiv.innerHTML += html;
+            });
+        }
+
+        // عرض التركيبات داخل لوحة المدير ليتمكن من استعراضها بالكامل
+        function renderAdminFormulas() {
+            const adminListDiv = document.getElementById('adminFormulasList');
+            if(!adminListDiv) return;
+            adminListDiv.innerHTML = '';
+
+            formulas.forEach((f, index) => {
+                let html = `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
+                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${f.category})</span>
+                    <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
+                </div>`;
+                adminListDiv.innerHTML += html;
             });
         }
 
@@ -339,7 +363,6 @@
             let pass = document.getElementById('adminPassword').value;
             let savedPass = localStorage.getItem('admin_secret_pass');
 
-            // إذا مافي كلمة سر محفوظة نهائياً، أو زول ضغط الدخول بكلمة جديدة كتبها
             if(!savedPass) {
                 if(!pass) {
                     alert('الرجاء كتابة كلمة المرور في خانة النص أولاً');
@@ -349,12 +372,14 @@
                 alert('تم اعتماد وحفظ كلمة المرور السرية الخاصة بك بنجاح!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
+                renderAdminFormulas();
                 return;
             }
 
             if(pass === savedPass) {
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
+                renderAdminFormulas();
                 alert('مرحباً بك يا باشمهندس هاشم في لوحة التحكم الخاصة بك!');
             } else {
                 alert('كلمة المرور غير صحيحة! (إذا نسيتها، اضغط زر "إعادة تعيين كلمة سر جديدة" بالأسفل)');
@@ -399,6 +424,7 @@
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderFormulas();
+            renderAdminFormulas();
         }
 
         function submitSubscription() {
