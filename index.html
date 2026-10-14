@@ -6,8 +6,9 @@
     <title>فارمسي علم ونتيجة - Hashim Lab</title>
     <style>
         :root {
-            --primary: #e91e63;
+            --primary: #c2185b;
             --primary-light: #f8bbd0;
+            --accent-color: #00796b;
             --bg-color: #fff0f3;
             --text-color: #333;
             --card-bg: #ffffff;
@@ -21,7 +22,7 @@
             line-height: 1.6;
         }
         header {
-            background: linear-gradient(135deg, #e91e63, #c2185b);
+            background: linear-gradient(135deg, #c2185b, #ad1457);
             color: white;
             padding: 25px 15px;
             text-align: center;
@@ -70,12 +71,12 @@
             margin-top: 5px;
         }
         .btn:hover {
-            background-color: #c2185b;
+            background-color: #ad1457;
         }
         
         .add-category-box {
             background: #e0f2f1;
-            border: 2px dashed #00897b;
+            border: 2px dashed var(--accent-color);
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
@@ -135,20 +136,20 @@
             justify-content: center;
         }
         .edit-cat-btn {
-            background: #ff9800;
+            background: #00897b;
             color: white;
             border: none;
-            font-size: 9px;
-            padding: 2px 5px;
+            font-size: 10px;
+            padding: 3px 6px;
             border-radius: 4px;
             cursor: pointer;
         }
         .del-cat-btn {
-            background: #d32f2f;
+            background: #78909c;
             color: white;
             border: none;
-            font-size: 9px;
-            padding: 2px 5px;
+            font-size: 10px;
+            padding: 3px 6px;
             border-radius: 4px;
             cursor: pointer;
         }
@@ -170,8 +171,8 @@
             margin-top: 15px;
         }
         .admin-section {
-            background: #fff3e0;
-            border-top-color: #ff9800;
+            background: #fff8e1;
+            border-top-color: #ffa000;
         }
         .hidden {
             display: none;
@@ -193,11 +194,11 @@
             font-weight: bold;
         }
         .lock-notice {
-            background: #ffebee;
-            border: 1px solid #ffcdd2;
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
             padding: 15px;
             border-radius: 8px;
-            color: #c62828;
+            color: #2e7d32;
             text-align: center;
             margin-bottom: 15px;
             font-weight: bold;
@@ -224,7 +225,7 @@
         }
         .ingredients-table th {
             background-color: #fff0f3;
-            color: #c2185b;
+            color: var(--primary);
         }
         .dynamic-row {
             display: flex;
@@ -246,15 +247,15 @@
         <div id="navBar" class="card hidden" style="text-align: center;">
             <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل وموسوعة التركيبات متاحة لك.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
-            <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">ميزان التركيبات (Batch Scale)</button>
+            <button class="btn" style="width: auto; margin: 5px; background: #00897b;" onclick="showMainTab('calculator')">ميزان التركيبات (Batch Scale)</button>
         </div>
 
         <!-- بوابة التسجيل والدفع للطلاب -->
-        <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
+        <div id="subscription-card" class="card" style="background: #f1f8e9; border-top-color: #7cb342;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
             <p style="font-size: 14px;"><strong>المستفيد:</strong> <span id="displayOwnerName">هاشم شرف الدين عبدالله إبراهيم</span> | <strong>بنكك:</strong> <span id="displayBankAcc">3465405</span> | <strong>الرسوم:</strong> <span id="displayFee">10,000</span> ج.س</p>
-            <hr style="border: 0; border-top: 1px solid #c8e6c9; margin: 15px 0;">
+            <hr style="border: 0; border-top: 1px solid #dcedc8; margin: 15px 0;">
             
             <label>الإسم الثلاثي:</label>
             <input type="text" id="subName" placeholder="أدخل اسمك الثلاثي">
@@ -263,15 +264,15 @@
             <label>رقم عملية التحويل:</label>
             <input type="text" id="subTxId" placeholder="رقم العملية من إشعار بنكك">
             
-            <button class="btn" style="background: #4caf50;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
-            <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #e65100; font-weight: bold; text-align: center; font-size: 13px;">
+            <button class="btn" style="background: #7cb342;" onclick="submitSubscription()">إرسال طلب الاشتراك للمراجعة</button>
+            <div id="pendingMsg" class="hidden" style="margin-top: 15px; color: #558b2f; font-weight: bold; text-align: center; font-size: 13px;">
                 تم إرسال طلبك بنجاح! جارٍ التحقق من التحويل بواسطة الإدارة.
             </div>
         </div>
 
         <!-- زر لوحة المدير -->
-        <div class="card" style="text-align: center; background: #fafafa; border-top-color: #78909c;">
-            <button class="btn" style="width: auto; background: #607d8b;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
+        <div class="card" style="text-align: center; background: #fafafa; border-top-color: #546e7a;">
+            <button class="btn" style="width: auto; background: #546e7a;" onclick="toggleAdminBox()">دخول لوحة تحكم المدير ⚙️</button>
         </div>
 
         <!-- لوحة التحكم الإدارية -->
@@ -281,36 +282,36 @@
             <div id="loginBox">
                 <p style="font-size: 14px;">أدخل كلمة المرور الخاصة بك أو اضغط إعادة التعيين:</p>
                 <input type="password" id="adminPassword" placeholder="كلمة المرور">
-                <button class="btn" style="background: #ff9800;" onclick="adminLogin()">دخول لوحة التحكم</button>
-                <button class="btn" style="background: #d32f2f; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين كلمة المرور</button>
+                <button class="btn" style="background: #ffa000;" onclick="adminLogin()">دخول لوحة التحكم</button>
+                <button class="btn" style="background: #78909c; font-size: 13px;" onclick="resetAdminPasswordPrompt()">إعادة تعيين كلمة المرور</button>
             </div>
 
             <div id="adminPanel" class="hidden">
-                <h3 style="color: #e65100; font-size: 16px;">تعديل تفاصيل الدفع (يدوياً)</h3>
+                <h3 style="color: #ef6c00; font-size: 16px;">تعديل تفاصيل الدفع (يدوياً)</h3>
                 <label>اسم المستفيد:</label>
                 <input type="text" id="editOwnerName" value="هاشم شرف الدين عبدالله إبراهيم">
                 <label>رقم حساب بنكك:</label>
                 <input type="text" id="editBankAcc" value="3465405">
                 <label>مبلغ الرسوم (ج.س):</label>
                 <input type="text" id="editFee" value="10,000">
-                <button class="btn" style="background: #ff9800;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
+                <button class="btn" style="background: #ffa000;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
                 <hr style="margin: 20px 0;">
                 
-                <!-- صندوق إضافة قسم جديد بشكل بارز وواضح -->
+                <!-- صندوق إضافة قسم جديد بتصميم متناسق -->
                 <div class="add-category-box">
                     <h3 style="color: #00796b; font-size: 16px; margin-top: 0;">➕ إضافة قسم جديد بلا حدود</h3>
                     <label style="color: #004d40; font-weight: bold;">اسم القسم الجديد:</label>
-                    <input type="text" id="newCategoryName" placeholder="مثلاً: قسم التفتيح السريع أو أي قسم إضافي...">
+                    <input type="text" id="newCategoryName" placeholder="مثلاً: قسم التفتيح أو أي قسم إضافي...">
                     <button class="btn" style="background: #00897b;" onclick="addNewCategory()">حفظ وإضافة القسم إلى الشبكة</button>
                 </div>
 
-                <h3 style="color: #e65100; font-size: 16px;">تفعيل حساب طالب</h3>
+                <h3 style="color: #ef6c00; font-size: 16px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
-                <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
+                <button class="btn" style="background: #7cb342;" onclick="activateStudent()">تفعيل دخول الطالب</button>
                 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة (محفوظة دائماً في بيتها)</h3>
+                <h3 style="color: #ef6c00; font-size: 16px;">إضافة تركيبة جديدة (محفوظة دائماً في بيتها)</h3>
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
                 
@@ -331,7 +332,7 @@
                         <input type="number" placeholder="النسبة %" class="ing-percent" value="40" style="width: 120px;">
                     </div>
                 </div>
-                <button class="btn" style="background: #607d8b; padding: 6px; font-size: 13px; margin-bottom: 15px;" onclick="addIngredientRow()">+ إضافة مادة أخرى للجدول</button>
+                <button class="btn" style="background: #546e7a; padding: 6px; font-size: 13px; margin-bottom: 15px;" onclick="addIngredientRow()">+ إضافة مادة أخرى للجدول</button>
 
                 <label>طريقة التحضير:</label>
                 <textarea id="newPrep" placeholder="اكتب خطوات التحضير بالتفصيل..."></textarea>
@@ -339,10 +340,10 @@
                 <label>طريقة الاستخدام:</label>
                 <textarea id="newUsage" placeholder="اكتب طريقة الاستخدام..."></textarea>
 
-                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
+                <button class="btn" style="background: #7cb342;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية (إدارة كاملة)</h3>
+                <h3 style="color: #ef6c00; font-size: 16px;">أقسام المنصة الاحترافية (إدارة كاملة)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
@@ -366,10 +367,10 @@
 
                 <label>الوزن الإجمالي المطلوب للدفعة (جرام):</label>
                 <input type="number" id="totalWeight" value="100" oninput="calculateBatch()">
-                <button class="btn" onclick="calculateBatch()">احسب أوزان المكونات بدقة</button>
+                <button class="btn" style="background: #00897b;" onclick="calculateBatch()">احسب أوزان المكونات بدقة</button>
                 
                 <div id="calcResult" class="calculator-box hidden">
-                    <h3 style="font-size: 15px; color: #e91e63;">أوزان المواد المطلوبة على الميزان:</h3>
+                    <h3 style="font-size: 15px; color: var(--primary);">أوزان المواد المطلوبة على الميزان:</h3>
                     <ul id="resultList" style="font-size: 14px; padding-right: 15px;"></ul>
                 </div>
             </div>
@@ -462,7 +463,7 @@
             updateCategoryDropdowns();
             renderAdminCategoriesGrid();
             renderStudentCategoriesGrid();
-            alert('تمت إضافة القسم الجديد بنجاح!');
+            alert('تمت إضافة القسم الجديد بنجاح وتحديث الشبكة!');
         }
 
         function editCategoryName(catId) {
@@ -568,11 +569,11 @@
 
                 adminListDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
-                    <h3 style="margin: 3px 0; color: #e91e63; font-size: 15px;">${index + 1}. ${f.title}</h3>
+                    <h3 style="margin: 3px 0; color: var(--primary); font-size: 15px;">${index + 1}. ${f.title}</h3>
                     <p style="color: #555; font-size: 13px; margin: 4px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
                     ${tableHtml}
                     <p style="color: #2e7d32; font-size: 12px; margin: 4px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
-                    <p style="color: #1565c0; font-size: 12px; margin: 4px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
+                    <p style="color: #00796b; font-size: 12px; margin: 4px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
                 </div>`;
             });
         }
@@ -619,11 +620,11 @@
 
                 listDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
-                    <h3 style="margin: 5px 0; color: #e91e63; font-size: 16px;">${index + 1}. ${f.title}</h3>
+                    <h3 style="margin: 5px 0; color: var(--primary); font-size: 16px;">${index + 1}. ${f.title}</h3>
                     <p style="color: #555; font-size: 13px; margin: 6px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
                     ${tableHtml}
                     <p style="color: #2e7d32; font-size: 12px; margin: 6px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
-                    <p style="color: #1565c0; font-size: 12px; margin: 6px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
+                    <p style="color: #00796b; font-size: 12px; margin: 6px 0;"><strong>طريقة الاستخدام:</strong> ${f.usage}</p>
                 </div>`;
             });
         }
