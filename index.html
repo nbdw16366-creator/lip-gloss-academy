@@ -74,14 +74,6 @@
             background-color: #ad1457;
         }
         
-        .add-category-box {
-            background: #e0f2f1;
-            border: 2px dashed var(--accent-color);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -129,6 +121,39 @@
             display: inline-block;
             margin-bottom: 5px;
         }
+        
+        /* مربع الإضافة (+) داخل الشبكة */
+        .add-cat-card {
+            background: #e0f2f1;
+            border: 2px dashed var(--accent-color);
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 85px;
+        }
+        .add-cat-card:hover {
+            background: #b2dfdb;
+            transform: translateY(-2px);
+        }
+        .add-cat-card span {
+            font-size: 28px;
+            color: var(--accent-color);
+            font-weight: bold;
+            line-height: 1;
+        }
+        .add-cat-card p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
         .cat-actions {
             display: flex;
             gap: 4px;
@@ -296,17 +321,7 @@
                 <input type="text" id="editFee" value="10,000">
                 <button class="btn" style="background: #ffa000;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
 
-                <hr style="margin: 20px 0;">
-                
-                <!-- صندوق إضافة قسم جديد بتصميم متناسق -->
-                <div class="add-category-box">
-                    <h3 style="color: #00796b; font-size: 16px; margin-top: 0;">➕ إضافة قسم جديد بلا حدود</h3>
-                    <label style="color: #004d40; font-weight: bold;">اسم القسم الجديد:</label>
-                    <input type="text" id="newCategoryName" placeholder="مثلاً: قسم التفتيح أو أي قسم إضافي...">
-                    <button class="btn" style="background: #00897b;" onclick="addNewCategory()">حفظ وإضافة القسم إلى الشبكة</button>
-                </div>
-
-                <h3 style="color: #ef6c00; font-size: 16px;">تفعيل حساب طالب</h3>
+                <h3 style="color: #ef6c00; font-size: 16px; margin-top: 20px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #7cb342;" onclick="activateStudent()">تفعيل دخول الطالب</button>
                 
@@ -343,7 +358,7 @@
                 <button class="btn" style="background: #7cb342;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى القسم المخصص</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #ef6c00; font-size: 16px;">أقسام المنصة الاحترافية (إدارة كاملة)</h3>
+                <h3 style="color: #ef6c00; font-size: 16px;">أقسام المنصة الاحترافية (اضغط على + لإضافة قسم جديد)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
                 <div id="adminFormulasList" style="margin-top: 15px;"></div>
             </div>
@@ -453,17 +468,17 @@
             document.getElementById('editFee').value = fee;
         }
 
-        function addNewCategory() {
-            let catName = document.getElementById('newCategoryName').value.trim();
-            if(!catName) { alert('أدخل اسم القسم الجديد'); return; }
-            let catId = 'cat_' + Date.now();
-            categoriesData.push({ id: catId, name: catName });
-            localStorage.setItem('pharmacy_categories', JSON.stringify(categoriesData));
-            document.getElementById('newCategoryName').value = '';
-            updateCategoryDropdowns();
-            renderAdminCategoriesGrid();
-            renderStudentCategoriesGrid();
-            alert('تمت إضافة القسم الجديد بنجاح وتحديث الشبكة!');
+        function addNewCategoryPrompt() {
+            let catName = prompt("أدخل اسم القسم الجديد:");
+            if(catName && catName.trim() !== "") {
+                let catId = 'cat_' + Date.now();
+                categoriesData.push({ id: catId, name: catName.trim() });
+                localStorage.setItem('pharmacy_categories', JSON.stringify(categoriesData));
+                updateCategoryDropdowns();
+                renderAdminCategoriesGrid();
+                renderStudentCategoriesGrid();
+                alert('تمت إضافة القسم الجديد بنجاح!');
+            }
         }
 
         function editCategoryName(catId) {
@@ -523,6 +538,7 @@
             const gridDiv = document.getElementById('adminCategoriesGrid');
             if(!gridDiv) return;
             gridDiv.innerHTML = '';
+            
             categoriesData.forEach(cat => {
                 let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentAdminFilter === cat.id ? 'active' : '';
@@ -539,6 +555,12 @@
                     ${actionsHtml}
                 </div>`;
             });
+
+            // إضافة مربع (+) داخل شبكة الأقسام للإدارة فقط
+            gridDiv.innerHTML += `<div class="add-cat-card" onclick="addNewCategoryPrompt()">
+                <span>+</span>
+                <p>إضافة قسم</p>
+            </div>`;
         }
 
         function selectAdminCategory(catId) {
