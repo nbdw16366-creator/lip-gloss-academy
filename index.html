@@ -178,7 +178,6 @@
             margin-bottom: 15px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
-        /* تصميم جدول المكونات والنسب */
         .ingredients-table {
             width: 100%;
             border-collapse: collapse;
@@ -277,7 +276,7 @@
             </div>
         </div>
 
-        <!-- محتوى الطلاب والمكتبة (نفس الهيكل تماماً) -->
+        <!-- محتوى الطلاب والمكتبة -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
@@ -306,155 +305,13 @@
     </footer>
 
     <script>
-        // قاعدة بيانات التركيبات الحقيقية الموثقة والمختبرة
-        let formulas = [
-            {
-                id: 1,
-                title: "1. غلوس الجوجوبا المرطب الملكي (موثق ومختبر)",
-                category: "moisturizing",
-                desc: "تركيبة معتمدة ومختبرة معملياً تعتمد على زيت الجوجوبا الذهبي لحبس الرطوبة الطبيعية في الشفاه لمدة تتجاوز 12 ساعة.",
-                prep: "تعقم الأواني جيداً، تذوب القاعدة الجل على حمام مائي هادئ، ثم يضاف زيت الجوجوبا تدريجياً ويقلب بحرارة أقل من 45 مئوية، وأخيراً يضاف فيتامين E ويعبأ في الأنبوب المعقم.",
-                usage: "يوضع على شفاه نظيفة وجافة مرتين يومياً للحصول على ترطيب عميق ومستدام.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان (Versagel)", percent: 65 },
-                    { name: "زيت الجوجوبا العضوي النقي", percent: 30 },
-                    { name: "فيتامين E (مضاد أكسدة)", percent: 5 }
-                ]
-            },
-            {
-                id: 2,
-                title: "2. غلوس زبدة الشيا واللوز المغذي (مختبر)",
-                category: "moisturizing",
-                desc: "تركيبة علاجية غنية بالأحماض الدهنية والفيتامينات، مخصصة للشفاه المتضررة بشدة من الجفاف وعوامل الطقس.",
-                prep: "تذاب زبدة الشيا بحرارة خفيفة جداً لتفادي الحبيبات، تخلط مع زيت اللوز الحلو وتدمج مع القاعدة الجل بالخفق الهادئ لضمان التجانس التام.",
-                usage: "يستخدم كقناع ليلي مرطب أو غلوس نهاري لحماية فائقة.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 50 },
-                    { name: "زيت اللوز الحلو", percent: 30 },
-                    { name: "زبدة الشيا الخام المكررة", percent: 15 },
-                    { name: "فيتامين E", percent: 5 }
-                ]
-            },
-            {
-                id: 3,
-                title: "3. غلوس الأركان الحريري الفاخر (معتمد)",
-                category: "moisturizing",
-                desc: "مزيج ملكي بزيت الأركان المغربي الأصلي، يمنح الشفاه نعومة حريرية ولمعاناً زجاجياً فائق النقاء.",
-                prep: "تمزج القاعدة الجل مع زيت الأركان وزيت بذور العنب في درجة حرارة الغرفة لضمان الحفاظ على الخصائص العلاجية للزيوت.",
-                usage: "يوضع حسب الحاجة لإضفاء لمعان جذاب وتغذية فورية.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 60 },
-                    { name: "زيت الأركان المغربي", percent: 25 },
-                    { name: "زيت بذور العنب الخفيف", percent: 12 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 4,
-                title: "4. غلوس الأفوكادو المرطب العميق (مختبر)",
-                category: "moisturizing",
-                desc: "غني بزيت الأفوكادو الغني بفيتامينات A, D, وE، يعالج الخطوط الدقيقة والجفاف بفاعلية قصوى.",
-                prep: "يسخن زيت الأفوكادو قليلاً مع القاعدة الجل لضمان الامتزاج، ثم تضاف قطرات فيتامين E وتقلب جيداً.",
-                usage: "يستخدم يومياً للحفاظ على شباب ومرونة الشفاه.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 55 },
-                    { name: "زيت الأفوكادو النقي", percent: 35 },
-                    { name: "زيت الخروع", percent: 7 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 5,
-                title: "5. غلوس بذور المشمش المنعش (موثق)",
-                category: "moisturizing",
-                desc: "تركيبة خفيفة وسريعة الامتصاص تمنح ترطيباً عميقاً دون أي ملمس دهني مزعج.",
-                prep: "تخلط المكونات على البارد باستخدام خلاط مخبري صغير لضمان توزيع الزيوت بالتساوي.",
-                usage: "مناسب للاستخدام اليومي المتكرر.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 58 },
-                    { name: "زيت بذور المشمش", percent: 30 },
-                    { name: "زيت الجوجوبا", percent: 9 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 6,
-                title: "6. غلوس المكاديميا الغني المعالج (مختبر)",
-                category: "moisturizing",
-                desc: "يحتوي على زيت المكاديميا المطابق لزيوت البشرة الطبيعية، مما يجعله مثالياً لاختراق خلايا الشفاه وترطيبها من الأعماق.",
-                prep: "تدمج القاعدة مع زيت المكاديميا ببطء وتضاف المادة المضادة للأكسدة مع التقليب المستمر حتى يصبح القوام ناعماً كالحرير.",
-                usage: "يستخدم عند الشعور بجفاف الشفاه أو كعلاج مكثف.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 50 },
-                    { name: "زيت المكاديميا النقي", percent: 40 },
-                    { name: "زيت اللوز الحلو", percent: 7 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 7,
-                title: "7. غلوس الورد الجوري المرطب (موثق)",
-                category: "moisturizing",
-                desc: "مزيج ساحر يجمع بين الترطيب العميق وزيت الورد الجوري المغذي الذي يعيد للشفاه لونها الوردي الطبيعي.",
-                prep: "تخلط القاعدة مع زيت الورد وزيت الجوجوبا على درجة حرارة دافئة قليلاً لضمان التجانس وتعبأ في عبوات نظيفة.",
-                usage: "يستخدم صباحاً ومساءً للحصول على توريد وترطيب معاً.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 60 },
-                    { name: "زيت الورد الجوري", percent: 20 },
-                    { name: "زيت الجوجوبا", percent: 17 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 8,
-                title: "8. غلوس بذور الرمان المغذي (مختبر)",
-                category: "moisturizing",
-                desc: "غني بمضادات الأكسدة القوية وحمض البونيك، يحارب جفاف الشفاه ويمنحها نضارة فورية.",
-                prep: "تذاب المكونات وتخلط جيداً على البارد لتجنب فقدان الخصائص الفعالة لزيت الرمان.",
-                usage: "يوضع طبقة خفيفة على الشفاه يومياً.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 55 },
-                    { name: "زيت بذور الرمان", percent: 30 },
-                    { name: "زيت بذور العنب", percent: 12 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 9,
-                title: "9. غلوس زيت الزيتون البكر الممتاز (معتمد)",
-                category: "moisturizing",
-                desc: "تركيبة تراثية مطورة ومختبرة، توفر حاجزاً واقياً قوياً لمنع تبخر الرطوبة من الشفاه.",
-                prep: "يمزج زيت الزيتون النقي المصفى بعناية مع قاعدة الجل ويخفق حتى يتماسك القوام تماماً.",
-                usage: "ممتاز للأوقات الباردة والجافة.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 50 },
-                    { name: "زيت الزيتون النقي", percent: 40 },
-                    { name: "زيت الخروع", percent: 7 },
-                    { name: "فيتامين E", percent: 3 }
-                ]
-            },
-            {
-                id: 10,
-                title: "10. غلوس الفانيليا وزبدة الكاكاو الفاخرة (مختبر)",
-                category: "moisturizing",
-                desc: "يجمع بين خصائص زبدة الكاكاو الملطفة ورائحة الفانيليا الطبيعية لعلاج التشققات العميقة.",
-                prep: "تذاب زبدة الكاكاو بحرارة منخفضة جداً ثم تضاف تدريجياً للقاعدة والزيوت مع التحريك السريع.",
-                usage: "يستخدم كمرطب مكثف طوال اليوم.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 48 },
-                    { name: "زبدة الكاكاو العضوية", percent: 20 },
-                    { name: "زيت اللوز الحلو", percent: 25 },
-                    { name: "فيتامين E", percent: 5 },
-                    { name: "مخلص الفانيليا الطبيعي", percent: 2 }
-                ]
-            }
-        ];
+        // مصفوفة التركيبات فارغة تماماً بناءً على طلبك
+        let formulas = [];
 
-        let currentAdminFilter = 'all';
-        let currentStudentFilter = 'all';
+        let currentAdminFilter = null;
+        let currentStudentFilter = null;
 
         const categoriesData = [
-            { id: 'all', name: 'جميع الأقسام' },
             { id: 'moisturizing', name: '1. المرطبة العميق' },
             { id: 'therapeutic', name: '2. العلاجية' },
             { id: 'fruit', name: '3. الفواكه والنكهات' },
@@ -468,9 +325,7 @@
                 unlockApp();
             }
             renderAdminCategoriesGrid();
-            renderAdminFormulas('all');
             renderStudentCategoriesGrid();
-            renderFormulas('all');
         };
 
         function unlockApp() {
@@ -497,7 +352,7 @@
             gridDiv.innerHTML = '';
             let reversedCats = [...categoriesData].reverse();
             reversedCats.forEach(cat => {
-                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
+                let count = formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentAdminFilter === cat.id ? 'active' : '';
                 gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
@@ -516,9 +371,9 @@
             const adminListDiv = document.getElementById('adminFormulasList');
             if(!adminListDiv) return;
             adminListDiv.innerHTML = '';
-            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
+            let filtered = formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات في هذا القسم حالياً.</p>`;
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
                 return;
             }
             filtered.forEach((f, index) => {
@@ -530,7 +385,7 @@
 
                 adminListDiv.innerHTML += `<div class="formula-card">
                     <span class="category-badge">${getCategoryName(f.category)}</span>
-                    <h3 style="margin: 3px 0; color: #e91e63; font-size: 15px;">${f.title}</h3>
+                    <h3 style="margin: 3px 0; color: #e91e63; font-size: 15px;">${index + 1}. ${f.title}</h3>
                     <p style="color: #555; font-size: 13px; margin: 4px 0;"><strong>معلومات التركيبة:</strong> ${f.desc}</p>
                     ${tableHtml}
                     <p style="color: #2e7d32; font-size: 12px; margin: 4px 0;"><strong>طريقة التحضير:</strong> ${f.prep}</p>
@@ -545,7 +400,7 @@
             gridDiv.innerHTML = '';
             let reversedCats = [...categoriesData].reverse();
             reversedCats.forEach(cat => {
-                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
+                let count = formulas.filter(f => f.category === cat.id).length;
                 let activeClass = currentStudentFilter === cat.id ? 'active' : '';
                 gridDiv.innerHTML += `<div class="cat-box ${activeClass}" onclick="selectStudentCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
@@ -564,9 +419,9 @@
             const listDiv = document.getElementById('formulasList');
             if(!listDiv) return;
             listDiv.innerHTML = '';
-            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
+            let filtered = formulas.filter(f => f.category === filter);
             if(filtered.length === 0) {
-                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات في هذا القسم.</p>`;
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم بعد.</p>`;
                 return;
             }
             filtered.forEach(f => {
@@ -590,6 +445,7 @@
         function calculateBatch() {
             let total = parseFloat(document.getElementById('totalWeight').value);
             if(!total || total <= 0) { alert('أدخل وزن صحيح'); return; }
+            if(formulas.length === 0) { alert('لا توجد تركيبات للحساب حالياً'); return; }
             let f = formulas[0];
             let resList = document.getElementById('resultList');
             resList.innerHTML = '';
@@ -659,9 +515,9 @@
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderAdminCategoriesGrid();
-            renderAdminFormulas(currentAdminFilter);
+            if(currentAdminFilter) renderAdminFormulas(currentAdminFilter);
             renderStudentCategoriesGrid();
-            renderFormulas(currentStudentFilter);
+            if(currentStudentFilter) renderFormulas(currentStudentFilter);
         }
 
         function submitSubscription() {
