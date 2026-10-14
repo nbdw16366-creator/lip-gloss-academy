@@ -73,7 +73,6 @@
             background-color: #c2185b;
         }
         
-        /* شبكة مربعات الأقسام مرتبة ومنسقة بدقة تامة من اليمين لليسار */
         .categories-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -193,6 +192,11 @@
             background-color: #fff0f3;
             color: #c2185b;
         }
+        .dynamic-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -208,14 +212,14 @@
         <div id="navBar" class="card hidden" style="text-align: center;">
             <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل وموسوعة التركيبات متاحة لك.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
-            <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
+            <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">ميزان التركيبات (Batch Scale)</button>
         </div>
 
         <!-- بوابة التسجيل والدفع للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
-            <p style="font-size: 14px;"><strong>المستفيد:</strong> هاشم شرف الدين | <strong>بنكك:</strong> 3465405 | <strong>الرسوم:</strong> 10,000 ج.س</p>
+            <p style="font-size: 14px;"><strong>المستفيد:</strong> <span id="displayOwnerName">هاشم شرف الدين عبدالله إبراهيم</span> | <strong>بنكك:</strong> <span id="displayBankAcc">3465405</span> | <strong>الرسوم:</strong> <span id="displayFee">10,000</span> ج.س</p>
             <hr style="border: 0; border-top: 1px solid #c8e6c9; margin: 15px 0;">
             
             <label>الإسم الثلاثي:</label>
@@ -248,26 +252,58 @@
             </div>
 
             <div id="adminPanel" class="hidden">
+                <h3 style="color: #e65100; font-size: 16px;">تعديل تفاصيل الدفع (يدوياً)</h3>
+                <label>اسم المستفيد:</label>
+                <input type="text" id="editOwnerName" value="هاشم شرف الدين عبدالله إبراهيم">
+                <label>رقم حساب بنكك:</label>
+                <input type="text" id="editBankAcc" value="3465405">
+                <label>مبلغ الرسوم (ج.س):</label>
+                <input type="text" id="editFee" value="10,000">
+                <button class="btn" style="background: #ff9800;" onclick="savePaymentSettings()">حفظ بيانات الدفع</button>
+
+                <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100; font-size: 16px;">تفعيل حساب طالب</h3>
                 <input type="text" id="activatePhone" placeholder="رقم هاتف الطالب">
                 <button class="btn" style="background: #4caf50;" onclick="activateStudent()">تفعيل دخول الطالب</button>
                 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة للمكتبة</h3>
+                <h3 style="color: #e65100; font-size: 16px;">إضافة تركيبة جديدة (مع الميزان والمكونات التفصيلية)</h3>
                 <label>اسم التركيبة:</label>
                 <input type="text" id="newTitle" placeholder="مثلاً: غلوس التوت اللامع">
+                
                 <label>القسم:</label>
                 <select id="newCategory">
                     <option value="moisturizing">1. تركيبات الترطيب العميق</option>
                     <option value="therapeutic">2. التركيبات العلاجية المرممة</option>
-                    <option value="fruit">3. تركيبات الفواكه والنكهات الطبيعية</option>
+                    <option value="fruit">3. تركيبات الفواكه والنكهات</option>
                     <option value="matte">4. تركيبات المات المخملية</option>
-                    <option value="waterproof">5. التركيبات المقاومة للماء والثابتة</option>
-                    <option value="shimmer">6. تركيبات اللمعان البراق والمايكا</option>
+                    <option value="waterproof">5. التركيبات المقاومة للماء</option>
+                    <option value="shimmer">6. تركيبات اللمعان البراق</option>
                 </select>
-                <label>الوصف:</label>
-                <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
-                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
+
+                <label>وصف ومعلومات التركيبة:</label>
+                <textarea id="newDesc" placeholder="اكتب تفاصيل ومعلومات التركيبة وفوائدها..."></textarea>
+
+                <label>جدول المواد والنسب المئوية:</label>
+                <div id="ingredientsContainer">
+                    <div class="dynamic-row">
+                        <input type="text" placeholder="اسم المادة (مثلاً: قاعدة جل اللمعان)" class="ing-name" value="قاعدة جل اللمعان">
+                        <input type="number" placeholder="النسبة %" class="ing-percent" value="60" style="width: 120px;">
+                    </div>
+                    <div class="dynamic-row">
+                        <input type="text" placeholder="اسم المادة (مثلاً: زيت الجوجوبا)" class="ing-name" value="زيت الجوجوبا">
+                        <input type="number" placeholder="النسبة %" class="ing-percent" value="40" style="width: 120px;">
+                    </div>
+                </div>
+                <button class="btn" style="background: #607d8b; padding: 6px; font-size: 13px; margin-bottom: 15px;" onclick="addIngredientRow()">+ إضافة مادة أخرى للجدول</button>
+
+                <label>طريقة التحضير:</label>
+                <textarea id="newPrep" placeholder="اكتب خطوات التحضير بالتفصيل..."></textarea>
+
+                <label>طريقة الاستخدام:</label>
+                <textarea id="newUsage" placeholder="اكتب طريقة الاستخدام..."></textarea>
+
+                <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة إلى المكتبة</button>
 
                 <hr style="margin: 20px 0;">
                 <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة الاحترافية</h3>
@@ -286,13 +322,18 @@
             </div>
 
             <div id="calculator-section" class="card hidden">
-                <h2>حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
-                <label>الوزن الإجمالي للدفعة (جرام):</label>
-                <input type="number" id="totalWeight" value="100">
-                <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
+                <h2>ميزان التركيبات التفاعلي (Batch Scale & Calculator)</h2>
+                <p style="font-size: 13px; color: #666;">اختر التركيبة وأدخل الوزن الكلي للدفعة ليزن لك كمية كل مادة بالجرام بدقة:</p>
+                
+                <label>اختر التركيبة:</label>
+                <select id="scaleFormulaSelect" onchange="updateScaleIngredients()"></select>
+
+                <label>الوزن الإجمالي المطلوب للدفعة (جرام):</label>
+                <input type="number" id="totalWeight" value="100" oninput="calculateBatch()">
+                <button class="btn" onclick="calculateBatch()">احسب أوزان المكونات بدقة</button>
                 
                 <div id="calcResult" class="calculator-box hidden">
-                    <h3 style="font-size: 15px; color: #e91e63;">الكميات اللازمة للتحضير:</h3>
+                    <h3 style="font-size: 15px; color: #e91e63;">أوزان المواد المطلوبة على الميزان:</h3>
                     <ul id="resultList" style="font-size: 14px; padding-right: 15px;"></ul>
                 </div>
             </div>
@@ -310,7 +351,6 @@
         let currentAdminFilter = 'all';
         let currentStudentFilter = 'all';
 
-        // أسماء الأقسام المحسنة والمنسقة بدقة (مرتبة من 1 إلى 6 + جميع الأقسام)
         const categoriesData = [
             { id: 'all', name: 'جميع الأقسام الشاملة' },
             { id: 'moisturizing', name: '1. تركيبات الترطيب العميق' },
@@ -325,8 +365,10 @@
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
+            loadPaymentSettings();
             renderAdminCategoriesGrid();
             renderStudentCategoriesGrid();
+            populateScaleSelect();
         };
 
         function unlockApp() {
@@ -339,12 +381,46 @@
             document.getElementById('formulas-section').classList.add('hidden');
             document.getElementById('calculator-section').classList.add('hidden');
             if(tab === 'formulas') document.getElementById('formulas-section').classList.remove('hidden');
-            if(tab === 'calculator') document.getElementById('calculator-section').classList.remove('hidden');
+            if(tab === 'calculator') {
+                document.getElementById('calculator-section').classList.remove('hidden');
+                populateScaleSelect();
+            }
         }
 
         function getCategoryName(cat) {
             let found = categoriesData.find(c => c.id === cat);
             return found ? found.name : 'عام';
+        }
+
+        function savePaymentSettings() {
+            let name = document.getElementById('editOwnerName').value;
+            let acc = document.getElementById('editBankAcc').value;
+            let fee = document.getElementById('editFee').value;
+            localStorage.setItem('owner_name', name);
+            localStorage.setItem('bank_acc', acc);
+            localStorage.setItem('fee_amount', fee);
+            loadPaymentSettings();
+            alert('تم حفظ وتحديث تفاصيل الدفع بنجاح!');
+        }
+
+        function loadPaymentSettings() {
+            let name = localStorage.getItem('owner_name') || "هاشم شرف الدين عبدالله إبراهيم";
+            let acc = localStorage.getItem('bank_acc') || "3465405";
+            let fee = localStorage.getItem('fee_amount') || "10,000";
+            document.getElementById('displayOwnerName').innerText = name;
+            document.getElementById('displayBankAcc').innerText = acc;
+            document.getElementById('displayFee').innerText = fee;
+            document.getElementById('editOwnerName').value = name;
+            document.getElementById('editBankAcc').value = acc;
+            document.getElementById('editFee').value = fee;
+        }
+
+        function addIngredientRow() {
+            const container = document.getElementById('ingredientsContainer');
+            container.innerHTML += `<div class="dynamic-row">
+                <input type="text" placeholder="اسم المادة" class="ing-name">
+                <input type="number" placeholder="النسبة %" class="ing-percent" style="width: 120px;">
+            </div>`;
         }
 
         function renderAdminCategoriesGrid() {
@@ -441,13 +517,35 @@
             });
         }
 
+        function populateScaleSelect() {
+            const select = document.getElementById('scaleFormulaSelect');
+            if(!select) return;
+            select.innerHTML = '';
+            if(formulas.length === 0) {
+                select.innerHTML = `<option value="">لا توجد تركيبات متاحة</option>`;
+                return;
+            }
+            formulas.forEach((f, idx) => {
+                select.innerHTML += `<option value="${idx}">${f.title}</option>`;
+            });
+            calculateBatch();
+        }
+
+        function updateScaleIngredients() {
+            calculateBatch();
+        }
+
         function calculateBatch() {
             let total = parseFloat(document.getElementById('totalWeight').value);
-            if(!total || total <= 0) { alert('أدخل وزن صحيح'); return; }
-            if(formulas.length === 0) { alert('لا توجد تركيبات للحساب حالياً'); return; }
-            let f = formulas[0];
+            let idx = document.getElementById('scaleFormulaSelect').value;
             let resList = document.getElementById('resultList');
+            if(!resList) return;
             resList.innerHTML = '';
+            if(!total || total <= 0 || idx === "" || formulas.length === 0) {
+                document.getElementById('calcResult').classList.add('hidden');
+                return;
+            }
+            let f = formulas[idx];
             f.ingredients.forEach(ing => {
                 let amount = (total * ing.percent) / 100;
                 resList.innerHTML += `<li>${ing.name} (${ing.percent}%): <strong>${amount.toFixed(2)} جرام</strong></li>`;
@@ -496,27 +594,54 @@
             let title = document.getElementById('newTitle').value;
             let category = document.getElementById('newCategory').value;
             let desc = document.getElementById('newDesc').value;
-            if(!title || !desc) { alert('أكمل الحقول الأساسية'); return; }
+            let prep = document.getElementById('newPrep').value;
+            let usage = document.getElementById('newUsage').value;
+
+            if(!title || !desc || !prep || !usage) { 
+                alert('الرجاء إكمال جميع حقول التركيبة (العنوان، الوصف، التحضير، والاستخدام)'); 
+                return; 
+            }
+
+            let names = document.querySelectorAll('.ing-name');
+            let percents = document.querySelectorAll('.ing-percent');
+            let ingredients = [];
+            let totalPercent = 0;
+
+            for(let i = 0; i < names.length; i++) {
+                let n = names[i].value.trim();
+                let p = parseFloat(percents[i].value);
+                if(n && !isNaN(p)) {
+                    ingredients.push({ name: n, percent: p });
+                    totalPercent += p;
+                }
+            }
+
+            if(ingredients.length === 0) {
+                alert('الرجاء إدخال مادة واحدة على الأقل مع نسبتها في الجدول');
+                return;
+            }
+
             formulas.push({
                 id: formulas.length + 1,
                 title: title,
                 category: category,
                 desc: desc,
-                prep: "تعقم الأدوات جيداً، تدمج المكونات بحرارة مناسبة مع التقليب حتى تمام التجانس.",
-                usage: "توضع طبقة مناسبة على الشفاه حسب الحاجة.",
-                ingredients: [
-                    { name: "قاعدة جل اللمعان", percent: 60 },
-                    { name: "الزيت المغذي المختار", percent: 35 },
-                    { name: "فيتامين E", percent: 5 }
-                ]
+                prep: prep,
+                usage: usage,
+                ingredients: ingredients
             });
-            alert('تمت إضافة التركيبة بنجاح!');
+
+            alert('تمت إضافة التركيبة بنجاح إلى المكتبة والميزان التفاعلي!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
+            document.getElementById('newPrep').value = '';
+            document.getElementById('newUsage').value = '';
+            
             renderAdminCategoriesGrid();
             renderAdminFormulas(currentAdminFilter);
             renderStudentCategoriesGrid();
             renderFormulas(currentStudentFilter);
+            populateScaleSelect();
         }
 
         function submitSubscription() {
