@@ -73,50 +73,44 @@
             background-color: #c2185b;
         }
         
-        /* شبكة مربعات الأقسام المتجاورة والموحدة بأعلى جمال */
+        /* تصميم مرن ومضمون لترتيب المربعات جنب بعضها */
         .categories-grid {
-            display: grid !important;
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 12px !important;
-            margin: 15px 0 !important;
-        }
-        @media (min-width: 550px) {
-            .categories-grid {
-                grid-template-columns: repeat(3, 1fr) !important;
-            }
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+            justify-content: space-between;
         }
         .cat-box {
             background: #ffffff;
             border: 2px solid var(--primary-light);
-            border-radius: 10px;
-            padding: 15px 10px;
+            border-radius: 8px;
+            padding: 10px 5px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            width: 31%; /* يضمن ظهور 3 مربعات جنب بعضها بكل تلفون */
+            box-sizing: border-box;
+            margin-bottom: 8px;
         }
         .cat-box:hover, .cat-box.active {
             background: var(--primary-light);
             border-color: var(--primary);
-            transform: translateY(-2px);
         }
         .cat-box h4 {
-            margin: 0 0 10px 0;
+            margin: 0 0 6px 0;
             color: var(--primary);
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
         }
         .cat-counter-badge {
             background: var(--primary);
             color: white;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
-            padding: 4px 10px;
-            border-radius: 6px;
+            padding: 2px 6px;
+            border-radius: 5px;
             display: inline-block;
         }
 
@@ -247,7 +241,7 @@
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (شبكة المربعات والأعداد)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (المربعات المتجاورة)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
 
                 <div id="adminFormulasList" style="margin-top: 15px; max-height: 250px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px;"></div>
