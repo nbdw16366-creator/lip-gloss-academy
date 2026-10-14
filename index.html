@@ -87,6 +87,68 @@
         .card-body li {
             margin-bottom: 0.3rem;
         }
+        /* تصميم الحاسبة */
+        .calculator-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 1rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            border-color: var(--primary-color);
+        }
+        .calc-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.3s;
+        }
+        .calc-btn:hover {
+            opacity: 0.9;
+        }
+        .calc-results {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: var(--light-color);
+            border-radius: 8px;
+            border: 1px dashed var(--primary-color);
+        }
+        .calc-results h4 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+        .calc-results ul {
+            padding-right: 1.2rem;
+        }
+        .calc-results li {
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
         footer {
             text-align: center;
             padding: 2rem;
@@ -130,6 +192,28 @@
                         <li>تعبئة الخليط في عبوات الغلوس المعقمة جاهزة للاستخدام.</li>
                     </ul>
                 </div>
+            </div>
+        </div>
+
+        <!-- قسم حاسبة التركيبات التفاعلية (Batch Calculator) -->
+        <h2 class="section-title">حاسبة التركيبات التفاعلية (Batch Calculator)</h2>
+        <div class="calculator-card">
+            <p style="margin-bottom: 1.5rem;">أدخل الوزن الإجمالي المطلوب تحضيره للغلوس (بالجرام)، وسنقوم بحساب كمية كل مكون بدقة:</p>
+            <div class="form-group">
+                <label for="totalWeight">الوزن الإجمالي للدفعة (جرام):</label>
+                <input type="number" id="totalWeight" value="100" min="1" placeholder="مثال: 100">
+            </div>
+            <button class="calc-btn" onclick="calculateBatch()">احسب كميات المكونات</button>
+
+            <div class="calc-results" id="resultsBox">
+                <h4>الكميات اللازمة للتحضير:</h4>
+                <ul>
+                    <li id="res1">زيت الجوجوبا المرطب (45%): 45.00 جرام</li>
+                    <li id="res2">قاعدة جل اللمعان Versagel (40%): 40.00 جرام</li>
+                    <li id="res3">زيت الخروع النقي (12%): 12.00 جرام</li>
+                    <li id="res4">فيتامين E (2%): 2.00 جرام</li>
+                    <li id="res5">نكهة الفانيليا العضوية (1%): 1.00 جرام</li>
+                </ul>
             </div>
         </div>
 
@@ -179,6 +263,28 @@
     <footer>
         <p>&copy; 2026 أكاديمية ملمع الشفاء. جميع الحقوق محفوظة.</p>
     </footer>
+
+    <script>
+        function calculateBatch() {
+            let total = parseFloat(document.getElementById('totalWeight').value);
+            if (isNaN(total) || total <= 0) {
+                alert('الرجاء إدخال وزن صحيح أكبر من الصفر.');
+                return;
+            }
+
+            let jojoba = (total * 0.45).toFixed(2);
+            let versagel = (total * 0.40).toFixed(2);
+            let castor = (total * 0.12).toFixed(2);
+            let vitaminE = (total * 0.02).toFixed(2);
+            let flavor = (total * 0.01).toFixed(2);
+
+            document.getElementById('res1').innerText = `زيت الجوجوبا المرطب (45%): ${jojoba} جرام`;
+            document.getElementById('res2').innerText = `قاعدة جل اللمعان Versagel (40%): ${versagel} جرام`;
+            document.getElementById('res3').innerText = `زيت الخروع النقي (12%): ${castor} جرام`;
+            document.getElementById('res4').innerText = `فيتامين E (2%): ${vitaminE} جرام`;
+            document.getElementById('res5').innerText = `نكهة الفانيليا العضوية (1%): ${flavor} جرام`;
+        }
+    </script>
 
 </body>
 </html>
