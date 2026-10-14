@@ -73,35 +73,40 @@
             background-color: #c2185b;
         }
         
-        /* تصميم مرن ومضمون لترتيب المربعات جنب بعضها */
+        /* شبكة مربعات الأقسام المظبوطة والمتجاورة تماماً */
         .categories-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 10px;
             margin: 15px 0;
             justify-content: space-between;
         }
         .cat-box {
             background: #ffffff;
             border: 2px solid var(--primary-light);
-            border-radius: 8px;
-            padding: 10px 5px;
+            border-radius: 10px;
+            padding: 12px 8px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-            width: 31%; /* يضمن ظهور 3 مربعات جنب بعضها بكل تلفون */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            width: 31%;
             box-sizing: border-box;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
         .cat-box:hover, .cat-box.active {
             background: var(--primary-light);
             border-color: var(--primary);
+            transform: translateY(-2px);
         }
         .cat-box h4 {
-            margin: 0 0 6px 0;
+            margin: 0 0 8px 0;
             color: var(--primary);
-            font-size: 12px;
+            font-size: 13px;
             font-weight: bold;
         }
         .cat-counter-badge {
@@ -109,8 +114,8 @@
             color: white;
             font-size: 11px;
             font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 5px;
+            padding: 3px 8px;
+            border-radius: 6px;
             display: inline-block;
         }
 
@@ -177,12 +182,12 @@
 
         <!-- شريط التنقل العلوي للمشتركين -->
         <div id="navBar" class="card hidden" style="text-align: center;">
-            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل ويمكنك تصفح المكتبة بالكامل.</p>
+            <p style="color: #2e7d32; font-weight: bold;">مرحباً بك! حسابك مفعل وموسوعة التركيبات متاحة لك.</p>
             <button class="btn" style="width: auto; margin: 5px; background: #4caf50;" onclick="showMainTab('formulas')">مكتبة التركيبات</button>
             <button class="btn" style="width: auto; margin: 5px; background: #2196f3;" onclick="showMainTab('calculator')">حاسبة الكميات</button>
         </div>
 
-        <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
+        <!-- بوابة التسجيل والدفع للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
             <div class="lock-notice">مكتبة التركيبات الاحترافية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
@@ -241,14 +246,12 @@
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (المربعات المتجاورة)</h3>
+                <h3 style="color: #e65100; font-size: 16px;">أقسام المنصة (شبكة المربعات والأعداد)</h3>
                 <div id="adminCategoriesGrid" class="categories-grid"></div>
-
-                <div id="adminFormulasList" style="margin-top: 15px; max-height: 250px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px;"></div>
             </div>
         </div>
 
-        <!-- محتوى الطلاب والمكتبة -->
+        <!-- محتوى الطلاب والمكتبة (نفس الهيكل تماماً) -->
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
@@ -304,7 +307,6 @@
                 unlockApp();
             }
             renderAdminCategoriesGrid();
-            renderAdminFormulas('all');
             renderStudentCategoriesGrid();
             renderFormulas('all');
         };
@@ -344,24 +346,6 @@
         function selectAdminCategory(catId) {
             currentAdminFilter = catId;
             renderAdminCategoriesGrid();
-            renderAdminFormulas(catId);
-        }
-
-        function renderAdminFormulas(filter) {
-            const adminListDiv = document.getElementById('adminFormulasList');
-            if(!adminListDiv) return;
-            adminListDiv.innerHTML = '';
-            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
-            if(filtered.length === 0) {
-                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات في هذا القسم حالياً.</p>`;
-                return;
-            }
-            filtered.forEach((f, index) => {
-                adminListDiv.innerHTML += `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
-                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 11px; color: #880e4f;">(${getCategoryName(f.category)})</span>
-                    <p style="margin: 2px 0; font-size: 12px; color: #666;">${f.desc}</p>
-                </div>`;
-            });
         }
 
         function renderStudentCategoriesGrid() {
@@ -463,11 +447,10 @@
             let desc = document.getElementById('newDesc').value;
             if(!title || !desc) { alert('أكمل الحقول'); return; }
             formulas.push({ id: formulas.length + 1, title, category, desc, ingredients: [{ name: "قاعدة أساسية", percent: 100 }] });
-            alert('تمت إضافة التركيبة!');
+            alert('تمت إضافة التركيبة بنجاح!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
             renderAdminCategoriesGrid();
-            renderAdminFormulas(currentAdminFilter);
             renderStudentCategoriesGrid();
             renderFormulas(currentStudentFilter);
         }
