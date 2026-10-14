@@ -72,39 +72,37 @@
         .btn:hover {
             background-color: #c2185b;
         }
-        /* تصميم شبكة الأقسام الجديدة بأزرار العدد */
+        /* تصميم شبكة الأقسام */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
         }
         .cat-btn {
             background: #ffffff;
             border: 2px solid var(--primary-light);
             border-radius: 10px;
-            padding: 15px;
+            padding: 12px;
             text-align: right;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
         }
         .cat-btn:hover, .cat-btn.active {
             background: var(--primary-light);
             border-color: var(--primary);
-            transform: translateY(-2px);
         }
         .cat-btn h4 {
             margin: 0 0 5px 0;
             color: var(--primary);
-            font-size: 16px;
+            font-size: 15px;
         }
         .cat-btn span {
-            font-size: 13px;
+            font-size: 12px;
             color: #666;
             background: #fff;
-            padding: 2px 8px;
-            border-radius: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
             border: 1px solid #ddd;
         }
         input, select, textarea {
@@ -177,7 +175,7 @@
         <!-- بوابة الدفع والاشتراك الإلزامي للطلاب -->
         <div id="subscription-card" class="card" style="background: #e8f5e9; border-top-color: #4caf50;">
             <h2>بوابة التسجيل والدفع (محتوى مغلق للطلاب)</h2>
-            <div class="lock-notice">عذراً، مكتبة التركيبات الاحترافية والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
+            <div class="lock-notice">عذراً، مكتبة التركيبات والحاسبة التفاعلية متاحة فقط للطلاب المشتركين بعد تأكيد الدفع.</div>
             <p><strong>اسم المستفيد:</strong> هاشم شرف الدين عبدالله</p>
             <p><strong>رقم الحساب (بنكك):</strong> 3465405</p>
             <p><strong>رسوم الاشتراك:</strong> 10,000 جنيه سوداني</p>
@@ -233,18 +231,21 @@
                     <option value="therapeutic">2. العلاجية</option>
                     <option value="fruit">3. الفواكه والنكهات</option>
                     <option value="matte">4. المات والمطفي</option>
-                    <option value="waterproof">5. المقاومة للماء والثبات الطويل</option>
+                    <option value="waterproof">5. المقاومة للماء والثبات</option>
                     <option value="shimmer">6. اللامعة البراقة</option>
                 </select>
                 <label>الوصف:</label>
                 <textarea id="newDesc" placeholder="وصف التركيبة وفوائدها..."></textarea>
                 <button class="btn" style="background: #4caf50;" onclick="addNewFormula()">حفظ وإضافة التركيبة</button>
 
-                <!-- قسم استعراض وإدارة جميع التركيبات للمدير -->
+                <!-- شبكة أزرار الأقسام وإدارة التركيبات للمدير مباشرة -->
                 <hr style="margin: 20px 0;">
-                <h3 style="color: #e65100;">قائمة جميع التركيبات المحفوظة (استعراض المدير)</h3>
-                <p style="font-size: 14px; color: #555;">يمكنك هنا استعراض جميع التركيبات المضافة في النظام:</p>
-                <div id="adminFormulasList" style="max-height: 350px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
+                <h3 style="color: #e65100;">أقسام المنصة وعدد التركيبات (إدارة المدير)</h3>
+                <p style="font-size: 14px; color: #555;">اختر القسم لعرض وتصفح تركيباته مباشرة من لوحة التحكم:</p>
+                
+                <div id="adminCategoriesGrid" class="categories-grid"></div>
+
+                <div id="adminFormulasList" style="margin-top: 15px; max-height: 300px; overflow-y: auto; background: #fff; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
                     <!-- يتم عرض التركيبات هنا للمدير تلقائياً -->
                 </div>
             </div>
@@ -254,13 +255,7 @@
         <div id="protected-content" class="hidden">
             <div id="formulas-section" class="card">
                 <h2>مكتبة التركيبات الاحترافية (موسوعة ملمع الشفاء)</h2>
-                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">اختر القسم لعرض التركيبات الخاصة به:</p>
-                
-                <!-- شبكة أزرار الأقسام التفاعلية مع عداد التركيبات -->
-                <div id="categoriesGrid" class="categories-grid">
-                    <!-- يتم توليدها ديناميكياً بواسطة البرمجة -->
-                </div>
-
+                <div id="studentCategoriesGrid" class="categories-grid"></div>
                 <div id="formulasList" style="margin-top: 20px;"></div>
             </div>
 
@@ -272,7 +267,7 @@
                 <button class="btn" onclick="calculateBatch()">احسب كميات المكونات</button>
                 
                 <div id="calcResult" class="calculator-box hidden">
-                    <h3>الكميات اللازمة للتحضير (بناءً على التركيبة المختارة):</h3>
+                    <h3>الكميات اللازمة للتحضير:</h3>
                     <ul id="resultList"></ul>
                 </div>
             </div>
@@ -363,15 +358,16 @@
             }
         ];
 
-        let currentFilter = 'all';
+        let currentAdminFilter = 'all';
+        let currentStudentFilter = 'all';
 
         const categoriesData = [
-            { id: 'all', name: 'جميع الأقسام (عرض الكل)' },
+            { id: 'all', name: 'جميع الأقسام (الكل)' },
             { id: 'moisturizing', name: '1. المرطبة العميق' },
             { id: 'therapeutic', name: '2. العلاجية' },
             { id: 'fruit', name: '3. الفواكه والنكهات' },
             { id: 'matte', name: '4. المات والمطفي' },
-            { id: 'waterproof', name: '5. المقاومة للماء والثبات' },
+            { id: 'waterproof', name: '5. المقاومة للماء' },
             { id: 'shimmer', name: '6. اللامعة البراقة' }
         ];
 
@@ -379,9 +375,10 @@
             if(localStorage.getItem('academy_activated') === 'true') {
                 unlockApp();
             }
-            renderCategoriesGrid();
+            renderAdminCategoriesGrid();
+            renderAdminFormulas('all');
+            renderStudentCategoriesGrid();
             renderFormulas('all');
-            renderAdminFormulas();
         };
 
         function unlockApp() {
@@ -403,16 +400,17 @@
             return found ? found.name : 'عام';
         }
 
-        // توليد شبكة الأزرار للأقسام مع حساب عدد التركيبات ديناميكياً
-        function renderCategoriesGrid() {
-            const gridDiv = document.getElementById('categoriesGrid');
+        // شبكة أزرار المدير
+        function renderAdminCategoriesGrid() {
+            const gridDiv = document.getElementById('adminCategoriesGrid');
+            if(!gridDiv) return;
             gridDiv.innerHTML = '';
 
             categoriesData.forEach(cat => {
                 let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
-                let activeClass = currentFilter === cat.id ? 'active' : '';
+                let activeClass = currentAdminFilter === cat.id ? 'active' : '';
 
-                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectCategory('${cat.id}')">
+                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectAdminCategory('${cat.id}')">
                     <h4>${cat.name}</h4>
                     <span>عدد التركيبات: <strong>${count}</strong></span>
                 </div>`;
@@ -420,20 +418,66 @@
             });
         }
 
-        function selectCategory(catId) {
-            currentFilter = catId;
-            renderCategoriesGrid();
+        function selectAdminCategory(catId) {
+            currentAdminFilter = catId;
+            renderAdminCategoriesGrid();
+            renderAdminFormulas(catId);
+        }
+
+        function renderAdminFormulas(filter) {
+            const adminListDiv = document.getElementById('adminFormulasList');
+            if(!adminListDiv) return;
+            adminListDiv.innerHTML = '';
+
+            let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
+
+            if(filtered.length === 0) {
+                adminListDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 10px;">لا توجد تركيبات في هذا القسم.</p>`;
+                return;
+            }
+
+            filtered.forEach((f, index) => {
+                let html = `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
+                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${getCategoryName(f.category)})</span>
+                    <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
+                </div>`;
+                adminListDiv.innerHTML += html;
+            });
+        }
+
+        // شبكة أزرار الطالب
+        function renderStudentCategoriesGrid() {
+            const gridDiv = document.getElementById('studentCategoriesGrid');
+            if(!gridDiv) return;
+            gridDiv.innerHTML = '';
+
+            categoriesData.forEach(cat => {
+                let count = cat.id === 'all' ? formulas.length : formulas.filter(f => f.category === cat.id).length;
+                let activeClass = currentStudentFilter === cat.id ? 'active' : '';
+
+                let btnHtml = `<div class="cat-btn ${activeClass}" onclick="selectStudentCategory('${cat.id}')">
+                    <h4>${cat.name}</h4>
+                    <span>عدد التركيبات: <strong>${count}</strong></span>
+                </div>`;
+                gridDiv.innerHTML += btnHtml;
+            });
+        }
+
+        function selectStudentCategory(catId) {
+            currentStudentFilter = catId;
+            renderStudentCategoriesGrid();
             renderFormulas(catId);
         }
 
         function renderFormulas(filter) {
             const listDiv = document.getElementById('formulasList');
+            if(!listDiv) return;
             listDiv.innerHTML = '';
             
             let filtered = filter === 'all' ? formulas : formulas.filter(f => f.category === filter);
 
             if(filtered.length === 0) {
-                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حتى الآن. يمكنك إضافتها من لوحة المدير!</p>`;
+                listDiv.innerHTML = `<p style="text-align: center; color: #888; padding: 20px;">لا توجد تركيبات مضافة في هذا القسم حتى الآن.</p>`;
                 return;
             }
 
@@ -449,20 +493,6 @@
                 });
                 html += `</ul></div>`;
                 listDiv.innerHTML += html;
-            });
-        }
-
-        function renderAdminFormulas() {
-            const adminListDiv = document.getElementById('adminFormulasList');
-            if(!adminListDiv) return;
-            adminListDiv.innerHTML = '';
-
-            formulas.forEach((f, index) => {
-                let html = `<div style="border-bottom: 1px solid #eee; padding: 8px 0; margin-bottom: 8px;">
-                    <strong>${index + 1}. ${f.title}</strong> <span style="font-size: 12px; color: #880e4f;">(${getCategoryName(f.category)})</span>
-                    <p style="margin: 2px 0; font-size: 13px; color: #666;">${f.desc}</p>
-                </div>`;
-                adminListDiv.innerHTML += html;
             });
         }
 
@@ -508,14 +538,16 @@
                 alert('تم اعتماد وحفظ كلمة المرور السرية الخاصة بك بنجاح!');
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                renderAdminFormulas();
+                renderAdminCategoriesGrid();
+                renderAdminFormulas('all');
                 return;
             }
 
             if(pass === savedPass) {
                 document.getElementById('loginBox').classList.add('hidden');
                 document.getElementById('adminPanel').classList.remove('hidden');
-                renderAdminFormulas();
+                renderAdminCategoriesGrid();
+                renderAdminFormulas('all');
                 alert('مرحباً بك يا باشمهندس هاشم في لوحة التحكم الخاصة بك!');
             } else {
                 alert('كلمة المرور غير صحيحة! (إذا نسيتها، اضغط زر "إعادة تعيين كلمة سر جديدة" بالأسفل)');
@@ -559,9 +591,10 @@
             alert('تمت إضافة التركيبة الجديدة بنجاح للمكتبة!');
             document.getElementById('newTitle').value = '';
             document.getElementById('newDesc').value = '';
-            renderCategoriesGrid();
-            renderFormulas(currentFilter);
-            renderAdminFormulas();
+            renderAdminCategoriesGrid();
+            renderAdminFormulas(currentAdminFilter);
+            renderStudentCategoriesGrid();
+            renderFormulas(currentStudentFilter);
         }
 
         function submitSubscription() {
