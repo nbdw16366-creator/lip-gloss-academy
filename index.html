@@ -1,62 +1,86 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أكاديمية لمعة الشفاه - تسجيل الطلاب</title>
-    <!-- مكتبة Supabase للربط -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <style>
-        body { font-family: Tahoma, sans-serif; background-color: #f4f4f9; text-align: center; padding: 50px; }
-        .form-container { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0px 0px 10px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-        button { background: #ff4b5c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-size: 16px; }
-        button:hover { background: #e03e4d; }
-    </style>
-</head>
-<body>
 
-    <div class="form-container">
-        <h2>تسجيل طالب جديد - لمعة الشفاه</h2>
-        <form id="signupForm">
-            <input type="text" id="fullName" placeholder="الاسم الكامل" required>
-            <input type="text" id="phone" placeholder="رقم الهاتف" required>
-            <button type="submit">تسجيل</button>
-        </form>
-        <p id="msg"></p>
-    </div>
+<!-- تسجيل دخول المدير -->
+<section id="adminLogin" hidden>
+  <h2>دخول الإدارة</h2>
+  <input id="adminEmail" type="email" placeholder="البريد الإلكتروني">
+  <input id="adminPassword" type="password" placeholder="كلمة المرور">
+  <button id="adminLoginButton">تسجيل الدخول</button>
+  <p id="adminMessage"></p>
+</section>
 
-    <script>
-        // ضع هنا بيانات الـ Supabase الخاصة بك بدلاً من النصوص العربية
-        const SUPABASE_URL = 'https://vuqafcykmgoaiqpqpwl.supabase.co';
-        const SUPABASE_ANON_KEY = 'ضع_مفتاح_النشر_الذي_نسخته_هنا';
+<!-- ضع واجهة الإدارة الموجودة عندك داخل هذا القسم -->
+<section id="adminPanel" hidden>
+  <h2>لوحة الإدارة</h2>
+  <p>تم التحقق من صلاحية المدير.</p>
+  <button id="adminLogoutButton">تسجيل الخروج</button>
+</section>
 
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+<script type="module">
+  import { createClient } from
+    'https://esm.sh/@supabase/supabase-js@2';
 
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const fullName = document.getElementById('fullName').value;
-            const phone = document.getElementById('phone').value;
-            const msg = document.getElementById('msg');
+  const SUPABASE_URL = 'ضع_رابط_مشروعك_هنا';
+  const SUPABASE_ANON_KEY = 'ضع_مفتاح_النشر_العام_هنا';
 
-            // إرسال البيانات إلى جدول users
-            const { data, error } = await supabaseClient
-                .from('users')
-                .insert([
-                    { full_name: fullName, phone: phone }
-                ]);
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-            if (error) {
-                msg.style.color = 'red';
-                msg.textContent = 'حدث خطأ: ' + error.message;
-            } else {
-                msg.style.color = 'green';
-                msg.textContent = 'تم التسجيل بنجاح!';
-                document.getElementById('signupForm').reset();
-            }
-        });
-    </script>
+  const login = document.getElementById('adminLogin');
+  const panel = document.getElementById('adminPanel');
+  const message = document.getElementById('adminMessage');
 
-</body>
-</html>
+  async function checkAdmin() {
+    panel.hidden = true;
+
+    const { data: { user } } =
+      await supabase.auth.getUser();
+
+    if (!user) {
+      login.hidden = false;
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (!error && data?.role === 'admin') {
+      login.hidden = true;
+      panel.hidden = false;
+    } else {
+      login.hidden = false;
+      message.textContent = 'الحساب ما عنده صلاحية الإدارة.';
+    }
+  }
+
+  document.getElementById('adminLoginButton')
+    .addEventListener('click', async () => {
+      message.textContent = 'جارٍ التحقق...';
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email: document.getElementById('adminEmail').value.trim(),
+        password: document.getElementById('adminPassword').value
+      });
+
+      if (error) {
+        message.textContent = 'تعذّر الدخول. راجع بيانات الحساب.';
+        return;
+      }
+
+      await checkAdmin();
+    });
+
+  document.getElementById('adminLogoutButton')
+    .addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      panel.hidden = true;
+      login.hidden = false;
+      message.textContent = '';
+    });
+
+  await checkAdmin();
+</script>
