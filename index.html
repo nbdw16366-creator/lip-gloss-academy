@@ -1,80 +1,85 @@
 <!-- تسجيل دخول المدير -->
-<section id="adminLogin">
+<section id="adminLogin" hidden>
   <h2>دخول الإدارة</h2>
-  <input id="adminEmail" type="email" placeholder="البريد الإلكتروني" style="display:block; margin: 10px 0; padding: 8px; width: 100%;">
-  <input id="adminPassword" type="password" placeholder="كلمة المرور" style="display:block; margin: 10px 0; padding: 8px; width: 100%;">
-  <button id="adminLoginButton" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">تسجيل الدخول</button>
-  <p id="adminMessage" style="color: red; margin-top: 10px;"></p>
+  <input id="adminEmail" type="email" placeholder="البريد الإلكتروني">
+  <input id="adminPassword" type="password" placeholder="كلمة المرور">
+  <button id="adminLoginButton">تسجيل الدخول</button>
+  <p id="adminMessage"></p>
 </section>
 
-<!-- واجهة الإدارة -->
+<!-- ضع واجهة الإدارة الموجودة عندك داخل هذا القسم -->
 <section id="adminPanel" hidden>
-  <h2>لوحة الإدارة - التحكم في التركيبات</h2>
-  <p>أهلاً بك، تم تسجيل الدخول بنجاح كمدير.</p>
-  
-  <!-- حتة إضافة التركيبات أو عرض الطلبات -->
-  <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin-top: 15px; border-radius: 5px;">
-    <h3>إضافة تركيب جديد أو مراجعة الطلبات</h3>
-    <p>من هنا يمكنك إدارة الطلبات والاشتراكات يدوياً بكل سهولة.</p>
-  </div>
-
-  <button id="adminLogoutButton" style="margin-top: 15px; padding: 8px 15px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">تسجيل الخروج</button>
+  <h2>لوحة الإدارة</h2>
+  <p>تم التحقق من صلاحية المدير.</p>
+  <button id="adminLogoutButton">تسجيل الخروج</button>
 </section>
 
 <script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+  import { createClient } from
+    'https://esm.sh/@supabase/supabase-js@2';
 
-  // استبدل القيم دي برابط مشروعك والمفتاح العام حقك من سوبابيز
   const SUPABASE_URL = 'ضع_رابط_مشروعك_هنا';
   const SUPABASE_ANON_KEY = 'ضع_مفتاح_النشر_العام_هنا';
 
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+  );
 
-  const loginSection = document.getElementById('adminLogin');
-  const panelSection = document.getElementById('adminPanel');
+  const login = document.getElementById('adminLogin');
+  const panel = document.getElementById('adminPanel');
   const message = document.getElementById('adminMessage');
 
-  async function checkUser() {
-    const { data: { user }, error } = await supabase.auth.getUser();
-    
-    if (error || !user) {
-      loginSection.hidden = false;
-      panelSection.hidden = true;
+  async function checkAdmin() {
+    panel.hidden = true;
+
+    const { data: { user } } =
+      await supabase.auth.getUser();
+
+    if (!user) {
+      login.hidden = false;
       return;
     }
 
-    // إذا سجلت دخول صح، افتح اللوحة فوراً بدون تعقيد
-    loginSection.hidden = true;
-    panelSection.hidden = false;
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (!error && data?.role === 'admin') {
+      login.hidden = true;
+      panel.hidden = false;
+    } else {
+      login.hidden = false;
+      message.textContent = 'الحساب ما عنده صلاحية الإدارة.';
+    }
   }
 
-  document.getElementById('adminLoginButton').addEventListener('click', async () => {
-    message.textContent = 'جارٍ تسجيل الدخول...';
-    
-    const email = document.getElementById('adminEmail').value.trim();
-    const password = document.getElementById('adminPassword').value;
+  document.getElementById('adminLoginButton')
+    .addEventListener('click', async () => {
+      message.textContent = 'جارٍ التحقق...';
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
+      const { error } = await supabase.auth.signInWithPassword({
+        email: document.getElementById('adminEmail').value.trim(),
+        password: document.getElementById('adminPassword').value
+      });
+
+      if (error) {
+        message.textContent = 'تعذّر الدخول. راجع بيانات الحساب.';
+        return;
+      }
+
+      await checkAdmin();
     });
 
-    if (error) {
-      message.textContent = 'خطأ في الإيميل أو كلمة المرور، حاول تاني.';
-      return;
-    }
+  document.getElementById('adminLogoutButton')
+    .addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      panel.hidden = true;
+      login.hidden = false;
+      message.textContent = '';
+    });
 
-    message.textContent = '';
-    await checkUser();
-  });
-
-  document.getElementById('adminLogoutButton').addEventListener('click', async () => {
-    await supabase.auth.signOut();
-    document.getElementById('adminEmail').value = '';
-    document.getElementById('adminPassword').value = '';
-    await checkUser();
-  });
-
-  // فحص الحالة عند فتح الصفحة
-  await checkUser();
+  await checkAdmin();
 </script>
