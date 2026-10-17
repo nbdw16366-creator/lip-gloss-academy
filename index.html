@@ -1,615 +1,127 @@
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b67">
-  <title>موسوعة مواد التجميل</title>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 
-  <style>
-    :root {
-      --blue: #123b67;
-      --blue2: #1c5b91;
-      --pale: #edf5fc;
-      --white: #fff;
-      --text: #203247;
-      --muted: #68798b;
-      --border: #dce6ef;
-      --gold: #c79b45;
-      --green: #18794e;
-      --red: #b42318;
+  html {
+    width: 100%;
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: Arial, Tahoma, sans-serif;
+    font-size: 17px;
+    line-height: 1.8;
+  }
+
+  header {
+    width: 100%;
+    padding: 22px 0;
+  }
+
+  .header-inner, main, .container {
+    width: 100%;
+    max-width: 900px;
+    margin-inline: auto;
+    padding-inline: 12px;
+  }
+
+  h1 {
+    font-size: clamp(23px, 6vw, 30px);
+    line-height: 1.45;
+  }
+
+  h2 {
+    font-size: clamp(20px, 5vw, 25px);
+    line-height: 1.5;
+  }
+
+  h3 {
+    font-size: 19px;
+    line-height: 1.5;
+  }
+
+  .panel, .card, .material-card {
+    width: 100%;
+    min-width: 0;
+    margin: 0 0 14px;
+    padding: 16px;
+    border-radius: 15px;
+    overflow-wrap: anywhere;
+  }
+
+  input, select, textarea, button {
+    max-width: 100%;
+    min-height: 48px;
+    font: inherit;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 11px 12px;
+  }
+
+  button {
+    padding: 11px 16px;
+    cursor: pointer;
+  }
+
+  img, video, iframe {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .buttons, .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .buttons button {
+    flex: 1 1 140px;
+  }
+
+  .categories button {
+    flex: 0 1 auto;
+    min-height: 42px;
+  }
+
+  @media (max-width: 600px) {
+    main {
+      padding-top: 14px;
+      padding-bottom: 24px;
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: #f3f7fb;
-      color: var(--text);
-      font-family: Arial, Tahoma, sans-serif;
-      line-height: 1.7;
+    .header-inner, main, .container {
+      padding-inline: 10px;
     }
 
-    button, input, select { font: inherit; }
-
-    header {
-      color: white;
-      padding: 24px 16px;
-      background: linear-gradient(135deg, #102f52, #1e659b);
-      border-bottom: 4px solid var(--gold);
+    .panel, .card, .material-card {
+      padding: 14px;
+      margin-bottom: 12px;
     }
 
-    .header-inner, main {
-      width: min(100% - 24px, 900px);
-      margin: auto;
-    }
-
-    .brand {
-      font-size: 25px;
-      font-weight: 800;
-      margin: 0;
-    }
-
-    .subtitle { margin: 4px 0 0; color: #e0edf8; }
-
-    main { padding: 20px 0 40px; }
-
-    .panel, .material-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 15px #123b6708;
-    }
-
-    h2, h3 { color: var(--blue); margin-top: 0; }
-
-    .hidden { display: none !important; }
-
-    .field { margin-bottom: 12px; }
-
-    label {
-      display: block;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    input, select {
+    .buttons button {
+      flex: 1 1 100%;
       width: 100%;
-      padding: 12px;
-      border: 1px solid #cbd8e5;
-      border-radius: 10px;
-      background: white;
-      color: var(--text);
-      outline-color: var(--blue2);
     }
-
-    .buttons {
-      display: flex;
-      gap: 9px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 10px;
-      padding: 11px 16px;
-      background: var(--blue);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    button.secondary { background: #e6eef7; color: var(--blue); }
-    button.gold { background: var(--gold); color: #17283a; }
-    button:disabled { opacity: .6; cursor: wait; }
-
-    .notice {
-      padding: 12px;
-      border-radius: 10px;
-      background: var(--pale);
-      margin: 12px 0;
-      overflow-wrap: anywhere;
-    }
-
-    .notice.error { background: #fff0ef; color: var(--red); }
-    .notice.success { background: #e9f7ef; color: var(--green); }
 
     .topline {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      align-items: stretch;
+      gap: 10px;
     }
 
-    .categories {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 12px 0 18px;
+    .topline button {
+      width: 100%;
     }
-
-    .categories button {
-      background: #e5eef7;
-      color: var(--blue);
-      padding: 8px 12px;
-    }
-
-    .categories button.active {
-      background: var(--blue);
-      color: white;
-    }
-
-    .material-card h3 { margin-bottom: 5px; }
-    .material-card p { margin: 6px 0; }
-    .tag {
-      display: inline-block;
-      background: #edf5fc;
-      color: var(--blue);
-      border-radius: 30px;
-      padding: 3px 10px;
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .muted { color: var(--muted); }
-    .small { font-size: 13px; }
-    footer { text-align: center; color: var(--muted); padding: 18px; }
-  </style>
-</head>
-
-<body>
-<header>
-  <div class="header-inner">
-    <h1 class="brand">موسوعة مواد التجميل</h1>
-    <p class="subtitle">مرجع منظم لمواد التركيبات التجميلية</p>
-  </div>
-</header>
-
-<main>
-  <section id="authPanel" class="panel">
-    <h2>الدخول إلى الموسوعة</h2>
-    <p class="muted">أنشئ حساباً أو سجّل الدخول. الوصول للمواد يتطلب موافقة الإدارة.</p>
-
-    <div id="message" class="notice hidden" role="status" aria-live="polite"></div>
-
-    <form id="loginForm">
-      <div class="field">
-        <label for="loginEmail">البريد الإلكتروني</label>
-        <input id="loginEmail" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="loginPassword">كلمة المرور</label>
-        <input id="loginPassword" type="password" autocomplete="current-password" required>
-      </div>
-      <div class="buttons">
-        <button id="loginButton" type="submit">تسجيل الدخول</button>
-      </div>
-    </form>
-
-    <hr style="border:0;border-top:1px solid var(--border);margin:22px 0">
-
-    <h3>إنشاء حساب جديد</h3>
-    <form id="signupForm">
-      <div class="field">
-        <label for="signupName">الاسم الكامل</label>
-        <input id="signupName" type="text" autocomplete="name" required maxlength="100">
-      </div>
-      <div class="field">
-        <label for="signupPhone">رقم الهاتف (اختياري)</label>
-        <input id="signupPhone" type="tel" autocomplete="tel" maxlength="30">
-      </div>
-      <div class="field">
-        <label for="signupEmail">البريد الإلكتروني</label>
-        <input id="signupEmail" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="signupPassword">كلمة المرور (8 أحرف على الأقل)</label>
-        <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
-      </div>
-      <div class="buttons">
-        <button id="signupButton" type="submit">إنشاء الحساب</button>
-      </div>
-    </form>
-  </section>
-
-  <section id="pendingPanel" class="panel hidden">
-    <h2>حسابك قيد المراجعة</h2>
-    <p>تم تسجيل دخولك، لكن حسابك لم يحصل على موافقة الإدارة حتى الآن.</p>
-    <p>بعد الموافقة، سجّل الدخول مرة أخرى للوصول إلى المواد.</p>
-    <button id="pendingLogout" class="secondary" type="button">تسجيل الخروج</button>
-  </section>
-
-  <section id="approvedPanel" class="hidden">
-    <div class="panel">
-      <div class="topline">
-        <div>
-          <h2 style="margin-bottom:2px">المكتبة العلمية</h2>
-          <p id="welcomeText" class="muted" style="margin:0"></p>
-        </div>
-        <button id="logoutButton" class="secondary" type="button">تسجيل الخروج</button>
-      </div>
-    </div>
-
-    <div class="panel">
-      <label for="searchInput">ابحث عن مادة</label>
-      <input id="searchInput" type="search" placeholder="مثلاً: الجلسرين أو الكاربومر">
-      <div id="categories" class="categories"></div>
-      <p id="materialsStatus" class="muted">جاري تحميل المواد...</p>
-      <div id="materialsList"></div>
-    </div>
-  </section>
-</main>
-
-<footer>موسوعة مواد التجميل — مرجع تعليمي</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-(() => {
-  "use strict";
-
-  const SUPABASE_URL = "https://dmueztnxogbrvlnoveok.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_ZLLhwBg3VfIjBpASDcm2hA_B3KNkafx";
-  const SITE_URL = "https://nbdw16366-creator.github.io/cosmetic-materials-encyclopedia/";
-
-  const authPanel = document.getElementById("authPanel");
-  const pendingPanel = document.getElementById("pendingPanel");
-  const approvedPanel = document.getElementById("approvedPanel");
-  const messageBox = document.getElementById("message");
-  const materialsList = document.getElementById("materialsList");
-  const materialsStatus = document.getElementById("materialsStatus");
-  const categoriesBox = document.getElementById("categories");
-  const searchInput = document.getElementById("searchInput");
-
-  let supabaseClient = null;
-  let allMaterials = [];
-  let selectedCategory = "الكل";
-  let busy = false;
-
-  function showMessage(message, type = "") {
-    messageBox.textContent = message;
-    messageBox.className = "notice" + (type ? " " + type : "");
   }
-
-  function clearMessage() {
-    messageBox.textContent = "";
-    messageBox.className = "notice hidden";
-  }
-
-  function hideAllSections() {
-    authPanel.classList.add("hidden");
-    pendingPanel.classList.add("hidden");
-    approvedPanel.classList.add("hidden");
-    materialsList.replaceChildren();
-    categoriesBox.replaceChildren();
-    allMaterials = [];
-  }
-
-  function showAuth(message = "") {
-    hideAllSections();
-    authPanel.classList.remove("hidden");
-    if (message) showMessage(message);
-    else clearMessage();
-  }
-
-  function setBusy(value) {
-    busy = value;
-    document.querySelectorAll("#loginForm button, #signupForm button")
-      .forEach(button => button.disabled = value);
-  }
-
-  function readableError(error) {
-    const message = error && error.message ? error.message : "";
-    if (/Invalid login credentials/i.test(message)) {
-      return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
-    }
-    if (/Email not confirmed/i.test(message)) {
-      return "أكد بريدك الإلكتروني من الرسالة المرسلة ليك، وبعدها سجّل الدخول.";
-    }
-    if (/User already registered/i.test(message)) {
-      return "البريد ده مسجل من قبل. جرّب تسجيل الدخول.";
-    }
-    if (/Password should be/i.test(message)) {
-      return "كلمة المرور ما مستوفية الشروط.";
-    }
-    return message || "حصل خطأ. راجع الاتصال والإعدادات وحاول مرة تانية.";
-  }
-
-  async function getOrCreateProfile(user) {
-    const { data: existing, error: readError } = await supabaseClient
-      .from("profiles")
-      .select("id, full_name, payment_status, is_admin")
-      .eq("id", user.id)
-      .maybeSingle();
-
-    if (readError) throw readError;
-    if (existing) return existing;
-
-    const metadata = user.user_metadata || {};
-    const fullName = String(metadata.full_name || "").trim();
-
-    if (!fullName) {
-      throw new Error("حسابك ما عنده اسم محفوظ. تواصل مع الإدارة للمساعدة.");
-    }
-
-    const { data: created, error: insertError } = await supabaseClient
-      .from("profiles")
-      .insert({
-        id: user.id,
-        full_name: fullName,
-        phone: String(metadata.phone || ""),
-        payment_status: "pending",
-        is_admin: false
-      })
-      .select("id, full_name, payment_status, is_admin")
-      .single();
-
-    if (insertError) {
-      // A simultaneous sign-in may have created the row already.
-      const { data: retryProfile, error: retryError } = await supabaseClient
-        .from("profiles")
-        .select("id, full_name, payment_status, is_admin")
-        .eq("id", user.id)
-        .maybeSingle();
-
-      if (!retryError && retryProfile) return retryProfile;
-      throw insertError;
-    }
-
-    return created;
-  }
-
-  async function refreshScreen(user) {
-    if (!user) {
-      showAuth();
-      return;
-    }
-
-    hideAllSections();
-    pendingPanel.classList.remove("hidden");
-    pendingPanel.querySelector("h2").textContent = "جاري التحقق من حسابك";
-    pendingPanel.querySelector("p").textContent = "لحظة واحدة...";
-    pendingPanel.querySelectorAll("p")[1].textContent = "";
-
-    let profile;
-    try {
-      profile = await getOrCreateProfile(user);
-    } catch (error) {
-      showAuth("ما قدرنا نتحقق من ملفك: " + readableError(error));
-      return;
-    }
-
-    const isApproved = profile.payment_status === "approved" || profile.is_admin === true;
-
-    if (!isApproved) {
-      hideAllSections();
-      pendingPanel.classList.remove("hidden");
-      pendingPanel.querySelector("h2").textContent = "حسابك قيد المراجعة";
-      pendingPanel.querySelector("p").textContent =
-        "يا " + (profile.full_name || "صاحب الحساب") +
-        "، حسابك لسه ما اتوافق عليه. المواد حتظهر ليك بعد موافقة الإدارة.";
-      pendingPanel.querySelectorAll("p")[1].textContent =
-        "لو تمت الموافقة ولسه ما ظهرت المواد، سجّل الخروج وادخل تاني.";
-      return;
-    }
-
-    hideAllSections();
-    approvedPanel.classList.remove("hidden");
-    document.getElementById("welcomeText").textContent =
-      "مرحباً " + (profile.full_name || "بك") + (profile.is_admin ? " — مدير النظام" : "");
-
-    await loadMaterials();
-  }
-
-  async function loadMaterials() {
-    materialsList.replaceChildren();
-    categoriesBox.replaceChildren();
-    materialsStatus.textContent = "جاري تحميل المواد...";
-
-    const { data, error } = await supabaseClient
-      .from("materials")
-      .select("id, name, description, scientific_name, uses, benefits, safety_notes, category")
-      .order("name", { ascending: true });
-
-    if (error) {
-      materialsStatus.textContent =
-        "تعذّر تحميل المواد. تأكد من سياسات RLS واتصال قاعدة البيانات.";
-      return;
-    }
-
-    allMaterials = data || [];
-    const categoryNames = [...new Set(
-      allMaterials.map(item => item.category).filter(Boolean)
-    )].sort((a, b) => a.localeCompare(b, "ar"));
-
-    const categories = ["الكل", ...categoryNames];
-    categories.forEach(category => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.textContent = category;
-      button.className = category === selectedCategory ? "active" : "";
-      button.addEventListener("click", () => {
-        selectedCategory = category;
-        renderCategories();
-        renderMaterials();
-      });
-      categoriesBox.appendChild(button);
-    });
-
-    if (allMaterials.length === 0) {
-      materialsStatus.textContent = "ما في مواد مضافة لقاعدة البيانات لحد الآن.";
-      return;
-    }
-
-    renderMaterials();
-  }
-
-  function renderCategories() {
-    [...categoriesBox.children].forEach(button => {
-      button.classList.toggle("active", button.textContent === selectedCategory);
-    });
-  }
-
-  function addDetail(card, label, value) {
-    if (!value) return;
-    const paragraph = document.createElement("p");
-    const strong = document.createElement("strong");
-    strong.textContent = label + ": ";
-    paragraph.append(strong, document.createTextNode(String(value)));
-    card.appendChild(paragraph);
-  }
-
-  function renderMaterials() {
-    materialsList.replaceChildren();
-    const term = searchInput.value.trim().toLocaleLowerCase("ar");
-
-    const filtered = allMaterials.filter(item => {
-      const matchesCategory =
-        selectedCategory === "الكل" || item.category === selectedCategory;
-
-      const searchable = [
-        item.name, item.description, item.scientific_name,
-        item.uses, item.benefits, item.safety_notes, item.category
-      ].filter(Boolean).join(" ").toLocaleLowerCase("ar");
-
-      return matchesCategory && searchable.includes(term);
-    });
-
-    materialsStatus.textContent = filtered.length
-      ? "عدد المواد الظاهرة: " + filtered.length
-      : "ما لقينا مواد مطابقة للبحث.";
-
-    filtered.forEach(item => {
-      const card = document.createElement("article");
-      card.className = "material-card";
-
-      if (item.category) {
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = item.category;
-        card.appendChild(tag);
-      }
-
-      const heading = document.createElement("h3");
-      heading.textContent = item.name || "مادة بدون اسم";
-      card.appendChild(heading);
-
-      addDetail(card, "الاسم العلمي", item.scientific_name);
-      addDetail(card, "التعريف", item.description);
-      addDetail(card, "الاستخدامات", item.uses);
-      addDetail(card, "الفوائد", item.benefits);
-      addDetail(card, "احتياطات السلامة", item.safety_notes);
-
-      materialsList.appendChild(card);
-    });
-  }
-
-  document.getElementById("loginForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    if (busy) return;
-    clearMessage();
-    setBusy(true);
-
-    try {
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value;
-
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) throw error;
-      await refreshScreen(data.user);
-    } catch (error) {
-      showAuth("تعذّر تسجيل الدخول: " + readableError(error));
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  document.getElementById("signupForm").addEventListener("submit", async event => {
-    event.preventDefault();
-    if (busy) return;
-    clearMessage();
-    setBusy(true);
-
-    try {
-      const fullName = document.getElementById("signupName").value.trim();
-      const phone = document.getElementById("signupPhone").value.trim();
-      const email = document.getElementById("signupEmail").value.trim();
-      const password = document.getElementById("signupPassword").value;
-
-      if (!fullName) throw new Error("اكتب اسمك الكامل.");
-      if (password.length < 8) throw new Error("كلمة المرور لازم تكون 8 أحرف على الأقل.");
-
-      const { data, error } = await supabaseClient.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName, phone },
-          emailRedirectTo: SITE_URL
-        }
-      });
-
-      if (error) throw error;
-
-      if (data.session && data.user) {
-        await refreshScreen(data.user);
-      } else {
-        showAuth("تم إرسال طلب إنشاء الحساب. افتح بريدك الإلكتروني وأكّد الحساب، وبعدها ارجع وسجّل الدخول. إنشاء الحساب لا يمنح صلاحية قراءة المواد تلقائياً.");
-      }
-    } catch (error) {
-      showAuth("تعذّر إنشاء الحساب: " + readableError(error));
-    } finally {
-      setBusy(false);
-    }
-  });
-
-  async function logout() {
-    const { error } = await supabaseClient.auth.signOut();
-    if (error) {
-      showMessage("تعذّر تسجيل الخروج: " + readableError(error), "error");
-      return;
-    }
-    searchInput.value = "";
-    selectedCategory = "الكل";
-    showAuth("تم تسجيل الخروج.");
-  }
-
-  document.getElementById("logoutButton").addEventListener("click", logout);
-  document.getElementById("pendingLogout").addEventListener("click", logout);
-  searchInput.addEventListener("input", renderMaterials);
-
-  async function start() {
-    if (!window.supabase || !window.supabase.createClient) {
-      showAuth("مكتبة الاتصال ما اتحمّلت. تأكد من الإنترنت ثم أعد تحميل الصفحة.");
-      return;
-    }
-
-    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    try {
-      const { data, error } = await supabaseClient.auth.getSession();
-      if (error) throw error;
-      await refreshScreen(data.session ? data.session.user : null);
-    } catch (error) {
-      showAuth("تعذّر بدء التطبيق: " + readableError(error));
-    }
-
-    supabaseClient.auth.onAuthStateChange((event, session) => {
-      if (event === "SIGNED_OUT") {
-        showAuth();
-      }
-    });
-  }
-
-  start();
-})();
-</script>
-</body>
-</html>
+</style>
