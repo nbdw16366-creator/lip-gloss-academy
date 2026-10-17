@@ -1,127 +1,146 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#123b67">
+<title>موسوعة مواد التجميل</title>
 <style>
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-
-  html {
-    width: 100%;
-    min-height: 100%;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  body {
-    width: 100%;
-    min-width: 0;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    font-family: Arial, Tahoma, sans-serif;
-    font-size: 17px;
-    line-height: 1.8;
-  }
-
-  header {
-    width: 100%;
-    padding: 22px 0;
-  }
-
-  .header-inner, main, .container {
-    width: 100%;
-    max-width: 900px;
-    margin-inline: auto;
-    padding-inline: 12px;
-  }
-
-  h1 {
-    font-size: clamp(23px, 6vw, 30px);
-    line-height: 1.45;
-  }
-
-  h2 {
-    font-size: clamp(20px, 5vw, 25px);
-    line-height: 1.5;
-  }
-
-  h3 {
-    font-size: 19px;
-    line-height: 1.5;
-  }
-
-  .panel, .card, .material-card {
-    width: 100%;
-    min-width: 0;
-    margin: 0 0 14px;
-    padding: 16px;
-    border-radius: 15px;
-    overflow-wrap: anywhere;
-  }
-
-  input, select, textarea, button {
-    max-width: 100%;
-    min-height: 48px;
-    font: inherit;
-    font-size: 16px;
-    border-radius: 10px;
-  }
-
-  input, select, textarea {
-    width: 100%;
-    padding: 11px 12px;
-  }
-
-  button {
-    padding: 11px 16px;
-    cursor: pointer;
-  }
-
-  img, video, iframe {
-    max-width: 100%;
-    height: auto;
-  }
-
-  .buttons, .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .buttons button {
-    flex: 1 1 140px;
-  }
-
-  .categories button {
-    flex: 0 1 auto;
-    min-height: 42px;
-  }
-
-  @media (max-width: 600px) {
-    main {
-      padding-top: 14px;
-      padding-bottom: 24px;
-    }
-
-    .header-inner, main, .container {
-      padding-inline: 10px;
-    }
-
-    .panel, .card, .material-card {
-      padding: 14px;
-      margin-bottom: 12px;
-    }
-
-    .buttons button {
-      flex: 1 1 100%;
-      width: 100%;
-    }
-
-    .topline {
-      align-items: stretch;
-      gap: 10px;
-    }
-
-    .topline button {
-      width: 100%;
-    }
-  }
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;font-family:Arial,Tahoma,sans-serif;font-size:16px;line-height:1.7}
+body{background:#f3f7fb;color:#203247;overflow-x:hidden}
+header{background:linear-gradient(135deg,#102f52,#1e659b);color:white;padding:22px 12px;border-bottom:4px solid #c79b45}
+.header-inner,main{width:100%;max-width:900px;margin:auto;padding:0 12px}
+h1{font-size:clamp(23px,6vw,30px);margin:0}
+header p{margin:4px 0 0;color:#e0edf8}
+main{padding-top:18px;padding-bottom:30px}
+.panel,.material-card{background:white;border:1px solid #dce6ef;border-radius:15px;padding:16px;margin-bottom:14px;box-shadow:0 4px 15px #123b6708}
+h2,h3{color:#123b67;margin-top:0}
+input,button{font:inherit;font-size:16px;max-width:100%;border-radius:10px}
+input{width:100%;padding:12px;border:1px solid #cbd8e5;background:white;margin:5px 0 12px}
+button{min-height:46px;padding:10px 16px;border:0;background:#123b67;color:white;font-weight:bold;cursor:pointer}
+button.secondary{background:#e6eef7;color:#123b67}
+.buttons{display:flex;flex-wrap:wrap;gap:9px}
+.notice{background:#edf5fc;padding:12px;border-radius:10px;margin:12px 0;overflow-wrap:anywhere}
+.hidden{display:none!important}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.muted{color:#68798b}
+.categories{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.categories button{background:#e5eef7;color:#123b67}
+.categories button.active{background:#123b67;color:white}
+.material-card p{margin:6px 0;overflow-wrap:anywhere}
+.tag{display:inline-block;background:#edf5fc;color:#123b67;border-radius:30px;padding:3px 10px;font-size:13px}
+footer{text-align:center;color:#68798b;padding:18px}
+@media(max-width:600px){
+ .header-inner,main{padding-left:10px;padding-right:10px}
+ .panel,.material-card{padding:14px}
+ .buttons button{width:100%;flex:1 1 100%}
+ .topline button{width:100%}
+}
 </style>
+</head>
+<body>
+<header>
+ <div class="header-inner">
+  <h1>موسوعة مواد التجميل</h1>
+  <p>مرجع منظم لمواد التركيبات التجميلية</p>
+ </div>
+</header>
+
+<main>
+ <section class="panel">
+  <h2>أهلاً بيك في الموسوعة</h2>
+  <p>موسوعة تعليمية لتنظيم معلومات مواد التجميل واستخداماتها.</p>
+  <div class="notice">تمت استعادة واجهة الصفحة. تسجيل الدخول وقاعدة البيانات يحتاجان إعادة ربط واختبار إذا تم استبدال الكود السابق بالكامل.</div>
+ </section>
+
+ <section class="panel">
+  <h2>البحث عن المواد</h2>
+  <input id="search" type="search" placeholder="اكتب اسم المادة للبحث">
+  <div id="categories" class="categories"></div>
+  <p id="status" class="muted">جاري تحميل المواد...</p>
+  <div id="materials"></div>
+ </section>
+</main>
+<footer>موسوعة مواد التجميل</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+ const URL = "https://dmueztnxogbrvlnoveok.supabase.co";
+ const KEY = "sb_publishable_ZLLhwBg3VfIjBpASDcm2hA_B3KNkafx";
+ const list = document.getElementById("materials");
+ const status = document.getElementById("status");
+ const search = document.getElementById("search");
+ const categoriesBox = document.getElementById("categories");
+ let rows = [];
+ let category = "الكل";
+
+ function el(tag,text,cls){
+  const node=document.createElement(tag);
+  node.textContent=text || "";
+  if(cls) node.className=cls;
+  return node;
+ }
+
+ function renderCategories(){
+  categoriesBox.replaceChildren();
+  const names=["الكل",...new Set(rows.map(x=>x.category).filter(Boolean))];
+  names.forEach(name=>{
+   const b=el("button",name,category===name?"active":"");
+   b.type="button";
+   b.onclick=()=>{category=name;renderCategories();render();};
+   categoriesBox.appendChild(b);
+  });
+ }
+
+ function render(){
+  list.replaceChildren();
+  const term=search.value.trim().toLocaleLowerCase("ar");
+  const filtered=rows.filter(x=>{
+   const text=[x.name,x.description,x.scientific_name,x.uses,x.benefits,x.safety_notes,x.category].filter(Boolean).join(" ").toLocaleLowerCase("ar");
+   return (category==="الكل"||x.category===category)&&text.includes(term);
+  });
+  status.textContent=filtered.length?"عدد المواد: "+filtered.length:"ما في مواد مطابقة أو ما في مواد مضافة.";
+  filtered.forEach(x=>{
+   const card=el("article","","material-card");
+   if(x.category) card.appendChild(el("span",x.category,"tag"));
+   card.appendChild(el("h3",x.name||"مادة بدون اسم"));
+   [["الاسم العلمي",x.scientific_name],["التعريف",x.description],["الاستخدامات",x.uses],["الفوائد",x.benefits],["احتياطات السلامة",x.safety_notes]].forEach(([label,value])=>{
+    if(value){const p=el("p");p.appendChild(el("strong",label+": "));p.appendChild(document.createTextNode(String(value)));card.appendChild(p);}
+   });
+   list.appendChild(card);
+  });
+ }
+
+ search.addEventListener("input",render);
+
+ async function start(){
+  if(!window.supabase){status.textContent="تعذّر تحميل مكتبة الاتصال. تأكد من الإنترنت.";return;}
+  try{
+   const client=window.supabase.createClient(URL,KEY);
+   const {data:sessionData}=await client.auth.getSession();
+   if(!sessionData.session){
+    status.textContent="سجّل الدخول للوصول للمواد. واجهة الدخول تحتاج إعادة ربط.";
+    return;
+   }
+   const {data:profile,error:profileError}=await client.from("profiles").select("payment_status,is_admin").eq("id",sessionData.session.user.id).maybeSingle();
+   if(profileError||!profile||(profile.payment_status!=="approved"&&profile.is_admin!==true)){
+    status.textContent="حسابك يحتاج موافقة الإدارة قبل عرض المواد.";
+    return;
+   }
+   const {data,error}=await client.from("materials").select("id,name,description,scientific_name,uses,benefits,safety_notes,category").order("name");
+   if(error){status.textContent="تعذّر تحميل المواد. راجع سياسات قاعدة البيانات.";return;}
+   rows=data||[];
+   renderCategories();
+   render();
+  }catch(e){
+   status.textContent="حصل خطأ أثناء تشغيل الموسوعة. أعد تحميل الصفحة.";
+  }
+ }
+ start();
+})();
+</script>
+</body>
+</html>
