@@ -1,98 +1,615 @@
-<div style="direction: rtl; text-align: right; font-family: Tahoma, sans-serif;">
 
-  <!-- نموذج إرسال طلب الاشتراك -->
-  <div style="max-width: 500px; margin: 20px auto; background: #f4f9f4; padding: 20px; border-radius: 8px; border: 1px solid #d4edda; box-sizing: border-box;">
-    <div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; line-height: 1.6;">
-      مكتبة التركيبات الاحترافية متاحة فقط بعد إرسال بيانات التحويل وموافقة الإدارة يدوياً.
-    </div>
-    
-    <p style="margin: 8px 0; font-size: 14px; line-height: 1.6;"><strong>المستفيد:</strong> هاشم شرف الدين عبدالله إراهيم | <strong>بنك:</strong> 3465405 | <strong>الرسوم:</strong> 10,000 ج.س</p>
-    
-    <div style="margin-top: 15px;">
-      <label style="display: block; margin-bottom: 5px; font-weight: bold;">الإسم الثلاثي:</label>
-      <input type="text" id="fullName" placeholder="أدخل اسمك الثلاثي" style="width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-      
-      <label style="display: block; margin-bottom: 5px; font-weight: bold;">رقم الهاتف (واتساب):</label>
-      <input type="text" id="phoneNum" placeholder="09xxxxxxxx" style="width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-      
-      <label style="display: block; margin-bottom: 5px; font-weight: bold;">رقم عملية التحويل:</label>
-      <input type="text" id="transferNum" placeholder="رقم العملية من إشعار بنكك" style="width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-      
-      <button id="submitOrderBtn" style="width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">إرسال طلب الاشتراك للمراجعة</button>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#123b67">
+  <title>موسوعة مواد التجميل</title>
 
-  <!-- قسم تسجيل دخول الإدارة -->
-  <section id="adminLogin" style="max-width: 500px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
-    <h3 style="margin-top: 0; color: #333;">دخول الإدارة</h3>
-    <input id="adminEmail" type="email" placeholder="البريد الإلكتروني" style="width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-    <input id="adminPassword" type="password" placeholder="كلمة المرور" style="width: 100%; padding: 10px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px;">
-    <button id="adminLoginButton" style="padding: 10px 20px; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">تسجيل الدخول</button>
-    <p id="adminMessage" style="color: red; margin-top: 10px; font-size: 14px;"></p>
-  </section>
-
-  <!-- واجهة الإدارة -->
-  <section id="adminPanel" style="display: none; max-width: 500px; margin: 20px auto; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
-    <h3 style="color: #28a745; margin-top: 0;">لوحة الإدارة</h3>
-    <p>أهلاً بك، أنت مسجل دخول كمدير الآن.</p>
-    <div style="background: #f9f9f9; padding: 15px; border: 1px solid #ddd; margin-top: 15px; border-radius: 5px;">
-      <h4>إدارة التركيبات والطلبات</h4>
-      <p style="font-size: 13px; color: #666;">من هنا يمكنك متابعة طلبات المشتركين والموافقة عليها.</p>
-    </div>
-    <button id="adminLogoutButton" style="margin-top: 15px; padding: 8px 15px; background: #dc3545; color: white; border: none; border-radius: 4px; cursor: pointer;">تسجيل الخروج</button>
-  </section>
-
-</div>
-
-<script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-  const SUPABASE_URL = 'ضع_رابط_مشروعك_هنا';
-  const SUPABASE_ANON_KEY = 'ضع_مفتاح_النشر_العام_هنا';
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  const loginSection = document.getElementById('adminLogin');
-  const panelSection = document.getElementById('adminPanel');
-  const message = document.getElementById('adminMessage');
-
-  // التحقق من حالة الدخول مسبقاً
-  supabase.auth.getUser().then(({ data: { user } }) => {
-    if (user) {
-      loginSection.style.display = 'none';
-      panelSection.style.display = 'block';
+  <style>
+    :root {
+      --blue: #123b67;
+      --blue2: #1c5b91;
+      --pale: #edf5fc;
+      --white: #fff;
+      --text: #203247;
+      --muted: #68798b;
+      --border: #dce6ef;
+      --gold: #c79b45;
+      --green: #18794e;
+      --red: #b42318;
     }
-  });
 
-  // تسجيل الدخول
-  document.getElementById('adminLoginButton').addEventListener('click', async () => {
-    message.textContent = 'جارٍ التحقق...';
-    const email = document.getElementById('adminEmail').value.trim();
-    const password = document.getElementById('adminPassword').value;
+    * { box-sizing: border-box; }
 
-    if (!email || !password) {
-      message.textContent = 'الرجاء إدخال البريد وكلمة المرور.';
+    body {
+      margin: 0;
+      background: #f3f7fb;
+      color: var(--text);
+      font-family: Arial, Tahoma, sans-serif;
+      line-height: 1.7;
+    }
+
+    button, input, select { font: inherit; }
+
+    header {
+      color: white;
+      padding: 24px 16px;
+      background: linear-gradient(135deg, #102f52, #1e659b);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .header-inner, main {
+      width: min(100% - 24px, 900px);
+      margin: auto;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .subtitle { margin: 4px 0 0; color: #e0edf8; }
+
+    main { padding: 20px 0 40px; }
+
+    .panel, .material-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 15px #123b6708;
+    }
+
+    h2, h3 { color: var(--blue); margin-top: 0; }
+
+    .hidden { display: none !important; }
+
+    .field { margin-bottom: 12px; }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd8e5;
+      border-radius: 10px;
+      background: white;
+      color: var(--text);
+      outline-color: var(--blue2);
+    }
+
+    .buttons {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 11px 16px;
+      background: var(--blue);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary { background: #e6eef7; color: var(--blue); }
+    button.gold { background: var(--gold); color: #17283a; }
+    button:disabled { opacity: .6; cursor: wait; }
+
+    .notice {
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--pale);
+      margin: 12px 0;
+      overflow-wrap: anywhere;
+    }
+
+    .notice.error { background: #fff0ef; color: var(--red); }
+    .notice.success { background: #e9f7ef; color: var(--green); }
+
+    .topline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .categories {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 12px 0 18px;
+    }
+
+    .categories button {
+      background: #e5eef7;
+      color: var(--blue);
+      padding: 8px 12px;
+    }
+
+    .categories button.active {
+      background: var(--blue);
+      color: white;
+    }
+
+    .material-card h3 { margin-bottom: 5px; }
+    .material-card p { margin: 6px 0; }
+    .tag {
+      display: inline-block;
+      background: #edf5fc;
+      color: var(--blue);
+      border-radius: 30px;
+      padding: 3px 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+    footer { text-align: center; color: var(--muted); padding: 18px; }
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="header-inner">
+    <h1 class="brand">موسوعة مواد التجميل</h1>
+    <p class="subtitle">مرجع منظم لمواد التركيبات التجميلية</p>
+  </div>
+</header>
+
+<main>
+  <section id="authPanel" class="panel">
+    <h2>الدخول إلى الموسوعة</h2>
+    <p class="muted">أنشئ حساباً أو سجّل الدخول. الوصول للمواد يتطلب موافقة الإدارة.</p>
+
+    <div id="message" class="notice hidden" role="status" aria-live="polite"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="loginEmail">البريد الإلكتروني</label>
+        <input id="loginEmail" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="loginPassword">كلمة المرور</label>
+        <input id="loginPassword" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="buttons">
+        <button id="loginButton" type="submit">تسجيل الدخول</button>
+      </div>
+    </form>
+
+    <hr style="border:0;border-top:1px solid var(--border);margin:22px 0">
+
+    <h3>إنشاء حساب جديد</h3>
+    <form id="signupForm">
+      <div class="field">
+        <label for="signupName">الاسم الكامل</label>
+        <input id="signupName" type="text" autocomplete="name" required maxlength="100">
+      </div>
+      <div class="field">
+        <label for="signupPhone">رقم الهاتف (اختياري)</label>
+        <input id="signupPhone" type="tel" autocomplete="tel" maxlength="30">
+      </div>
+      <div class="field">
+        <label for="signupEmail">البريد الإلكتروني</label>
+        <input id="signupEmail" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="signupPassword">كلمة المرور (8 أحرف على الأقل)</label>
+        <input id="signupPassword" type="password" autocomplete="new-password" minlength="8" required>
+      </div>
+      <div class="buttons">
+        <button id="signupButton" type="submit">إنشاء الحساب</button>
+      </div>
+    </form>
+  </section>
+
+  <section id="pendingPanel" class="panel hidden">
+    <h2>حسابك قيد المراجعة</h2>
+    <p>تم تسجيل دخولك، لكن حسابك لم يحصل على موافقة الإدارة حتى الآن.</p>
+    <p>بعد الموافقة، سجّل الدخول مرة أخرى للوصول إلى المواد.</p>
+    <button id="pendingLogout" class="secondary" type="button">تسجيل الخروج</button>
+  </section>
+
+  <section id="approvedPanel" class="hidden">
+    <div class="panel">
+      <div class="topline">
+        <div>
+          <h2 style="margin-bottom:2px">المكتبة العلمية</h2>
+          <p id="welcomeText" class="muted" style="margin:0"></p>
+        </div>
+        <button id="logoutButton" class="secondary" type="button">تسجيل الخروج</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <label for="searchInput">ابحث عن مادة</label>
+      <input id="searchInput" type="search" placeholder="مثلاً: الجلسرين أو الكاربومر">
+      <div id="categories" class="categories"></div>
+      <p id="materialsStatus" class="muted">جاري تحميل المواد...</p>
+      <div id="materialsList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>موسوعة مواد التجميل — مرجع تعليمي</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  "use strict";
+
+  const SUPABASE_URL = "https://dmueztnxogbrvlnoveok.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_ZLLhwBg3VfIjBpASDcm2hA_B3KNkafx";
+  const SITE_URL = "https://nbdw16366-creator.github.io/cosmetic-materials-encyclopedia/";
+
+  const authPanel = document.getElementById("authPanel");
+  const pendingPanel = document.getElementById("pendingPanel");
+  const approvedPanel = document.getElementById("approvedPanel");
+  const messageBox = document.getElementById("message");
+  const materialsList = document.getElementById("materialsList");
+  const materialsStatus = document.getElementById("materialsStatus");
+  const categoriesBox = document.getElementById("categories");
+  const searchInput = document.getElementById("searchInput");
+
+  let supabaseClient = null;
+  let allMaterials = [];
+  let selectedCategory = "الكل";
+  let busy = false;
+
+  function showMessage(message, type = "") {
+    messageBox.textContent = message;
+    messageBox.className = "notice" + (type ? " " + type : "");
+  }
+
+  function clearMessage() {
+    messageBox.textContent = "";
+    messageBox.className = "notice hidden";
+  }
+
+  function hideAllSections() {
+    authPanel.classList.add("hidden");
+    pendingPanel.classList.add("hidden");
+    approvedPanel.classList.add("hidden");
+    materialsList.replaceChildren();
+    categoriesBox.replaceChildren();
+    allMaterials = [];
+  }
+
+  function showAuth(message = "") {
+    hideAllSections();
+    authPanel.classList.remove("hidden");
+    if (message) showMessage(message);
+    else clearMessage();
+  }
+
+  function setBusy(value) {
+    busy = value;
+    document.querySelectorAll("#loginForm button, #signupForm button")
+      .forEach(button => button.disabled = value);
+  }
+
+  function readableError(error) {
+    const message = error && error.message ? error.message : "";
+    if (/Invalid login credentials/i.test(message)) {
+      return "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+    }
+    if (/Email not confirmed/i.test(message)) {
+      return "أكد بريدك الإلكتروني من الرسالة المرسلة ليك، وبعدها سجّل الدخول.";
+    }
+    if (/User already registered/i.test(message)) {
+      return "البريد ده مسجل من قبل. جرّب تسجيل الدخول.";
+    }
+    if (/Password should be/i.test(message)) {
+      return "كلمة المرور ما مستوفية الشروط.";
+    }
+    return message || "حصل خطأ. راجع الاتصال والإعدادات وحاول مرة تانية.";
+  }
+
+  async function getOrCreateProfile(user) {
+    const { data: existing, error: readError } = await supabaseClient
+      .from("profiles")
+      .select("id, full_name, payment_status, is_admin")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (readError) throw readError;
+    if (existing) return existing;
+
+    const metadata = user.user_metadata || {};
+    const fullName = String(metadata.full_name || "").trim();
+
+    if (!fullName) {
+      throw new Error("حسابك ما عنده اسم محفوظ. تواصل مع الإدارة للمساعدة.");
+    }
+
+    const { data: created, error: insertError } = await supabaseClient
+      .from("profiles")
+      .insert({
+        id: user.id,
+        full_name: fullName,
+        phone: String(metadata.phone || ""),
+        payment_status: "pending",
+        is_admin: false
+      })
+      .select("id, full_name, payment_status, is_admin")
+      .single();
+
+    if (insertError) {
+      // A simultaneous sign-in may have created the row already.
+      const { data: retryProfile, error: retryError } = await supabaseClient
+        .from("profiles")
+        .select("id, full_name, payment_status, is_admin")
+        .eq("id", user.id)
+        .maybeSingle();
+
+      if (!retryError && retryProfile) return retryProfile;
+      throw insertError;
+    }
+
+    return created;
+  }
+
+  async function refreshScreen(user) {
+    if (!user) {
+      showAuth();
       return;
     }
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    hideAllSections();
+    pendingPanel.classList.remove("hidden");
+    pendingPanel.querySelector("h2").textContent = "جاري التحقق من حسابك";
+    pendingPanel.querySelector("p").textContent = "لحظة واحدة...";
+    pendingPanel.querySelectorAll("p")[1].textContent = "";
+
+    let profile;
+    try {
+      profile = await getOrCreateProfile(user);
+    } catch (error) {
+      showAuth("ما قدرنا نتحقق من ملفك: " + readableError(error));
+      return;
+    }
+
+    const isApproved = profile.payment_status === "approved" || profile.is_admin === true;
+
+    if (!isApproved) {
+      hideAllSections();
+      pendingPanel.classList.remove("hidden");
+      pendingPanel.querySelector("h2").textContent = "حسابك قيد المراجعة";
+      pendingPanel.querySelector("p").textContent =
+        "يا " + (profile.full_name || "صاحب الحساب") +
+        "، حسابك لسه ما اتوافق عليه. المواد حتظهر ليك بعد موافقة الإدارة.";
+      pendingPanel.querySelectorAll("p")[1].textContent =
+        "لو تمت الموافقة ولسه ما ظهرت المواد، سجّل الخروج وادخل تاني.";
+      return;
+    }
+
+    hideAllSections();
+    approvedPanel.classList.remove("hidden");
+    document.getElementById("welcomeText").textContent =
+      "مرحباً " + (profile.full_name || "بك") + (profile.is_admin ? " — مدير النظام" : "");
+
+    await loadMaterials();
+  }
+
+  async function loadMaterials() {
+    materialsList.replaceChildren();
+    categoriesBox.replaceChildren();
+    materialsStatus.textContent = "جاري تحميل المواد...";
+
+    const { data, error } = await supabaseClient
+      .from("materials")
+      .select("id, name, description, scientific_name, uses, benefits, safety_notes, category")
+      .order("name", { ascending: true });
 
     if (error) {
-      message.textContent = 'خطأ في البريد أو كلمة المرور.';
+      materialsStatus.textContent =
+        "تعذّر تحميل المواد. تأكد من سياسات RLS واتصال قاعدة البيانات.";
       return;
     }
 
-    message.textContent = '';
-    loginSection.style.display = 'none';
-    panelSection.style.display = 'block';
+    allMaterials = data || [];
+    const categoryNames = [...new Set(
+      allMaterials.map(item => item.category).filter(Boolean)
+    )].sort((a, b) => a.localeCompare(b, "ar"));
+
+    const categories = ["الكل", ...categoryNames];
+    categories.forEach(category => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.textContent = category;
+      button.className = category === selectedCategory ? "active" : "";
+      button.addEventListener("click", () => {
+        selectedCategory = category;
+        renderCategories();
+        renderMaterials();
+      });
+      categoriesBox.appendChild(button);
+    });
+
+    if (allMaterials.length === 0) {
+      materialsStatus.textContent = "ما في مواد مضافة لقاعدة البيانات لحد الآن.";
+      return;
+    }
+
+    renderMaterials();
+  }
+
+  function renderCategories() {
+    [...categoriesBox.children].forEach(button => {
+      button.classList.toggle("active", button.textContent === selectedCategory);
+    });
+  }
+
+  function addDetail(card, label, value) {
+    if (!value) return;
+    const paragraph = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = label + ": ";
+    paragraph.append(strong, document.createTextNode(String(value)));
+    card.appendChild(paragraph);
+  }
+
+  function renderMaterials() {
+    materialsList.replaceChildren();
+    const term = searchInput.value.trim().toLocaleLowerCase("ar");
+
+    const filtered = allMaterials.filter(item => {
+      const matchesCategory =
+        selectedCategory === "الكل" || item.category === selectedCategory;
+
+      const searchable = [
+        item.name, item.description, item.scientific_name,
+        item.uses, item.benefits, item.safety_notes, item.category
+      ].filter(Boolean).join(" ").toLocaleLowerCase("ar");
+
+      return matchesCategory && searchable.includes(term);
+    });
+
+    materialsStatus.textContent = filtered.length
+      ? "عدد المواد الظاهرة: " + filtered.length
+      : "ما لقينا مواد مطابقة للبحث.";
+
+    filtered.forEach(item => {
+      const card = document.createElement("article");
+      card.className = "material-card";
+
+      if (item.category) {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = item.category;
+        card.appendChild(tag);
+      }
+
+      const heading = document.createElement("h3");
+      heading.textContent = item.name || "مادة بدون اسم";
+      card.appendChild(heading);
+
+      addDetail(card, "الاسم العلمي", item.scientific_name);
+      addDetail(card, "التعريف", item.description);
+      addDetail(card, "الاستخدامات", item.uses);
+      addDetail(card, "الفوائد", item.benefits);
+      addDetail(card, "احتياطات السلامة", item.safety_notes);
+
+      materialsList.appendChild(card);
+    });
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (busy) return;
+    clearMessage();
+    setBusy(true);
+
+    try {
+      const email = document.getElementById("loginEmail").value.trim();
+      const password = document.getElementById("loginPassword").value;
+
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+      await refreshScreen(data.user);
+    } catch (error) {
+      showAuth("تعذّر تسجيل الدخول: " + readableError(error));
+    } finally {
+      setBusy(false);
+    }
   });
 
-  // تسجيل الخروج
-  document.getElementById('adminLogoutButton').addEventListener('click', async () => {
-    await supabase.auth.signOut();
-    panelSection.style.display = 'none';
-    loginSection.style.display = 'block';
-    document.getElementById('adminEmail').value = '';
-    document.getElementById('adminPassword').value = '';
+  document.getElementById("signupForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    if (busy) return;
+    clearMessage();
+    setBusy(true);
+
+    try {
+      const fullName = document.getElementById("signupName").value.trim();
+      const phone = document.getElementById("signupPhone").value.trim();
+      const email = document.getElementById("signupEmail").value.trim();
+      const password = document.getElementById("signupPassword").value;
+
+      if (!fullName) throw new Error("اكتب اسمك الكامل.");
+      if (password.length < 8) throw new Error("كلمة المرور لازم تكون 8 أحرف على الأقل.");
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { full_name: fullName, phone },
+          emailRedirectTo: SITE_URL
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.session && data.user) {
+        await refreshScreen(data.user);
+      } else {
+        showAuth("تم إرسال طلب إنشاء الحساب. افتح بريدك الإلكتروني وأكّد الحساب، وبعدها ارجع وسجّل الدخول. إنشاء الحساب لا يمنح صلاحية قراءة المواد تلقائياً.");
+      }
+    } catch (error) {
+      showAuth("تعذّر إنشاء الحساب: " + readableError(error));
+    } finally {
+      setBusy(false);
+    }
   });
+
+  async function logout() {
+    const { error } = await supabaseClient.auth.signOut();
+    if (error) {
+      showMessage("تعذّر تسجيل الخروج: " + readableError(error), "error");
+      return;
+    }
+    searchInput.value = "";
+    selectedCategory = "الكل";
+    showAuth("تم تسجيل الخروج.");
+  }
+
+  document.getElementById("logoutButton").addEventListener("click", logout);
+  document.getElementById("pendingLogout").addEventListener("click", logout);
+  searchInput.addEventListener("input", renderMaterials);
+
+  async function start() {
+    if (!window.supabase || !window.supabase.createClient) {
+      showAuth("مكتبة الاتصال ما اتحمّلت. تأكد من الإنترنت ثم أعد تحميل الصفحة.");
+      return;
+    }
+
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    try {
+      const { data, error } = await supabaseClient.auth.getSession();
+      if (error) throw error;
+      await refreshScreen(data.session ? data.session.user : null);
+    } catch (error) {
+      showAuth("تعذّر بدء التطبيق: " + readableError(error));
+    }
+
+    supabaseClient.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        showAuth();
+      }
+    });
+  }
+
+  start();
+})();
 </script>
+</body>
+</html>
